@@ -1,0 +1,341 @@
+\documentclass{article}
+\usepackage{style-notes}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 320: Probability} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapters #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\gam}[1]{\Gamma(#1)}		% shortcut for gamma function (variable)
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+\newcommand{\Beta}[2]{B(#1, #2)}		% shortcut for beta function B(variable1, variable 2)
+\newcommand{\ddx}[1]{\frac{\mathrm{d}}{\mathrm{d} #1}\,}		% shortcut for derivative d/dx (variable x)
+
+
+% NOTES on what didn't cover
+% factorial moments and a way (proof) to write variance in terms of this, specifically E(X(X - 1)) (textbook 2.3, page 60)
+% discussion about the meaning of higher moments (theory lecture 9-2, e.g. E(X^3) gives info about skew) and on page 57 of 10th edition textbook
+% using mgfs to find the pmf of a ~ non standard RV (so just a regular pmf, not like binomial for example, textbook example 2.3-5)
+% more in depth discussion about uniqueness of mgs (textbook 2.3, page 61, showing probabilities are equal by the coefficients of e^t terms of mgf expansion)
+% -> same idea in theory (lecture 9.2), but talks through infinite sets of moments and what identically distributed means, and how bounded vs unbounded supports affect uniqueness of moments...
+% --> Textbook (9th edition) page 90, remark about if rth moment exists, then all lower moments exist. And if E(e^tx) exists, then all moments exists, but all moments existing doesn't imply E(e^tx) exists
+% alternate way to derive mgfs, making summand or integral equal to 1 (then whatever's outside is the mgf (theory notes lecture 9); can maybe try to derive the same ones here but this way instead of using the methods here)
+% deriving E(X) and V(X) for geometric and binomial (problem in Actex)
+% Theory lecture 9-2, poisson approximation to the binomial using mgfs (limit of mgf)
+
+
+%---- Normal
+% Deriving normal mgf using completing the square (textbook 3.3, page 106 9th edition)
+% deriving variance using mgf
+
+% skipped this time around but included in FA 22
+% ---- Poisson mgf derivation
+% ---- Gamma mgf derivation -> and E(X) and V(X) derivation using mgf
+
+
+
+\begin{document}
+
+\lecture{12}{Moment Generating Functions}{2 and 3}{Distributions}{2.3, 2.4, 2.6, 2.7, 3.1, 3.2, 3.3}
+
+\bu{Moments}\bigskip
+
+Moments\bigskip
+\begin{itemize}
+    \item Definition: The $\boldsymbol{n^{th}}$ \textbf{moment} of $X$ is $E(X^n)$.
+    \item[] Technically, these moments are ``about zero (the origin)'': $E[(X - 0)^n]$.\bigskip
+    \item[] The first and second moments are simply\bigskip
+    \item Example: Calculate the third moment of $X \sim \text{Binomial}(n = 3, p = 0.2)$ using the pmf table below:\bigskip\\
+    \begin{tabular}{| l || c | c | c | c | c |}
+        \hline
+        $x$ & 0 & 1 & 2 & 3\\
+        \hline
+        $f(x)$ & 0.512 & 0.384 & 0.096 & 0.008\\
+        \hline
+    \end{tabular}\vspace{30pt}
+    \item There are other ``types'' of moments as well.
+    \begin{itemize}
+        \item Given random variable $X$ and constant $b$,\bigskip
+        \item[] $E(X - b)$ is the \textbf{first moment of} $\boldsymbol{X}$ \textbf{about} $\boldsymbol{b}$.\bigskip
+        \item[] $E[(X - b)^n]$ is the $\boldsymbol{n^{th}}$ \textbf{moment of} $\boldsymbol{X}$ \textbf{about} $\boldsymbol{b}$.\bigskip
+        \item If we let $b = \mu = E(X)$, then we get what are called \textbf{central moments}:\\$E[(X - \mu)^n]$ $\rightarrow$ ``about the center $E(X)$''.\bigskip
+    \end{itemize}
+        \item Definition: The variance of a random variable $X$ is its second central moment.
+\end{itemize}\bigskip
+
+\newpage
+
+\bu{Moment generating functions}\bigskip
+
+Defining moment generating function and its properties\bigskip
+\begin{itemize}
+    \item The moment generating function (mgf) of random variable $X$ (or the distribution of $X$), denoted $M_X(t)$, is defined by
+    \[M_X(t) = E(\e^{tX})\]
+    \item Notes:
+    \begin{itemize}
+        \item[*] $\e^{tX}$ is a function of $t$ and $X$ and it is a random variable.
+        \item[*] $E(\e^{tX})$ is the expectation with respect to $X$, which takes away the randomness of $X$ $\Longrightarrow$ Result is only a function of $t$ (variable, not constant).
+    \end{itemize}
+    \item The mgf has a number of useful properties:
+    \begin{enumerate}[(1)]
+        \item Finding moments: The derivatives of $M_X(t)$ can be used to find the moments of the random variable $X$ (i.e. take the derivative and evaluate at $t = 0$).
+        \[M'_X(0) = E(X), \quad M''_X(0) = E(X^2), \quad \ldots \quad, \quad M_X^{(n)}(0) = E(X^n)\]
+        \item Distribution of a function of a random variable: The mgf of $aX +b$ can be found easily if the mgf of $X$ is known.
+        \[M_{aX + b}(t) = \e^{tb} M_X(at)\]
+        \item Uniqueness: If a random variable $X$ has the mgf of a known distribution, then $X$ has that distribution.
+    \end{enumerate}\bigskip 
+     \item Formalizing this new notation from (1):
+     \[E(X^n) = M_X^{(n)}(0) = \ddx{t^n} M_X(t)\bigg\rvert_{t = 0}\]
+     \item[] In words this means: The $n^{th}$ moment of $X$ is equal to the $n^{th}$ derivative of $M_X(t)$ evaluated at $t = 0$.
+
+\end{itemize}\bigskip
+
+Derivation / proof / intuition\bigskip
+\begin{enumerate}[(1)]
+    \item Finding moments:
+    \item[] Now we can show exactly how / why mgfs generate moments (hence the name).
+    \begin{enumerate}
+        \item We will start by looking at the infinite series representation of $\e^x = \displaystyle \sum_{k = 0}^{\infty} \frac{x^k}{k!}$ \\and then substituting the random variable $tX$ for $x$ in this series, we obtain:\vspace{30pt}
+        \item Now we take the expected value of each side (with respect to $X$).\vspace{60pt}
+        \item Then we take the derivative (with respect to $t$).\vspace{60pt}
+        \item Then we evaluate at $t = 0$.\vspace{60pt}
+        \item Now take the second derivative and evaluate at $t = 0$ again.\vspace{100pt}
+    \end{enumerate}
+    \item Distribution of a function of a random variable:\bigskip
+    \begin{itemize}
+        \item Maybe the most important use of mgfs is to find out the distribution of a function of a random variable, specifically $Y = aX + b$.
+        \item Earlier theorems only gave us only $E(aX + b)$ and $V(aX + b)$, but mgfs allow us to find out the distribution, and thus the pmf / cdf.\bigskip
+        \item Proof of theorem:\vspace{100pt}
+    \end{itemize}\bigskip
+    \item Uniqueness:
+    \begin{itemize}
+        \item When we introduced pmfs / pdfs and cdfs of the commonly used distributions, we stated a useful property:
+        \item[] If we recognize that we have a pmf / pdf where the the range of the random variable and the probabilities / density function match the scenario of a specific distribution, then that random variable must follow that specific distribution.
+        \item This is true for mgfs as well.
+        \item[] Mgfs are unique. This means that if a random variable $X$ has the moment during function of a known random variable, it must be that kind of variable.
+        \item We will not prove this.
+    \end{itemize}
+\end{enumerate}\bigskip
+
+Example: Using mgfs\bigskip
+\begin{enumerate}[(a)]
+    \item Find the moment generating function of $X$, $M_X(t)$.\bigskip\\
+    \begin{tabular}{| l || c | c | c | c | c |}
+        \hline
+        $x$ & 0 & 1 & 2 & 3\\
+        \hline
+        $\e^{tx}$ & \hspace{40pt} & \hspace{30pt} & \hspace{30pt} & \hspace{30pt}\\
+        \hline
+        $f(x)$ & 0.512 & 0.384 & 0.096 & 0.008\\
+        \hline
+    \end{tabular}\vspace{40pt}
+    \item Find $E(X)$ using the mgf found in part (a).
+    \item[] Step 1: Take the derivative of $M_X(t)$ with respect to $t$.\vspace{40pt}
+    \item[] Step 2: Now evaluate the derivative at $t = 0$ (i.e. plug in $t = 0$ and simplify).\vspace{80pt}
+    \item Find $V(X)$ using the mgf.
+    \item[] Note that the higher derivatives can be used in the same way  $\Longrightarrow$ Take the second derivative of $M_X(t)$ with respect to $t$ and then evaluate at $t = 0$.\vspace{130pt}
+\end{enumerate}\bigskip
+
+Final points\bigskip
+\begin{itemize}
+    \item Expanding on property (1) of mgfs (for discrete random variables, replace summation with integration for continuous).
+     \[M_X(t) = E(\e^{tX}) = \sum \e^{tx} \, f(x)\]
+     \item[] Middle step: $M'_X(t) = $ \hspace{150pt}$ M''_X(t) = $\bigskip
+     \item[] Property: $M'_X(0) = $\hspace{150pt} $M''_X(0) = $\bigskip
+     \item The general form is the following:
+     \[M_X^{(n)}(t) = \sum x^n \e^{tx} \, f(x)\]
+     \[M_X^{(n)}(0) = \sum x^n \, f(x) = E(X^n)\]\bigskip
+     \item Variance: Using these new ideas and notations, we have a new way to write the variance using mgfs:
+     \[V(X) = M''_X(0) - \big[M'_X(0)\big]^2 = M''_X(t)\big\rvert_{t = 0} - \big[M'_X(t)\big\rvert_{t = 0}\big]^2\]
+    \item Mgfs for random variables don't always exist. There is technically more to the definition $M_X(t) = E(\e^{tX})$.
+    \begin{itemize}
+        \item Condition: It must be the case that the expectation exists for $t$ in some neighborhood of 0. That is, there is an $h > 0$ such that, for all $t$ in $-h < t < h$, $E(\e^{tX})$ exists. If the expectation does not exist in the neighborhood of 0, we say that the mgf does not exist.
+        \item Said another way: Derivations of $M_X(t)$ of all orders exist at $t = 0$ $\Longrightarrow$ $M_X(t)$ is continuous at $t = 0$.
+    \end{itemize}
+    \item Many standard probability distributions have moment generating functions which can be found fairly easily. This gives us another way to derive the mean and variance formulas stated previously.
+\end{itemize}\bigskip
+
+\newpage
+
+\bu{Mgfs of commonly used discrete distributions}\bigskip
+
+Discrete uniform random variable mgf\bigskip
+\begin{itemize}
+    \item The mgf for a discrete uniform random variable is straightforward to find.
+    \item Let $X \follow{Discrete uniform}(N_0, N_1)$\vspace{100pt}
+    \item If $X \follow{Discrete uniform}(N_0, N_1)$
+    \[M_X(t) = \frac{1}{N_1 - N_0 + 1} \sum_{x = N_0}^{N_1} \e^{tx}\]
+\end{itemize}\vspace{50pt}
+
+Bernoulli random variable mgf\bigskip
+\begin{itemize}
+    \item The mgf for a bernoulli random variable is straightforward to find.
+    \item Let $X \follow{Bernoulli}(p)$\bigskip\\
+    \begin{tabular}{| l || c | c |}
+        \hline
+        $x$ & 0 & 1\\
+        \hline
+        $\e^{tx}$ & $\e^{t0} = 1$ & $\e^{t}$\\
+        \hline
+        $f(x)$ & $1 - p = q$ & $p$\\
+        \hline
+    \end{tabular}\vspace{60pt}
+    \item If $X \follow{Bernoulli}(p)$
+    \[M_X(t) = (1 - p) + p\e^t = q + p\e^t\]
+\end{itemize}\bigskip
+
+\newpage% so next section is on new page
+
+Binomial random variable mgf\bigskip
+\begin{itemize}
+    \item The mgf for a binomial random variable is easy to find in the simplest cases. Then we can generalize the pattern without proof.
+    \begin{enumerate}
+        \item We just saw the mgf when $X \follow{Binomial}(n = 1, p)$
+        \item[] $M_X(t) = q + p\e^t$\bigskip
+        \item Now let $X \follow{Binomial}(n = 2, p)$.\bigskip\\
+        \begin{tabular}{| l || c | c | c |}
+            \hline
+            $x$ & 0 & 1 & 2\\
+            \hline
+            $\e^{tx}$ & $1$ & $\e^{t}$ & $\e^{2t}$\\
+            \hline
+            $f(x)$ & $q^2$ & $2pq$ & $p^2$\\
+            \hline
+        \end{tabular}\vspace{40pt}
+    \end{enumerate}
+    \item If $X \follow{Binomial}(n, p)$
+    \[M_X(t) = (q + p\e^t)^n\]
+    \item To derive the mean and variance of the binomial distribution using the mgf, we would simply need to do the following:
+    \begin{itemize}
+        \item $E(X)$: Take the derivative of $M_X(t)$ and evaluate at $t = 0$.
+        \item $V(X)$: Take the second derivative of $M_X(t)$ and evaluate at $t = 0$.
+        \item[] Then use the result of $E(X)$ and the alternate variance form \\ $V(X) = E(X^2) - [E(X)]^2$.
+        \item Warning: This requires careful attention when taking the derivatives in order to correctly keep track of everything.
+    \end{itemize}
+    \item Example: You are working with a random variable $X$, and find that it's mgf is:\smallskip
+    \item[] $M_X(t) = (0.2 - 0.8\e^t)^7$  $\Longrightarrow$ 
+\end{itemize}\bigskip
+
+Geometric random variable mgf\bigskip
+\begin{itemize}
+    \item The derivation of the mgf for a geometric random variable is not bad either. It relies on the sum of an infinite geometric series.
+    \item Let $X \follow{Geometric}(p)$\vspace{130pt}
+    \item If $X \follow{Geometric}(p)$
+    \[M_X(t) = \frac{p\e^t}{1 - q\e^t} \quad\quad\quad t < -\ln(q)\]
+    \item Just like with the binomial, need to be careful when deriving the mean and variance using the mgf.
+    \item Example: Let $X \follow{Geometric}(p)$. Suppose $Y = X - 1$. Find the mgf of $Y$, $M_Y(t)$.\vspace{100pt}
+    \item[] This is the mgf of the alternate form of geometric ($Y$ = number of failures before first success).
+\end{itemize}\bigskip
+
+Negative binomial random variable mgf\bigskip
+\begin{itemize}
+    \item We will not derive this. But we can make use of the pattern / relationship of Bernoulli and binomial.\vspace{100pt}
+    \item If $X \follow{Negative binomial}(r, p)$
+    \[M_X(t) = \bigg[\frac{p\e^t}{1 - q\e^t}\bigg]^r \quad\quad\quad t < -\ln(q)\]
+\end{itemize}\bigskip
+
+Poisson random variable mgf\bigskip
+\begin{itemize}
+    \item The derivation of the mgf for a Poisson random variable is quite short as well, but will be left for grad school. It makes use of the series for $\e^x$.
+    \item If $X \follow{Poisson}(\lambda)$
+    \[M_X(t) = \e^{\lambda (\e^t - 1)}\]
+    \item Derivation: Use the mgf to derive the mean and variance of a $\text{Poisson}(\lambda)$ random variable.\vspace{400pt}
+    \item Example: Let $X \follow{Poisson}(\lambda = 2)$. Suppose $Y = 3X + 5$. Find the mgf of $Y$, $M_Y(t)$.\vspace{80pt}
+\end{itemize}\bigskip
+
+Hypergeometric random variable mgf\bigskip
+\begin{itemize}
+    \item Apparently it exists, but we will not discuss it.
+\end{itemize}\bigskip
+
+\bu{Moment generating functions for continuous random variables}\bigskip
+
+Inroduction\bigskip
+\begin{itemize}
+    \item Some continuous random variables have useful mgfs, which can be written in closed form and easily applied, and others do not.
+    \item[] We will discuss the mgf of the uniform, gamma and normal distributions. The beta and lognormal distributions do not have useful mgfs, and the Pareto mgf does not exist.
+    \item Note that we could find mgfs of any of the non-named distribution examples we have seen before. They would just require application of the definition and probably lots of integration by parts (as most $f(x)$'s were non-simple functions of $X$, e.g. ROI example $f(x) = 0.75(1 - x^2), \quad -1 \le x \le 1$).
+    \item[] But the mgfs we will discuss here are much more interesting and common.
+\end{itemize}\bigskip
+
+Uniform mgf\bigskip
+\begin{itemize}
+    \item The derivation of the uniform mgf is just a direct application of the definition.\vspace{150pt}
+    \item If $X \follow{Uniform}(a, b)$,
+    \[M_X(t) = \]
+\end{itemize}\newpage
+
+Gamma mgf\bigskip
+\begin{itemize}
+    \item The gamma mgf can be easily derived. It requires the identity which was shown earlier when introducing the gamma function $\gam{\alpha}$:
+    \[\integral{0}{\infty}{x^{\alpha - 1} \, \e^{-\beta x}}{x} = \frac{\gam{\alpha}}{\beta^\alpha}, \quad\quad x > 0 \quad \text{and} \quad \alpha, \beta > 0.\]
+    \item To derive $M_X(t)$ for $X \follow{Gamma}(\alpha, \beta)$ we just need to go from the definition. This will also be left for grad school.
+    \item If $X \follow{Gamma}(\alpha, \beta)$,
+    \[M_X(t) = \bigg(\frac{\beta}{\beta - t}\bigg)^\alpha\]
+    \item If we wanted to, we could then easily go through the process of taking the derivatives of $M_X(t)$ and evaluating at $t = 0$ to show that
+    \[E(X) = \frac{\alpha}{\beta}, \hspace{80pt} V(X) = E(X^2) - [E(X)]^2 = \frac{\alpha}{\beta^2}\]
+\end{itemize}\bigskip
+
+Exponential mgf\bigskip
+\begin{itemize}
+    \item Since the exponential distribution is a special case of the gamma distribution,
+    \vspace{30pt}
+    \item[] we also know the mgf of the exponential distribution.\bigskip
+    \item If $X \follow{Exponential}(\beta)$,
+    \[M_X(t) = \]
+\end{itemize}\bigskip
+
+Normal mgf\bigskip
+\begin{itemize}
+    \item The normal mgf can actually be derived without fancy calculus skills, just fancy algebra skills.
+    \item If $X \follow{Normal}(\mu, \sigma^2)$,
+    \[M_X(t) = \e^{\mu t + \frac{\sigma^2 t^2}{2}}\]
+    \item Lets derive the mean of the normal distribution using the mgf:\vspace{50pt}
+    \item Derivation of the variance is straightforward, just requires careful application of the product rule.
+    \item[] Question: What must $E(X^2)$ equal?\vspace{30pt}
+    \item We can now prove the following theorem that was shown earlier without proof:
+    \item[] \textbf{Linear transformation of normal random variables}: If $X \sim \text{Normal}\,(\mu, \sigma^2)$ and $Y = aX + b$, then
+    \[Y \sim \text{Normal}\,(a\mu + b, a^2\sigma^2)\]\vspace{100pt}
+    \item Now lets apply the same strategy to the specific linear transformation of standardizing and show the mgf of the standard normal distribution $Z$.\vspace{100pt}
+    \item Lets try this strategy for a distribution other than normal.
+    \item[] In the previous section, we had an example about standardizing an exponential distribution $X \follow{Exponential}(\lambda)$. We showed the mean and variance of the standardized exponential:
+    \[Z = \frac{X - \mu}{\sigma} = \frac{X - 1 / \lambda}{1 / \lambda} = \lambda X - 1 \quad\quad \Longrightarrow \quad\quad E(Z) = 0, \quad\quad V(Z) = 1\]
+    \item[] But did not have a conclusion about the distribution of $Z$.\vspace{100pt}
+\end{itemize}\bigskip
+
+
+\end{document}

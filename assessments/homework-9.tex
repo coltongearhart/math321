@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: Homework 9}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due \blankul{4cm}}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) Expected value of a function of a RV (piecewise)
+% 2) Expected value
+% 3) Variance and st dev (also for a function of a RV)
+% 4) Expected value and sd
+% 5) Variance of a function of a RV
+% 6) Defining pmf, expected value and variance (also for a function of a RV)
+% 7) Probability of piecewise density function and median
+% 8) Find cdf and IQR
+% 9) Expected value (of absolute value)
+% 10) Variance
+
+
+\begin{enumerate}
+    
+    \item Let the random variable $X$ be the number of days that a certain patient needs to be in the hospital. Suppose $X$ has the pmf% Prob and stat inference 2.2-3
+    \[f(x) = \frac{5 - x}{10}, \quad x = 1, 2, 3, 4.\]
+    \item[] If the patient is to receive \$350 from an insurance company for each of the first two days in the hospital and \$150 for each day after the first two days, what is the expected total payment for the hospitalization?\bigskip
+    
+        \item A tour operator has a tour bus that can accommodate 16 tourists. The operator knows that tourists may not show up, so he sells 17 tickets. The probability that an individual tourist will not show up is 0.04, independent of all other tourists.% Actex 4-20
+    \item[] Each ticket cost \$40, and is non-refundable if a tourist fails to show up. If a tourist shows up and a seat it is not available, the tour operator has to pay \$80 (ticket cost + \$40 penalty) to the tourist.
+    \item[] What is the expected revenue of the tour operator?
+    \item[] \textit{Hint}: Define the random variable $R$ for the revenue, and think of it as a piecewise function with two cases.
+    
+    \item Let $X$ have pmf% pmf from Prob and stat inference 2.2-8
+    \[f(x) = \frac{2x - 1}{16} \quad x = 1, 2, 3, 4\]\bigskip
+    \begin{enumerate}
+        \item Find the variance of $Y = X + 4$.% Original addition
+        \item Find the standard deviation of $Z = 2X$.% Original addition
+    \end{enumerate}\bigskip
+    
+    \item A probability distribution of the claim sizes for an auto insurance policy are given in the table below:\bigskip%Actex 4-18 (with different numbers)
+    \begin{center}
+    \begin{tabular}{| c | c |}
+        \hline
+        Claim size $(x)$ & Probability $f(x)$ \\
+        \specialrule{.1em}{.05em}{.05em}
+        15 & 0.10 \\
+        \hline
+        20 & 0.30 \\
+        \hline
+        25 & 0.15 \\
+        \hline
+        30 & 0.25 \\
+        \hline
+        35 & 0.20 \\
+        \hline
+    \end{tabular}
+    \end{center}\bigskip
+    \item[] Find the percentage of claims that are within one standard deviation of the mean claim size.\bigskip
+    
+        \item A recent study indicates that the annual cost of maintaining and repairing a mountain bike averages \$150 with a standard deviation \$25.%Actex 4-19 (with different numbers and context)
+    \item[] Suppose a tax of 20\% is introduced on all items associated with the maintenance and repair of mountain bikes (i.e. everything is made 20\% more expensive). Calculate the new variance of the annual cost of maintaining and repairing a mountain bike.\bigskip
+    
+        \item A salesperson can contact either one or two customers per day with probability 1/4 and 3/4, respectively. Each contact will result in either no sale or a \$10,000 sale, with the probabilities 0.8 and 0.2, respectively.%Math stats with apps 3-26 (with different numbers), broke question out into several original parts
+    \begin{enumerate}
+        \item Find the pmf for the \textit{number of sales}.
+        \item[] \textit{Hint}: Think about this scenario using a tree diagram.
+        \item Find the expected value and variance of the \textit{number of sales}.%NOTE: could maybe switch question (and next part) to solve for sd instead of variance so it is more interpretable...
+        \item Use your answers from part (b) to find the mean and variance of the \textit{total dollar amount of the sales}.
+    \end{enumerate}\bigskip
+    
+    \item Let random variable $X$ have the following density function:
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             25x & 0 \le x \le 0.20\\
+             1.5625(1 - x) & 0.2 < x \le 1\\
+             0 & \text{otherwise}\\
+        \end{array}
+        \right.
+    \]
+    \begin{enumerate}
+        \item Find $P(0.15 \le X \le 0.55)$.
+        \item Find the median $m$.
+    \end{enumerate}\bigskip%Actex 7-3 (with different probability) and part of 7-7
+    
+    \item Let random variable $X$ have the following density function: 
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             \e^x & 0 \le x \le \ln(2)\\
+             0 & \text{elsewhere}\\
+        \end{array}
+        \right.
+    \]
+    \begin{enumerate}
+        \item Find the cdf $F_X(x)$.
+        \item Find the IQR of $X$.
+    \end{enumerate}\bigskip%Actex 7-6 (with original part)
+    
+    \item Let random variable $X$ have the following density function:
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             \displaystyle\frac{\lvert x \rvert}{10} & -2 \le x \le 4\\\\
+             0 & \text{otherwise}\\
+        \end{array}
+        \right.
+    \]
+    \item[] Find the expected value of $X$.\bigskip%Actex 7-15
+    
+    \item The loss due to water damage for a home is modeled by a random variable $X$ with density function
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             0.005(20 - x) & 0 \le x \le 20\\
+             0 & \text{elsewhere}\\
+        \end{array}
+        \right.
+    \]
+    \item[] Calculate the variance of the loss.%Original
+\end{enumerate}
+
+\newpage
+
+Select answers\bigskip
+\begin{enumerate}
+    \item $E(\text{Total payment}) = 620$
+    
+    \item $E(\text{Revenue}) \approx 640.03$
+    
+    \item 
+    \begin{enumerate}
+        \item $V(Y) \approx 0.859$
+        \item $SD(Z) \approx 1.854$
+    \end{enumerate}
+    
+    \item $\text{Prob} = 0.7$
+    
+    \item $V(\text{Cost} = 900$
+    
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $E(\text{Sales}) = 0.35$ and $V(\text{Sales}) = 0.2875$
+        \item $V(\text{Money}) \approx 5361.90$
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item $\text{Prob} \approx 0.5606$
+        \item 
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $IQR \approx 0.3365$
+    \end{enumerate}
+    
+    \item $E(X) \approx 1.867$
+    
+    \item $V(X) \approx 22.22$
+\end{enumerate}
+    
+\end{document}

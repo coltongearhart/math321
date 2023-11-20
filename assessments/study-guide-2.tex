@@ -1,0 +1,149 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\vecinf}[1]{#1_1, #1_{2}, \ldots}		% define another vector of the form X_1, X_2, ....
+\newcommand{\dx}[1]{\,\mathrm{d} #1}		% shortcut for dx after integral (variable x)
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\ddx}[1]{\frac{\mathrm{d}}{\mathrm{d} #1}\,}		% shortcut for derivative d/dx (variable x)
+
+\begin{document}
+
+\begin{center}
+{\Huge MATH 320: Test 2 Study Guide}
+
+\end{center}
+
+\bigskip\bigskip
+
+{\large \bu{Lecture 7 -- Random Variables}} (2.1 and 3.1)\bigskip
+
+Random variables
+\begin{itemize}
+    \item Definition: Function from a sample space S into real numbers.
+    \item Range of a RV: The set of possible values of $X$, ${\cal X} = \{x: X(s) = x, s \in S\}$
+    \item RV $X$ is discrete $\Longleftrightarrow$ ${\cal X} $ is a finite or countable set $\Longleftrightarrow$ $F_X(x)$ is a step function of $x$.
+    \item RV $X$ is continuous $\Longleftrightarrow$ ${\cal X} $ is an interval (or union of intervals) on the real number line $\Longleftrightarrow$ $F_X(x)$ is a continuous function of $x$.
+\end{itemize}\vspace{80pt}
+
+{\large \bu{Lecture 8 -- Distribution Functions}} (2.1 and 3.1)\bigskip
+
+Calculating probabilities
+\begin{itemize}
+    \item Definition: The probability mass function (pmf) of a discrete random variable $X$ is given by
+    \item[] $f_X(x) = P(X = x), \quad \text{for all } x$
+    \item Definition: A probability density function (pdf) is a continuous random variable $X$ is a real-valued function that can be used to find probabilities using
+    \item[] $P(a \le X \le b) = \integral{a}{b}{f(x)}{x}$
+    \item[] For $a \in {\cal X}, \hspace{5pt} P(X = a) = \integral{a}{a}{f(x)}{x} = 0$ \hspace{5pt} $\Longrightarrow$ \hspace{5pt} For $(a, b) \in {\cal X}, \hspace{10pt} P(a < X < b) =  P(a \le X \le b)$
+\end{itemize}\bigskip
+
+Valid pmfs and pdfs
+\begin{itemize}
+    \item Theorem: A function $f_X(x)$ is a pdf (or pmf) of a random variable $X$ if and only if
+    \begin{enumerate}[(a)]
+        \item  $f_X(x) \ge $ 0 for all $x$.
+        \item $\displaystyle \sum_x f_X(x) = 1$ (pmf) \hspace{20pt} or \hspace{20pt} $\integral{-\infty}{\infty} {f_X(x)}{x} = 1$ (pdf). 
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Cumulative distribution function (cdf)
+\begin{itemize}
+    \item Definition: $F_X(x) = P_X(X \le x),\quad -\infty < x < \infty$
+    \item Properties of cdfs:
+    \begin{enumerate}
+        \item The cdf is defined for $-\infty < x < \infty$ always.
+        \item The range of every cdf is $0 \le F(x) \le 1$ $\Longleftrightarrow$ Limits: $\displaystyle \lim_{x \to -\infty} F(x) = 0$ \hspace{10pt} and \hspace{10pt} $\displaystyle \lim_{x \to \infty} F(x) = 1$
+        \item $F_X(x)$ is a non-decreasing function.
+        \item If $X$ is discrete $\rightarrow$ $F(x)$ is a right continuous step function.
+        \item[] If $X$ is continuous $\rightarrow$ $F(x)$ is a continuous function.
+    \end{enumerate}
+    \item Relationship between continuous cdf and pdf
+    \item[] $F'(x) = f(x)$, or equivalently $\ddx{x} F_X(x) = f_X(x)$
+    \item Alternate definition of pdf:
+    \item[] The pdf of a continuous random variable $X$ as the function that satisfies $F_X(x) = \integral{-\infty}{x}{f(t)}{t} \quad \text{for all } x$.
+\end{itemize}\vspace{50pt}
+
+Finding probabilities using the cdf
+\begin{itemize}
+    \item Cdf always gives a left probability.
+    \item If $X$ is discrete, $\displaystyle F(a) = P(X \le a) = \sum_{x \le a} f(x)$
+    \item[] ``Complement of cdf'': $1 - F(x) = 1 -  P(X \le x) = P(X > x)$
+    \item[] Interval probabilities: $P(a < X \le b) = P(X \le b) - P(X \le a) = F(b) - F(a)$
+    \item If $X$ is continuous: $F_X(x) = \integral{-\infty}{x}{f(t)}{t}$
+    \item[] For a specific value of $x = a$, we find probability with: $F(a) = \integral{-\infty}{a}{f(x)}{x}$
+    \item[] Complement of cdf: $1 - F(a) = 1 - P(X \le a) = 1 - F(a)$
+    \item[] Interval probabilities: $P(a \le X \le b) = P(X \le b) - P(X \le a) = F(b) - F(a)$
+\end{itemize}\vspace{50pt}
+
+%\hl{WHAT?!?!}
+%Survival function
+%\begin{itemize}
+%    \item $S(t) = P(T > t) = 1 - F(t)$.
+%\end{itemize}\bigskip
+%
+%Uniqueness
+%\begin{itemize}
+%    \item Pmfs, pdfs, cdfs and survival functions are unique.
+%\end{itemize}\vspace{100pt}
+
+{\large \bu{Lecture 9 -- Summary Measures}} (2.2, 2.3 and 3.1)\bigskip
+
+Expected value
+\begin{itemize}
+    \item Definition:
+    \item[] If $X$ is discrete $\rightarrow$ $\mu = E(X) = \displaystyle \sum x \, f(x)$
+    \item[] If $X$ is continuous $\rightarrow$ $\mu = E(X) = \integral{-\infty}{\infty}{x \, f(x)}{x}$
+\end{itemize}\bigskip
+
+Expected value of a function of a random variable
+\begin{itemize}
+    \item If $Y = aX + b \rightarrow E(Y) = E(aX + b) = a E(X) + b$
+    \item If $X$ is discrete:
+    \item[] (Used in the derivation of the above identity) If $Y = aX + b \rightarrow f_Y(y) = f_Y(ax + b) = f_X(x)$ 
+    \item[] In general, if $Y = g(X) \rightarrow \displaystyle E(Y) = \sum_y y \, f(y) = E[g(X)] = \sum_x g(x) \, f(x)$
+    \item If $X$ is continuous $\rightarrow$ $E(Y) = \integral{-\infty}{\infty}{y \, f(y)}{y} = E[g(X)] = \integral{-\infty}{\infty}{g(x) \, f(x)}{x}$
+    \item Linear / Distributive property of expectation:
+    \item[] $\displaystyle E\bigg[\sum_{i = 1}^k c_i g_i(X)\bigg] = \sum_{i = 1}^k c_i E[g_i(X)]$
+\end{itemize}\bigskip
+
+Variance and standard deviation
+\begin{itemize}
+    \item Variance definitions:
+    \[
+    V(X) =
+    \left\{
+    \begin{array}{llllll}
+        & \text{\ul{In general}} & & & \text{\ul{Discrete}} & \text{\ul{Continuous}} \\
+        0) & \sigma^2 & & & & \\
+        1) & E[(X  - \mu)^2] & \rightarrow & & \displaystyle \sum (x - \mu)^2 \, f(x) & \integral{-\infty}{\infty}{(x - \mu)^2 \, f(x)}{x} \\
+        2) & E(X^2) - \mu^2 & \rightarrow &  & \displaystyle \sum x^2 \, f(x) - \big[\sum x \, f(x)\big]^2 & \integral{-\infty}{\infty}{x^2 \, f(x)}{x} - \Bigg[\integral{-\infty}{\infty}{x \, f(x)}{x}\Bigg]^2 \\
+    \end{array}
+    \right.
+    \]
+    \item Using variance definition 2) $\Rightarrow E(X^2) = V(X) + [E(X)]^2$
+    \item Standard deviation definition: $\sigma = SD(X) = \sqrt{V(X)}$
+\end{itemize}\bigskip
+
+Variance and standard deviation of $Y = aX + b$
+\begin{itemize}
+    \item If $Y = aX + b \rightarrow \sigma^2_Y = V(Y) = V(aX + b) = a^2 V(X) = a^2 \sigma^2_X$
+    \item[] $\Rightarrow \sigma_Y = SD(Y) = SD(aX + b) = \lvert a \rvert \, SD(X) = \lvert a \rvert \, \sigma_X$
+\end{itemize}\bigskip
+
+Mode
+\begin{itemize}
+    \item Definition: Mode is the $x$ value which maximizes the distribution function $f(x)$.
+\end{itemize}\bigskip
+
+Median and Percentiles
+\begin{itemize}
+    \item Median $m$ of a continuous random variable $X$ is the solution to: $F(m) = P(X \le m) = 0.5$.
+    \item Percentile: For $0 \le p \le 1$, the $100 p^{th}$ percentile of $X$ is the number $x_p$ defined by $F(x_p) = p$.
+    \item $IQR = Q_3 - Q_1$.
+\end{itemize}
+
+
+
+
+\end{document}

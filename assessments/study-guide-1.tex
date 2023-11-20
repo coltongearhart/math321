@@ -1,0 +1,184 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\comp}{{\sim}}			% shortcut for tilde without extra space, using for complement
+\newcommand{\vectwo}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_k, where X and k are variable. NOTE: to call use $\vectwo{X}{k}$
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}		% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{n}$
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+
+\begin{document}
+
+\begin{center}
+{\Huge MATH 320: Test 1 Study Guide}
+
+\end{center}
+
+\bigskip\bigskip
+
+{\large \bu{Lecture 1 -- Set Theory}} (1.1)\bigskip
+
+How to calculate probability
+\begin{itemize}
+    \item Probability by counting equally likely outcomes:
+    \item[] $\displaystyle \text{Probability of an event} = \frac{\textit{Number of outcomes in the event}}{\textit{Total number of possible outcomes}}$
+    \item Empirical probability, relative frequency estimate of the probability of an event
+    \item[] $\displaystyle \text{Probability of an event} = \frac{\textit{Number of times the event occurs in n trials}}{\textit{n}}$
+\end{itemize}\bigskip
+    
+Set identities
+\begin{itemize}
+    \item Commutative Law (reordering): 
+    \item[] $A \cup B = B \cup A$ \hspace{10pt} \& \hspace{10pt} $A \cap B = B \cap A$ 
+    \item Associative Law (changing location of parentheses):
+    \item[] $A \cup (B \cup C) = (A \cup B) \cup C$ \hspace{10pt} \& \hspace{10pt} $A \cap (B \cap C) = (A \cap B) \cap C$
+    \item Distributive Law (distributing union or intersection):
+    \item[] $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$ \hspace{10pt} \& \hspace{10pt} $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+    \item De Morgan's Law (distributing complement; flip everything):
+    \item[] $\comp (A \cup B) = \comp A \cap \comp B$ \hspace{10pt} \& \hspace{10pt} $\comp (A \cap B) = \comp A \cup \comp B$
+\end{itemize}\bigskip
+
+Relationships among sets
+\begin{itemize}
+    \item Mutually exclusive (disjoint) if $A \cap B = \emptyset$ (no overlap)
+    \item Pairwise mutually exclusive if $A_i \cap A_j = \emptyset$ for all $i \ne j$ (no overlap of any pairs)
+    \item Exhaustive if $\,\displaystyle \bigcup_{i=1}^{k} A_i = A_1 \cup \cdots \cup A_k = S$ (complete $S$)
+    \item Form a partition if exhaustive and pairwise mutually exclusive
+\end{itemize}\bigskip\bigskip\bigskip
+
+{\large \bu{Lecture 2 -- Counting}} (1.2)\bigskip
+
+Basic rules
+\begin{itemize}
+    \item Complements counting rule: $n(\comp A) = n(S) - n(A)$
+    \item General union counting rule: $n(A \cup B) = n(A) + n(B) - n(A \cap B)$
+    \item Special case union counting rule: If $A \cap B = \emptyset$, $n(A \cup B) = n(A) + n(B)$
+    \item Union of three events counting rule:
+    \item[] $n(A \cup B \cup C) = n(A) + n(B) + n(C) - n(A \cap B) - n(A \cap C) - n(B \cap C) + n(A \cap B \cap C)$
+\end{itemize}\bigskip
+
+Counting principles
+\begin{itemize}
+    \item Multiplication principle for counting: If a job consists of $k$ separate tasks, the $i$th of which can be done in $n_i$ ways ($i = 1, \ldots, k$), then the entire job can be done in $n_1 \times n_2 \times \cdots \times n_k$ ways.
+    \item Ordered with replacement:
+    \item[] Given $n$ distinguishable objects, there are $n^r$ ways to choose with replacement an ordered sample of $r$ objects.
+    \item Ordered without replacement (all $n$):
+    \item[] The number of permutations of $n$ objects is $n! = n(n - 1)(n - 2) \cdots 2 (1)$.
+    \item Ordered without replacement ($r \le n$):
+    \item[] The number of permutations of $n$ objects taken $r$ at a time is $P{n \choose r} = \frac{n!}{(n - r)!}$
+    \item Unordered without replacement ($r \le n$):
+    \item[] The number of combinations of $n$ objects taken $r$ at a time is ${n \choose r} = \frac{n!}{(n - r)! r!}$
+    \item Useful identity (binomial coefficient): ${n \choose r} = {n \choose {n - r}}$
+    \item Counting partitions (multinomial coefficient):
+    \item[] The number of partitions of $n$ objects into $k$ distinct groups of sizes $n_1, n_2, \ldots, n_k$ (where $n_1 + \cdots + n_k = n$ $\Longleftrightarrow$ splitting up entire group) is given by: ${n \choose {n_1,\, n_2,\, \ldots,\, n_k}} = \frac{n!}{n_1! n_2! \cdots n_k!}$
+\end{itemize}
+
+\vspace{80pt}
+
+{\large \bu{Lecture 3 -- Probability}} (1.1)\bigskip
+
+Probability definition based on counting equally likely outcomes
+\begin{itemize}
+    \item $\displaystyle P(A) = \frac{n(A)}{n(S)}$
+\end{itemize}\bigskip
+
+Probability when outcomes are not equally likely
+\begin{itemize}
+    \item Sample point method:
+    \item[] Let $S = \{\vecn{O}{n}\}$ be a finite set, where all $O_i$ are individual outcomes each with probability $P(O_i) \ge 0$ and $\sum P(O_i) = 1$. For any $A \in S$,
+    \item $\displaystyle P(A) = \sum_{O_i \in A} P(O_i)$
+\end{itemize}\bigskip
+
+General definition of probability (axioms)
+\begin{itemize}
+    \item If you define a way to assign a probability $P(A)$ to any event $A$, the following axioms must be true
+    \begin{enumerate}
+        \item $P(A) \ge 0$
+        \item $P(S) = 1$
+        \item $\displaystyle P\big(\bigcup_{i=1}^{\infty}A_i\big ) = \sum_{i=1}^{\infty} P(A_i)$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Probability theorems
+\begin{itemize}
+    \item Complement probability: $P(\comp A) = 1 - P(A)$
+    \item Probability of any event: $P(A) \le 1$
+    \item Probability of null set: $P(\emptyset) = 0$
+    \item $P(A \cap \comp B) = P(A) - P(A \cap B)$
+    \item General union probability: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+    \item Special case union probability: If $A \cap B = \emptyset$, $P(A \cup B) = P(A) + P(B)$
+    \item Subset probability: If $B \subset A$, then $P(B) \le P(A)$
+    \item Union of three events probability:
+    \item[] $P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
+\end{itemize}
+
+\vspace{100pt}
+
+{\large \bu{Lecture 4 -- Conditional Probability}} (1.3)\bigskip
+
+Defining conditional probability
+\begin{itemize}
+    \item Conditional probability by counting equally likely outcomes: $\displaystyle P(A \mid B) = \frac{n(A \cap B)}{n(B)}$
+    \item General definition of conditional probability: $\displaystyle P(A \mid B) = \frac{P(A \cap B)}{P(B)}$,\\provided $P(B) > 0$
+\end{itemize}\bigskip
+
+Probability rules for conditional probability
+\begin{itemize}
+    \item All probability theorems hold in conditional probability. Examples below:
+    \item Conditional complement probability: $P(\comp A  \mid B) = 1 - P(A  \mid B)$
+    \item Conditional general union probability:
+    \item[] $P(A \cup B \mid C) = P(A  \mid C) + P(B  \mid C) - P(A \cap B  \mid C)$
+\end{itemize}\bigskip
+
+Multiplication rule for probability
+\begin{itemize}
+    \item $P(A \cap B) = P(B) P(A \mid B)$, provided $P(B) > 0$
+    \item $P(A \cap B) = P(A) P(B \mid A)$, provided $P(A) > 0$
+    \item General multiplication rule for probability of $k$ events:
+    \item[] $P(A_1 \cap \cdots \cap A_k) = P(A_1) P(A_2 \mid A_1) \cdots P(A_k \mid A_1 \cap \cdots \cap A_{k-1})$
+\end{itemize}\vspace{80pt}
+
+{\large \bu{Lecture 5 -- Independent Events}} (1.4)\bigskip
+
+Definition of independence
+\begin{itemize}
+    
+    \item Two events $A$ and $B$, are independent if $P(A \cap B) = P(A) P(B)$
+    \item[] If $P(A) > 0$ and $P(B) > 0$, then $A \ind B$ $\Longleftrightarrow$ $P(A \mid B) = P(A)$, or $P(B \mid A) = P(B)$
+    \item[] Otherwise, events are said to be dependent. If one condition is true, all are true.
+    
+    \item Special cases of independence:
+    \begin{itemize}
+        \item If $P(A) = 0$ or $P(B) = 0$, $A \ind B$
+        \item If $A \cap B = \emptyset$, $A \ind B$ only if $P(A) = 0$ or $P(B) = 0$
+        \item If $B \subset A$, $A \ind B$ only if $P(B) = 0$, $P(A) = 0$ or $P(A) = 1$
+    \end{itemize}
+    \item Independence of three events: Events $A$, $B$, and $C$ are mutually independent if and only if they are pairwise independent (i.e. $(A, B)$, $(A, C)$ and $(B, C)$ are independent pairs) and if \\ $P(A \cap B \cap C) = P(A) P(B) P(C)$.
+\end{itemize}\bigskip
+
+Applying independence
+\begin{itemize}
+    \item Multiplication rule for independent events: If $A$ and $B$ are independent events,\\$P(A \cap B) = P(A) P(B)$
+    \item Theorems: If $A$ and $B$ are independent events, then the following pairs of events are also independent: $A$ and $\comp B$; $\comp A$ and $B$; $\comp A$ and $\comp B$
+\end{itemize}    
+
+\vspace{100pt}
+
+{\large \bu{Lecture 6 -- Bayes' Theorem}} (1.5)\bigskip
+
+Law of total probability
+\begin{itemize}
+    \item Let $B$ be an event. If $\vecn{A}{n}$ partition the sample space, then
+    \item[] Law of total probability = $P(\text{Second stage event}) = \sum \, \text{Branches of interest}$
+    \item[] $\displaystyle P(B) = P\big[\bigcup_{i = 1}^{n} (A_i \cap B)\big] = \sum_{i = 1}^{n} P(A_i) \, P(B \mid A_i)$
+\end{itemize}\bigskip
+
+Bayes' Theorem
+\begin{itemize}
+    \item Let $B$ be an event. If $\vecn{A}{n}$ partition the sample space, then
+    \item[] Bayes' Theorem = $ P(\text{First stage event} \mid \text{Second stage event}) = \frac{\text{Main branch of interest}}{\sum \, \text{All branches of interest}}$
+    \item[] $\displaystyle P(A_i \mid B) = \frac{P(A_i \cap B)}{P(B)} = \frac{P(A_i) \, P(B \mid A_i)}{\sum_{j = 1}^{n} P(A_j) \, P(B \mid A_j)}$
+\end{itemize}\bigskip
+
+\end{document}

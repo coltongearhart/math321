@@ -1,0 +1,29 @@
+% setup
+\usepackage{geometry} 					% page setup
+\geometry{letterpaper, margin=1in} 				% set margins to 1 in
+\usepackage{fancyhdr}					% customize headers and footers
+\pagestyle{fancy}							% turn on the style
+\fancyhf{}									% clear the header and footer
+\renewcommand{\headrulewidth}{0pt} 			% remove the default header rule (by making it zero width)
+\fancyfoot[R]{\thepage}						% set the right side of the footer to be the page number
+\usepackage{hyperref}					% setup internal and external links
+\hypersetup{							% set up hyperlinks (used for toc here)
+   hidelinks,								% hide links (don't change appearance of text that is clickable)
+   linktoc=all    								% make toc clickable (all levels)
+}
+
+% standard / general packages
+\usepackage[T1]{fontenc}					% font encoding
+\usepackage{lmodern}					% font
+\usepackage[parfill]{parskip} 				% start paragraphs with an empty line rather than an indent
+\usepackage{mathtools}					% tools for math typesetting
+\usepackage{amssymb}					% math symbols
+\usepackage{color,soul} 					% highlighter
+
+% packages from sections
+\usepackage{enumerate}					% to specify different counters in lists (e.g.  starting with something different (like 0), roman numerals, a. or a), or more creative like Ex -> Ex 1,Ex 2, ...)
+\usepackage{booktabs}					% format tables (like line thickness)
+\usepackage[usestackEOL]{stackengine}		% to stack objects in a table (i.e. an organized line break)
+
+
+

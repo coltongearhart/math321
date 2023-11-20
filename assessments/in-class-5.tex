@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\comp}{{\sim}}		% shortcut for tilde without extra space, using for complement
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: In-Class 5}
+
+\end{center}
+
+\bigskip\bigskip
+
+
+Answer all questions. Show your work where necessary.\bigskip
+
+% problem types summary
+% 1) Independent trials probability calculation (easy)
+% 2) Show if with replacement is independent
+% 3) Contingency table to show if independent
+% 4) Using independence to find intersection and union probs (of complements too)
+% 5) Independence of three events solving for probabilities
+% 6) Venn diagram and solving system (not an independence problem)
+
+\begin{enumerate}
+    \item A student has three questions left on an exam. Each question is multiple choice with 4 options. If the student didn't study and randomly guesses for each of the remaining questions, find the following:
+    \begin{enumerate}
+        \item The probability that the student gets only the third question correct.\vspace{30pt}
+        \item The probability that the student gets the first or the third question correct.
+    \end{enumerate}\vspace{40pt}
+    
+    \item Two cards are drawn from a standard deck with replacement. Let $A1$ be the event the first card is an ace and $A2$ be the event the second card is an ace. Show that $A1$ and $A2$ are independent.\vspace{100pt}
+
+    \item A company specializes in coaching people to pass a major professional examination. The company had helped 200 people last year. Their pass rates, based on type of the student, are shown in the following contingency table.
+    \item[] Show if the type of student and pass / fail are independent using two different ways.\smallskip\\
+    \begin{tabular}{| l || c | c | c |}
+        \hline
+         & Student & Professional & Total \\
+         \hline
+        Pass & 48 & 72 & 120 \\ 
+        \hline
+        Fail & 50 & 30 & 80  \\
+        \hline\hline
+        Total & 98 & 102 & 200\\
+        \hline
+    \end{tabular}\vspace{50pt}
+    
+    \item If $A$ and $B$ are independent events with $P(A) = 0.5$ and $P(B) = 0.2$, find the following: %Math stats with apps problem 2.96
+    \begin{enumerate}
+        \item $P(A \cup B)$.\vspace{20pt}
+        \item $P(\comp{A} \cap \comp{B})$.\vspace{20pt}
+        \item $P(\comp{A} \cup \comp{B})$.\vspace{20pt}
+    \end{enumerate}
+    
+    \item Three inspectors look at a critical component of a product. Their probabilities of detecting a defect are 0.90, 0.92 and 0.95, respectively. Let $I_j$ be the event that inspector $j$ finds the defect, $j = 1, 2, 3$. Assuming mutual independence, find the following probabilities.
+    \begin{enumerate}
+        \item At least one inspector detecting the defect.\vspace{90pt}
+        \item Only one inspector detects the defect.\vspace{90pt}
+        \item Exactly two inspector detects the defect.\vspace{90pt}
+    \end{enumerate}
+    
+    \item \textit{(Challenge!)} An insurer offers a health plan to employees of a large company, where employees may choose \textit{exactly two} of the supplementary coverages: A, B, or C, or no supplementary coverage. The proportions of employees that choose coverages A, B, and C are 1/4, 1/3, and 5/12, respectively.% Actex 3-57
+    \item[] Find the probability that a randomly selected employee will choose no supplementary coverage.\vspace{150pt}
+\end{enumerate}
+
+\end{document}

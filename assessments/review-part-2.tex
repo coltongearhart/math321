@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\comp}{{\sim}}			% shortcut for tilde without extra space, using for complement
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: Review Part 2}
+
+\end{center}
+
+% problem types summary
+% 1) 
+% 2) 
+% 3) 
+
+\bigskip\bigskip
+
+\begin{enumerate}
+    \item Below is the pmf of $X$, the number of goals scored by Brazil.\bigskip\\
+    \begin{tabular}{| l || c | c | c | c | c |}
+        \hline
+        $x$ & 0 & 1 & 2 & 3\\
+        \hline
+        $f(x)$ & 0.26 & 0.37 & 0.22 & 0.15\\
+        \hline
+    \end{tabular}\bigskip
+    \begin{enumerate}
+        \item Find $P(X > 1)$ and $P(X \le 2)$.\vspace{40pt}
+        \item Find $E(X)$ and $V(X)$.\vspace{70pt}
+        \item Suppose players get paid \$1,000 for each game and an additional \$100 bonus for every goal the team scores. Let $Y$ be the random variable for the total amount of money a single player receives for a particular game. Find $E(Y)$ and $SD(Y)$.\vspace{80pt}
+        \item Write the cdf of $Y$ as a piecewise function.\vspace{130pt}
+        \item Plot the cdf of $Y$.\vspace{100pt}
+    \end{enumerate}\bigskip
+    
+    \item Let $X$ have the following pmf: 
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             0.2 & x = 3, 4, 5, 6, 7\\
+             0 & \text{otherwise}\\
+        \end{array}
+        \right.
+    \]
+    \begin{enumerate}
+        \item Find $E(X)$ and $V(X)$.\vspace{70pt}
+        \item If $Y = -0.25X + 1$, find $SD(Y)$.\vspace{50pt}
+    \end{enumerate}
+    
+        \item Suppose $X$ has the following density function with constant $c$: $f_X(x) = cx^2, \quad\quad -1 < x < 1$.
+    \begin{enumerate}
+        \item Find the constant $c$ so that $f_X(x)$ is a valid pdf.\vspace{150pt}
+        \item Find $E(X)$ and $V(X)$.\vspace{150pt}
+        \item Find the cdf of $X$, $F_X(x)$.\vspace{150pt}
+        \item Find $P( -0.1 < X < 0.3)$.\vspace{80pt}
+        \item Find $P(X > 0.2 \mid X< 0.4)$.\vspace{100pt}
+        \item Find the median $m$ of $X$.\vspace{100pt}
+        \item Find the cutoff for the upper $20^{th}$ percent of $X$.\vspace{80pt}
+        \item Let $Y = X^3$. Find $E(Y)$.\vspace{130pt}
+        \item Find $P(Y < 0.5)$\vspace{130pt}
+    \end{enumerate}\bigskip
+    
+\end{enumerate}
+
+
+
+
+\end{document}

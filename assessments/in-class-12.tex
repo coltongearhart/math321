@@ -1,0 +1,51 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: In-Class 12}
+
+\end{center}
+\bigskip\bigskip
+
+% problem types summary
+% 1) general discrete mgf function, E(X) and V(X) using mgf
+% 2) gamma mgf
+% 3) exponential mean derivation using mgf
+% 4) normal mgf
+% 5) normal mgf of linear function of random variable
+
+\begin{enumerate}
+
+    \item Suppose $X$ has the following pmf:\hspace{20pt}
+    \begin{tabular}{| l || c | c | c | c | c |}
+        \hline
+        $x$ & 4 & 5 & 6 & 7\\
+        \hline
+        $f(x)$ & 0.17 & 0.53 & 0.22 & 0.08\\
+        \hline
+    \end{tabular}\bigskip
+    \begin{enumerate}
+        \item Find the mgf $M_X(t)$.\vspace{150pt}
+        \item Find $E(X)$ using $M_X(t)$.\vspace{150pt}
+        \item Find $V(X)$ using $M_X(t)$.\vspace{200pt}
+    \end{enumerate}
+
+    \item If $X \follow{Gamma}(\alpha = 4, \beta = 0.75)$, find $M_X(t)$.\vspace{70pt}
+    
+    \item If $X \follow{Exponential}(\lambda = 3)$, use $M_X(t)$ to show that $E(X) = 1/3$.\vspace{250pt}
+    
+    \item If $X \follow{Normal}(\mu = -10, \sigma = 2)$, find $M_X(t)$.\vspace{70pt}
+    
+    \item Using the normal distribution from problem 4, use $M_{aX + b}(t) = \e^{tb} M_X(at)$ to find the mgf of $Y = -3X$. What is the distribution of $Y$?    
+    
+    \end{enumerate}
+
+\end{document}

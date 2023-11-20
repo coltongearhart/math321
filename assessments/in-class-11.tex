@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: In-Class 11}
+
+\end{center}
+\bigskip\bigskip
+
+% problem types summary
+% 1) Uniform probabilities (interval, conditional survival, general conditional survival)
+% 2) Exponential probabilities (cdf, survival, interval, memoryless (< and >)
+% 3) Solve for exponential lambda via median and survival prob
+% 4) Solve for exponential mean and percentile
+
+
+\begin{enumerate}
+    \item Let $T \follow{Uniform}(0, 120)$.%Actex Example 8.6 (with different numbers and no context)
+    \begin{enumerate}
+        \item Find $P(60 < T < 75)$.\vspace{100pt}
+        \item Find $P(T > 50 \mid T > 30)$.\vspace{100pt}
+        \item Let $x$ be any real number in the interval $[30,120]$. Find $P(T > x \mid T > 30)$.\vspace{100pt}
+        \item Using your answer from part c, can we say anything about this function of $x$? (i.e. does the function match the cdf or survival of a particular distribution)?\vspace{60pt}%Original addition
+    \end{enumerate}\bigskip
+    
+    \item Let $T \follow{Exponential}(\lambda = 1/3)$.%Original
+    \begin{enumerate}
+        \item Find $P(T < 6)$.\vspace{100pt}
+        \item Find $P(T > 8)$.\vspace{100pt}
+        \item Use the cdf to find $P( 2 < T < 5)$.\vspace{100pt}
+        \item Use the memoryless property to find $P(T > 8 \mid T > 3)$.\vspace{100pt}
+        \item Use the memoryless property to find $P(T < 9 \mid T > 4)$.\vspace{100pt}
+    \end{enumerate}\bigskip
+    
+    \item Let $T \follow{Exponential}(\lambda)$ with median equal to 5. Find $P(T > 4)$.\vspace{100pt}
+    
+    \item Let X have an exponential distribution with E(X) = 5. Find the 30th percentile of $X$.%Lazar problem 3.2-1
+\end{enumerate}
+
+
+\end{document}

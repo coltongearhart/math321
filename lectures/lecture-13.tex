@@ -1,0 +1,232 @@
+\documentclass{article}
+\usepackage{style-notes}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 320: Probability} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\gam}[1]{\Gamma(#1)}		% shortcut for gamma function (variable)
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+\newcommand{\Beta}[2]{B(#1, #2)}		% shortcut for beta function B(variable1, variable 2)
+\newcommand{\ddx}[1]{\frac{\mathrm{d}}{\mathrm{d} #1}\,}		% shortcut for derivative d/dx (variable x)
+
+
+% NOTES on what didn't cover
+
+% Theory lecture 7
+% -> page 7-4 has a good sentence about support set of a distribution and set notation relationship between range X and range Y
+% Theory lecture 7-2
+% -> transformations when inverse doesn't exist and with imbalanced range, did one example and previewed an example but did not generalize method
+
+% mixed distributions -> included in FA 22 version but no time and think not necessary for exam P this time?
+
+
+
+\begin{document}
+
+\lecture{13}{Functions of Random Variables}{5}{Distributions of Functions of Random Variables}{5.1}
+
+\bu{Deductibles and caps: Expected value of a function of a random variable}\bigskip
+
+Expected value of a loss or claim\bigskip
+\begin{itemize}
+    \item These examples are in an insurance applications, but are just expected value of a function of a random variable problems.
+    \item Insurance loss.
+    \begin{itemize}
+        \item Example: (a) The amount of a single loss $X$ for an insurance policy is exponential, with density function
+        \[f(x) = 0.002 \e^{-0.002x}, \quad x \ge 0 \quad\quad \Longrightarrow \quad\quad X \follow{Exp}(\lambda = 0.0002)\]
+        \item[] So the (base) expected value of a single loss is: $E(X) = \frac{1}{\lambda} = 500$
+    \end{itemize}
+    \item Insurance with a deductible.
+    \begin{itemize}
+        \item Continuing example: (b) Suppose now the insurance policy has a deductible of \$100 for each loss. Find the expected value of a single claim.
+        \begin{itemize}
+            \item[**] Now loss amount \hspace{10pt} claim amount
+        \end{itemize}
+        \item \textit{STRATEGY}: We need to write a new function $g(X)$ that represents the new claim amount taking into account the deductible.
+        \item[] $g(X)$ will be a piecewise function. So think about the values $g(X)$ takes in cases based on the range of $X$.
+        \item[] \textit{NOTE:} We are thinking about the values of the claim from the insurance company's perspective.\vspace{200pt}
+    \end{itemize}
+    \item Insurance with a deductible and a cap.
+    \begin{itemize}
+        \item Continuing example: (c) Now suppose the insurance policy has a deductible of \$100 per claim AND a restriction that the largest amount paid on any claim will be \$700.
+        \item \textit{STRATEGY}: Use the same strategy as before for the first case, then just need to take into account the cap.\vspace{200pt} 
+    \end{itemize}
+    \item Another example: The amount of a single loss $X$ for an insurance policy has the density function $f(x)$ for $x \ge 0$ with deductible of \$150 and cap of \$900.
+    \item[] (a) Find a function $g(X)$ for the amount paid (claim amount) for a loss $x$.\\ (b) Write the integral to solve for the expected claim amount.\vspace{150pt}
+    \item In general, if loss $x$ with deductible $d$ and cap $c$, we have\vspace{30pt}
+\end{itemize}\newpage
+
+\bu{The distribution $\boldsymbol{Y = g(X)}$}\bigskip
+
+Transformations so far\bigskip
+\begin{itemize}
+    \item We have already seen simple methods for finding $E[g(X)]$ and $V[g(X)]$ for any type of variable. 
+    \item Example: The monthly maintenance cost for a machine $X \follow{Exponential}(\lambda = 0.01)$. Next year costs will be increased 5\% due to inflation. Thus next year's monthly cost is $Y = g(X) = 1.05X$.
+    \item[] Find $E(Y)$.\vspace{50pt}
+    \item Note we did not need to to know the distribution of $Y$ for this calculation.
+    \item[] However, the mean and variance alone are not sufficient to enable us to calculate probabilities for $Y = g(X)$; we need the actual distribution function $f(x)$.
+    \item Discrete example: Same $X$ with a new (discrete) model and inflation costs \\$Y = g(X) = 1.05X$:    \begin{enumerate}[(a)]
+        \item Find the distribution of $Y = g(X)$.
+        \item Find $P(Y < 100)$.
+    \end{enumerate}
+    \begin{tabular}{| c | c | c | c |}
+        \hline
+        $x$ & $f(x)$ & $y = 1.05x$& $f(y)$ \\
+        \specialrule{.1em}{.05em}{.05em}
+        0 & 0.28  & & \\
+        \hline
+        50 & 0.43  & & \\
+        \hline
+        100 & 0.20 & & \\
+        \hline
+        150 & 0.09  & & \\
+        \hline
+    \end{tabular}\bigskip
+    \item For the original continuous model, it is not as simple to find the new distribution.
+\end{itemize}\bigskip
+
+Continuous transformations example\bigskip
+\begin{itemize}
+    \item Continuing example: Using the original $X \follow{Exponential}(\lambda = 0.01)$ model...
+    \item Find $P(Y \le 100)$.
+    \item[] \textit{GOAL}: Get the probability statement to be with with respect to $X$.
+    \item[] \textit{STRATEGY}: ``Indirectly'' find the probability for $Y$ based on the known cdf of $X$ and using some simple algebra. Note that this is the same strategy we used to find lognormal probabilities based on the normal cdf.\vspace{150pt}
+    \item Find the cdf $F_Y(y)$.
+    \item[] \textit{STRATEGY}: Use the same reasoning as above, just for a general $y$:\\ $P(Y \le 100) = F_Y(100) \longrightarrow P(Y \le y) = F_Y(y)$ for any value $y \ge 0$.\vspace{150pt}
+    \item Note that the range of $X$ is the interval $[0, \infty)$. The range for $Y = 1.05X$ is the same interval. This will not always be the case for transformations $g(X)$.
+    \item[] \textit{STRATEGY}: How to check range $\rightarrow$ Apply $g(x)$ to all pieces, ALWAYS need to check both sides.\vspace{20pt}
+\end{itemize}\bigskip
+
+Inverses\bigskip
+\begin{itemize}
+    \item Finding the distribution of $Y = g(X)$ like we did above is much simpler when the transformation function $g(X)$ has an inverse.
+    \item Recall that the function $g(X)$ defines a mapping from the original \blankul{3cm} to a \blankul{3cm}. That is,\vspace{100pt}
+    \item[] ** We do not know stuff (pdf, cdf, etc.); so we have to use the inverse function to go backwards. ${\cal Y}$ is completely determined by $\cal{X}$.
+    \item When do inverse functions exist?
+    \item[] If the function $g(x)$ is strictly \textbf{monotone} $\quad \Longrightarrow \quad $ one-to-one $\quad  \Longleftrightarrow \quad$ inverse exists.
+    \item[] $u > v \Rightarrow g(u) > g(v)$\smallskip
+    \item[] $u > v \Rightarrow g(u) < g(v)$
+    \item Summary and results:
+    \item[] For a function $g(x)$ that strictly increasing or strictly decreasing on the range of $X$, we can find an inverse function $h(y)$ defined on the range of $Y$. Thus we have:\vspace{30pt}
+    \item[**] \textit{STRATEGY} when problem solving:
+    \begin{enumerate}
+        \item Draw a figure of the transformation.
+        \item[] If transformation is strictly increasing or strictly decreasing over ${\cal X}$, then use the methods described next.
+        \item Check range of $Y$ (i.e. ALSO transform range of $X$ to range of $Y$).
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Using $F_X(x)$ to find $F_Y(y)$ for $Y = g(X)$\bigskip
+\begin{itemize}
+    \item We will only generalize the methods for when $g(X)$ has an inverse. If this is true, then there are two cases.
+    \item \textbf{Case 1: $\boldsymbol{g(x)}$ is strictly increasing on the range of $\boldsymbol{X}$}
+    \begin{itemize}
+        \item Let $h(y)$ be the inverse function of $g(x)$. The function $h(y)$ will also be strictly increasing. In this case, we can find $F_Y(y)$ as follows:\vspace{150pt}
+        \item Example: Let $X \follow{Exponential}(\lambda = 3)$. Find the cdf of $Y = \sqrt{X}$.
+        \item[] There are two ways that we can solve this.
+        \item[] \ul{Long way} \hspace{200pt} \ul{Short way}\vspace{150pt}
+    \end{itemize}
+    \item \textbf{Case 2: $\boldsymbol{g(x)}$ is strictly decreasing on the range of $\boldsymbol{X}$}
+    \begin{itemize}
+        \item Let $h(y)$ be the inverse function of $g(x)$. The function $h(y)$ will also be strictly decreasing. In this case, we can find $F_Y(y)$ as follows:\vspace{200pt}
+        \item Example: Let $X \follow{Exponential}(\lambda = 3)$. Find the cdf of $Y = 1 - X$.
+        \item[] Again, we can do the long  (``derivation'') way or short way (skip to end result).
+        \item[] \ul{Long way} \hspace{200pt} \ul{Short way}\vspace{150pt}
+\vspace{300pt}
+    \end{itemize}
+    \item \textbf{If $\boldsymbol{g(x)}$ does NOT have an inverse}
+    \begin{itemize}
+        \item Example: Let $X \follow{Uniform}(a = -2, b = 2)$. Find the cdf of $Y = X^2$.\vspace{250pt}
+        \item It can be even more complicate if there isn't a ``balanced'' range of $Y$.
+        \item[] Example: Let $X \follow{Uniform}(a = -2, b = 3)$. Find the cdf of $Y = X^2$.\vspace{200pt}
+        \item Both of these cases will be left for grad school :)
+    \end{itemize}
+\end{itemize}\bigskip
+
+\newpage
+
+Finding the density function $f_Y(y)$ for $Y = g(X)$\bigskip
+\begin{itemize}
+    \item Finding $F_Y(y)$ gives us all the information that is needed to calculate probabilities for $Y$, as shown below:
+    \[P(Y \le y) = \hspace{70pt} P(Y \ge y) = \hspace{70pt} P(a \le Y \le b) = \]
+    \item[] Thus there is no real need to find the density function $f_Y(y)$. If the density function is required, it can be found by differentiating the cdf:
+    \[f_Y(y) = \ddx{y} F_Y(y)\]
+    \item If $X$ is continuous, it is usually easier to find the cdf of $Y$ and then the pdf of $Y$ (rather than skipping straight to the pdf). But we will learn both methods, which we shall name:\smallskip
+    \begin{enumerate}
+        \item Cdf method
+        \item Pdf method
+        \item[] (aka change of variable technique)
+    \end{enumerate}\bigskip
+    \item Again when working in situations when $g(x)$ has an inverse, there are two cases:
+        \item \textbf{Case 1: $\boldsymbol{g(x)}$ is strictly increasing on the range of $\boldsymbol{X}$}
+        \begin{itemize}
+            \item Setup: $h(y)$ is the inverse of $g(x)$ and $h(y)$ is strictly increasing.
+            \item Previous results: $F_Y(y) = F_X(h(y))$
+            \item We can find the pdf $f_Y(y)$ as follows:\vspace{65pt}
+    \end{itemize}
+    \item \textbf{Case 2: $\boldsymbol{g(x)}$ is strictly decreasing on the range of $\boldsymbol{X}$}
+    \begin{itemize}
+        \item Setup: $h(y)$ is the inverse of $g(x)$ and $h(y)$ is strictly decreasing.
+        \item Previous results: $F_Y(y) = 1 - F_X(h(y))$
+        \item We can find the pdf $f_Y(y)$ as follows:\vspace{65pt}
+        \item Since $h(y)$ is decreasing, its derivative is negative. Thus the final expression above is actually positive.
+    \end{itemize}
+    \item Theorem: Let $X$ have cdf $F_X(x)$ with range ${\cal X}$, $Y = g(X)$ with and range ${\cal Y}$ and inverse $h(y)$.\bigskip
+    \begin{itemize}
+        \item If $g(x)$ is strictly increasing on ${\cal X} \longrightarrow F_Y(y) = F_X(h(y))$ for $y \in {\cal Y}$.
+        \item If $g(x)$ is strictly decreasing on ${\cal X} \longrightarrow F_Y(y) = 1 - F_X(h(y))$ for $y \in {\cal Y}$.\bigskip
+        \item If $g(x)$ is strictly increasing or strictly decreasing on ${\cal X}$, then
+         \[f_Y(y) = f_X(h(y)) \cdot \lvert h'(y) \rvert \quad\quad \text{for } y \in {\cal Y}.\]
+    \end{itemize}
+    \item Return to previous examples: Let $X \follow{Exponential}(\lambda = 3)$.
+    \begin{enumerate}[(a)]
+        \item Find the pdf of $Y = \sqrt{X}$.
+        \item[] \ul{Cdf method} \hspace{200pt} \ul{Pdf method}\vspace{200pt}
+        \item Find the pdf of $Y = 1 - X$.
+        \item[] \ul{Cdf method} \hspace{200pt} \ul{Pdf method}\vspace{200pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+More examples\bigskip
+\begin{enumerate}
+    \item Let $X$ be the outcome when you roll a fair four sided die. If you get $Y = \lvert X - 2 \rvert$ dollars based on your roll, find $f_Y(y)$.\vspace{150pt}
+    \item Let $X \follow{Poisson}(\lambda = 4)$. If $Y = X^2$, find the pmf of $Y$.\vspace{200pt}
+\end{enumerate}
+
+\end{document}

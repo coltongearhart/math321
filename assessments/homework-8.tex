@@ -1,0 +1,112 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: Homework 8}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due \blankul{4cm}}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) Find discrete pmf
+% 2) Find c to make a valid pmf and write piecewise cdf
+% 3) Find c to make a valid pdf
+% 4) Find c to make a valid pdf and calculate a probability
+% 5) Finding, plotting and solving probability for continuous piecewise density function
+% 6) Calculate a conditional probability using integration
+
+
+\begin{enumerate}
+    
+    \item 5 cards are face down in a row on a table. Exactly one of them is an ace. You turn the cards over one at a time, moving from left to right. Let $X$ be the random variable for the number of cards turned \textit{before} an ace is turned over.\smallskip%Actex 4-2 (with different number)
+    \item[] Find the pmf for $X$. You can write it as a piecewise function or as a table.\bigskip
+
+    \item Let $X$ be the number of claims on an auto insurance policy having pmf
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             0.9 & x = 0\\
+            \frac{c}{x} & x = 1, 2, 3, 4, 5, 6
+        \end{array}
+        \right.
+    \]
+    where $c$ is a constant.\smallskip%Prob and stat inference 2.2-4 (removed deductible wording)
+    \begin{enumerate}
+        \item Determine the value of $c$ that makes $f(x)$ a valid pmf.
+        \item Write the cdf $F(x)$ as a piecewise function (round to 4 decimals).%Original addition
+    \end{enumerate}\bigskip
+    
+    \item Let $\displaystyle f(x) =\frac{7}{256} x^6, \quad -c < x < c$. Find the constant $c$ so that $f(x)$ is a valid pdf.\bigskip% Lazar HW 4 Additional question 5 (just a part of it)
+
+    \item The lifetime of a machine part has a continuous distribution on the interval $(0,10)$ with probability density function $f(x)$, where $f(x)$ is \textit{proportional} to $(10 +x)^{-2}$.
+    \item[] Calculate the probability that the lifetime of the machine part is less than 5.\bigskip%Actex 7-12 (with different numbers)
+    
+    \item Let $X$ have the following density function:% not sure where found problem
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             x & 0 \le x \le 1\\
+             1/x^3 & 1 < x < \infty\\
+             0 & \text{otherwise}\\
+        \end{array}
+        \right.
+    \]
+    \begin{enumerate}
+        \item Find the cdf $F(x)$.
+        \item Plot the cdf $F(x)$.
+        \item Use the cdf $F(x)$ to find $P(0.5 \le X \le 5)$.    
+    \end{enumerate}\bigskip
+    
+    \item The loss due to water damage for a home is modeled by a random variable $X$ with density function
+    \[
+    f(x) =
+        \left\{
+        \begin{array}{ll}
+             0.005(20 - x) & 0 \le x \le 20\\
+             0 & \text{elsewhere}\\
+        \end{array}
+        \right.
+    \]
+    \item[] Given that the water loss exceeds 6, calculate the probability that it exceeds 15.\bigskip%Actex 7-16 (with different numbers)
+
+\end{enumerate}
+
+\newpage
+
+Select answers\bigskip
+\begin{enumerate}
+    \item 
+    
+    \item 
+    \begin{enumerate}
+        \item $c \approx 0.0408$
+        \item 
+    \end{enumerate}
+    
+    \item $c = 2$
+    
+    \item $\text{Prob} \approx 0.667$
+    
+    \item 
+    \begin{enumerate}
+        \item 
+        \item 
+        \item $\text{Prob} = 0.855$
+    \end{enumerate}
+    
+    \item $\text{Prob} \approx 0.1276$
+
+\end{enumerate}
+
+\end{document}

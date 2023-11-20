@@ -1,0 +1,112 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: Homework 10}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due \blankul{4cm}}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) Binomial mean and var derivation
+% 2) Discrete uniform mean and sd
+% 3) Binomial probability used in a tree diagram
+% 4) Negative binomial probabilities
+% 5) Mean of a function of a negative binomial
+% 6) Hypergeometric probabilities and exp value and sd
+% 7) Poisson probabilities (compound events)
+% 8) Poisson pmf to find variance
+
+% a good Poisson problem is Lazar HW 4 Additional Questions #2
+
+\begin{enumerate}
+    \item For a binomial random variable $X$ with $n = 2$ and $P(\text{Success}) = p$, show using the definitions that% Actex 5-10
+    \begin{enumerate}
+        \item $E(X) = 2p$ \hspace{85pt} (i.e. use $E(X) = \sum x f(x))$
+        \item $V(X) = 2p(1 - p) = 2pq $\hspace{30pt} (You may use the alternate form of variance)
+    \end{enumerate}\bigskip
+    
+    \item A contestant on a game show selects a ball from a basket containing 25 balls numbered from 1 to 25. Their prize is \$850 times the number of the ball selected. Find the mean and standard deviation of the amount they win.\bigskip%Actex 5-34 (with different numbers)
+    
+    \item A nutrition company receives 2/5 of its supplement shipments from company $X$ and the remainder of its shipments from other companies. Each shipment contains a very large number of supplement bottles.% Actex 5-38 (with different numbers and context)
+    \item[] For Company $X$'s shipments, 7\% of the bottles are mislabelled. For every other company, 12\% of the bottles are mislabelled.
+    \item[] The nutrition company inspects 25 randomly selected bottles from a single shipment and finds that one bottle is mislabelled. Find the probability that the shipment came from Company $X$.
+    
+    \item A telemarketer makes successful calls with probability 0.27. Their shift ends when they make 4 sales. Find the following:%Actex 5-30 (with different numbers and slightly different wording)
+    \begin{enumerate}
+        \item The probability that the 4\textsuperscript{th} sale will be on the 13\textsuperscript{th} call.
+        \item The probability it will take more than 5 calls to make the 4 sales.
+    \end{enumerate}\bigskip
+    
+    \item Suppose now that each sale made by the person in problem 4 is for \$300. Find the mean number of total calls they will have to make to reach \$2400.\bigskip%Actex 5-31 (with different numbers)
+    
+    \item In a shipment of lightbulbs 120 lightbulbs, there are 12 defective ones. An inspector randomly selects 15 bulbs. Let $X$ represent the number of defective light bulbs selected by the inspector.%Prob and stat inference 2.5-1 (for the context)
+    \begin{enumerate}
+        \item Find the pmf of $X$.
+        \item Find the probability less than 3 defective light bulbs are found. 
+        \item Find the probability at least one defective light bulb is found.
+        \item Find the expected value and standard deviation of the number of defective light bulbs found.
+    \end{enumerate}\bigskip
+    
+    \newpage
+    
+    \item Claims filed in a year by a policyholder of an insurance company have a Poisson distribution with $\lambda = 0.6$. The number of claims filed by two different policyholders are independent events.%Actex 5-20 (with different numbers)
+    \begin{enumerate}
+        \item If two policyholders are selected at random, find the probability that each of them will file one claim during the year.
+        \item Find the probability that at least one of them will file zero claims.
+    \end{enumerate}\bigskip
+    
+    \item An actuary has discovered that policyholders are four times as likely to file two claims as to file three claims. If the number of claims filed as a Poisson distribution, find the variance of the number of claims filed.%Actex 5-39 (with different numbers)
+    
+\end{enumerate}
+
+\vspace{100pt}
+
+Select answers\bigskip
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item 
+        \item 
+    \end{enumerate}
+    
+    \item $SD(\text{Money}) \approx \$6,129.44$
+    
+    \item $\text{Prob} \approx 0.5943$
+    
+    \item 
+    \begin{enumerate}
+        \item $\text{Prob} \approx 0.0688$
+        \item $\text{Prob} \approx 0.9792$
+    \end{enumerate}
+    
+    \item $\text{Exp Value} \approx 29.63$
+    
+    \item 
+    \begin{enumerate}
+        \item $\text{Prob} \approx 0.8269$
+        \item $\text{Prob} \approx 0.8149$
+        \item $SD \approx 1.0914$
+        \item 
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item $\text{Prob} \approx 0.1084$
+        \item $\text{Prob} \approx 0.7964$
+    \end{enumerate}
+    
+    \item 
+      
+\end{enumerate}  
+    
+\end{document}

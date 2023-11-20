@@ -1,0 +1,592 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\comp}{{\sim}}			% shortcut for tilde without extra space, using for complement
+\newcommand{\vectwo}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_k, where X and k are variable. NOTE: to call use $\vectwo{X}{k}$
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}		% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{n}$
+\newcommand{\dx}[1]{\,\mathrm{d} #1}		% shortcut for dx after integral (variable x)
+\newcommand{\ddx}[1]{\frac{\mathrm{d}}{\mathrm{d} #1}\,}		% shortcut for derivative d/dx (variable x)
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special' )shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\integral}[4]{\int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\gam}[1]{\Gamma(#1)}		% shortcut for gamma function (variable)
+\newcommand{\Beta}[2]{B(#1, #2)}		% shortcut for beta function B(variable1, variable 2)
+
+
+\begin{document}
+
+\begin{center}
+{\Huge MATH 320: Final Study Guide}
+
+\end{center}
+
+\bigskip\bigskip
+
+
+{\large \bu{Lecture 1 -- Set Theory}} (1.1)\bigskip
+
+How to calculate probability
+\begin{itemize}
+    \item Probability by counting equally likely outcomes:
+    \item[] $\displaystyle \text{Probability of an event} = \frac{\textit{Number of outcomes in the event}}{\textit{Total number of possible outcomes}}$
+    \item Empirical probability, relative frequency estimate of the probability of an event
+    \item[] $\displaystyle \text{Probability of an event} = \frac{\textit{Number of times the event occurs in n trials}}{\textit{n}}$
+\end{itemize}\bigskip
+    
+Set identities
+\begin{itemize}
+    \item Commutative Law (reordering): 
+    \item[] $A \cup B = B \cup A$ \hspace{10pt} \& \hspace{10pt} $A \cap B = B \cap A$ 
+    \item Associative Law (changing location of parentheses):
+    \item[] $A \cup (B \cup C) = (A \cup B) \cup C$ \hspace{10pt} \& \hspace{10pt} $A \cap (B \cap C) = (A \cap B) \cap C$
+    \item Distributive Law (distributing union or intersection):
+    \item[] $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$ \hspace{10pt} \& \hspace{10pt} $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+    \item De Morgan's Law (distributing complement; flip everything):
+    \item[] $\comp (A \cup B) = \comp A \cap \comp B$ \hspace{10pt} \& \hspace{10pt} $\comp (A \cap B) = \comp A \cup \comp B$
+\end{itemize}\bigskip
+
+Relationships among sets
+\begin{itemize}
+    \item Mutually exclusive (disjoint) if $A \cap B = \emptyset$ (no overlap)
+    \item Pairwise mutually exclusive if $A_i \cap A_j = \emptyset$ for all $i \ne j$ (no overlap of any pairs)
+    \item Exhaustive if $\,\displaystyle \bigcup_{i=1}^{k} A_i = A_1 \cup \cdots \cup A_k = S$ (complete $S$)
+    \item Form a partition if exhaustive and pairwise mutually exclusive
+\end{itemize}\bigskip\bigskip\bigskip
+
+{\large \bu{Lecture 2 -- Counting}} (1.2)\bigskip
+
+Basic rules
+\begin{itemize}
+    \item Complements counting rule: $n(\comp A) = n(S) - n(A)$
+    \item General union counting rule: $n(A \cup B) = n(A) + n(B) - n(A \cap B)$
+    \item Special case union counting rule: If $A \cap B = \emptyset$, $n(A \cup B) = n(A) + n(B)$
+    \item Union of three events counting rule:
+    \item[] $n(A \cup B \cup C) = n(A) + n(B) + n(C) - n(A \cap B) - n(A \cap C) - n(B \cap C) + n(A \cap B \cap C)$
+\end{itemize}\bigskip
+
+Counting principles
+\begin{itemize}
+    \item Multiplication principle for counting: If a job consists of $k$ separate tasks, the $i$th of which can be done in $n_i$ ways ($i = 1, \ldots, k$), then the entire job can be done in $n_1 \times n_2 \times \cdots \times n_k$ ways.
+    \item Ordered with replacement:
+    \item[] Given $n$ distinguishable objects, there are $n^r$ ways to choose with replacement an ordered sample of $r$ objects.
+    \item Ordered without replacement (all $n$):
+    \item[] The number of permutations of $n$ objects is $n! = n(n - 1)(n - 2) \cdots 2 (1)$.
+    \item Ordered without replacement ($r \le n$):
+    \item[] The number of permutations of $n$ objects taken $r$ at a time is $P{n \choose r} = \frac{n!}{(n - r)!}$
+    \item Unordered without replacement ($r \le n$):
+    \item[] The number of combinations of $n$ objects taken $r$ at a time is ${n \choose r} = \frac{n!}{(n - r)! r!}$
+    \item Useful identity (binomial coefficient): ${n \choose r} = {n \choose {n - r}}$
+    \item Counting partitions (multinomial coefficient):
+    \item[] The number of partitions of $n$ objects into $k$ distinct groups of sizes $n_1, n_2, \ldots, n_k$ (where $n_1 + \cdots + n_k = n$ $\Longleftrightarrow$ splitting up entire group) is given by: ${n \choose {n_1,\, n_2,\, \ldots,\, n_k}} = \frac{n!}{n_1! n_2! \cdots n_k!}$
+\end{itemize}
+
+\vspace{80pt}
+
+{\large \bu{Lecture 3 -- Probability}} (1.1)\bigskip
+
+Probability definition based on counting equally likely outcomes
+\begin{itemize}
+    \item $\displaystyle P(A) = \frac{n(A)}{n(S)}$
+\end{itemize}\bigskip
+
+Probability when outcomes are not equally likely
+\begin{itemize}
+    \item Sample point method:
+    \item[] Let $S = \{\vecn{O}{n}\}$ be a finite set, where all $O_i$ are individual outcomes each with probability $P(O_i) \ge 0$ and $\sum P(O_i) = 1$. For any $A \in S$,
+    \item $\displaystyle P(A) = \sum_{O_i \in A} P(O_i)$
+\end{itemize}\bigskip
+
+General definition of probability (axioms)
+\begin{itemize}
+    \item If you define a way to assign a probability $P(A)$ to any event $A$, the following axioms must be true
+    \begin{enumerate}
+        \item $P(A) \ge 0$
+        \item $P(S) = 1$
+        \item $\displaystyle P\big(\bigcup_{i=1}^{\infty}A_i\big ) = \sum_{i=1}^{\infty} P(A_i)$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Probability theorems
+\begin{itemize}
+    \item Complement probability: $P(\comp A) = 1 - P(A)$
+    \item Probability of any event: $P(A) \le 1$
+    \item Probability of null set: $P(\emptyset) = 0$
+    \item $P(A \cap \comp B) = P(A) - P(A \cap B)$
+    \item General union probability: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+    \item Special case union probability: If $A \cap B = \emptyset$, $P(A \cup B) = P(A) + P(B)$
+    \item Subset probability: If $B \subset A$, then $P(B) \le P(A)$
+    \item Union of three events probability:
+    \item[] $P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
+\end{itemize}
+
+\vspace{100pt}
+
+{\large \bu{Lecture 4 -- Conditional Probability}} (1.3)\bigskip
+
+Defining conditional probability
+\begin{itemize}
+    \item Conditional probability by counting equally likely outcomes: $\displaystyle P(A \mid B) = \frac{n(A \cap B)}{n(B)}$
+    \item General definition of conditional probability: $\displaystyle P(A \mid B) = \frac{P(A \cap B)}{P(B)}$,\\provided $P(B) > 0$
+\end{itemize}\bigskip
+
+Probability rules for conditional probability
+\begin{itemize}
+    \item All probability theorems hold in conditional probability. Examples below:
+    \item Conditional complement probability: $P(\comp A  \mid B) = 1 - P(A  \mid B)$
+    \item Conditional general union probability:
+    \item[] $P(A \cup B \mid C) = P(A  \mid C) + P(B  \mid C) - P(A \cap B  \mid C)$
+\end{itemize}\bigskip
+
+Multiplication rule for probability
+\begin{itemize}
+    \item $P(A \cap B) = P(B) P(A \mid B)$, provided $P(B) > 0$
+    \item $P(A \cap B) = P(A) P(B \mid A)$, provided $P(A) > 0$
+    \item General multiplication rule for probability of $k$ events:
+    \item[] $P(A_1 \cap \cdots \cap A_k) = P(A_1) P(A_2 \mid A_1) \cdots P(A_k \mid A_1 \cap \cdots \cap A_{k-1})$
+\end{itemize}\vspace{80pt}
+
+{\large \bu{Lecture 5 -- Independent Events}} (1.4)\bigskip
+
+Definition of independence
+\begin{itemize}
+    
+    \item Two events $A$ and $B$, are independent if $P(A \cap B) = P(A) P(B)$
+    \item[] If $P(A) > 0$ and $P(B) > 0$, then $A \ind B$ $\Longleftrightarrow$ $P(A \mid B) = P(A)$, or $P(B \mid A) = P(B)$
+    \item[] Otherwise, events are said to be dependent. If one condition is true, all are true.
+    
+    \item Special cases of independence:
+    \begin{itemize}
+        \item If $P(A) = 0$ or $P(B) = 0$, $A \ind B$
+        \item If $A \cap B = \emptyset$, $A \ind B$ only if $P(A) = 0$ or $P(B) = 0$
+        \item If $B \subset A$, $A \ind B$ only if $P(B) = 0$, $P(A) = 0$ or $P(A) = 1$
+    \end{itemize}
+    \item Independence of three events: Events $A$, $B$, and $C$ are mutually independent if and only if they are pairwise independent (i.e. $(A, B)$, $(A, C)$ and $(B, C)$ are independent pairs) and if \\ $P(A \cap B \cap C) = P(A) P(B) P(C)$.
+\end{itemize}\bigskip
+
+Applying independence
+\begin{itemize}
+    \item Multiplication rule for independent events: If $A$ and $B$ are independent events,\\$P(A \cap B) = P(A) P(B)$
+    \item Theorems: If $A$ and $B$ are independent events, then the following pairs of events are also independent: $A$ and $\comp B$; $\comp A$ and $B$; $\comp A$ and $\comp B$
+\end{itemize}    
+
+\vspace{100pt}
+
+{\large \bu{Lecture 6 -- Bayes' Theorem}} (1.5)\bigskip
+
+Law of total probability
+\begin{itemize}
+    \item Let $B$ be an event. If $\vecn{A}{n}$ partition the sample space, then
+    \item[] Law of total probability = $P(\text{Second stage event}) = \sum \, \text{Branches of interest}$
+    \item[] $\displaystyle P(B) = P\big[\bigcup_{i = 1}^{n} (A_i \cap B)\big] = \sum_{i = 1}^{n} P(A_i) \, P(B \mid A_i)$
+\end{itemize}\bigskip
+
+Bayes' Theorem
+\begin{itemize}
+    \item Let $B$ be an event. If $\vecn{A}{n}$ partition the sample space, then
+    \item[] Bayes' Theorem = $ P(\text{First stage event} \mid \text{Second stage event}) = \frac{\text{Main branch of interest}}{\sum \, \text{All branches of interest}}$
+    \item[] $\displaystyle P(A_i \mid B) = \frac{P(A_i \cap B)}{P(B)} = \frac{P(A_i) \, P(B \mid A_i)}{\sum_{j = 1}^{n} P(A_j) \, P(B \mid A_j)}$
+\end{itemize}
+
+\vspace{60pt}
+
+{\large \bu{Lecture 7 -- Random Variables}} (2.1 and 3.1)\bigskip
+
+Random variables
+\begin{itemize}
+    \item Definition: Function from a sample space S into real numbers.
+    \item Range of a RV: The set of possible values of $X$, ${\cal X} = \{x: X(s) = x, s \in S\}$
+    \item RV $X$ is discrete $\Longleftrightarrow$ ${\cal X} $ is a finite or countable set $\Longleftrightarrow$ $F_X(x)$ is a step function of $x$.
+    \item RV $X$ is continuous $\Longleftrightarrow$ ${\cal X} $ is an interval (or union of intervals) on the real number line $\Longleftrightarrow$ $F_X(x)$ is a continuous function of $x$.
+\end{itemize}\vspace{40pt}
+
+{\large \bu{Lecture 8 -- Distribution Functions}} (2.1 and 3.1)\bigskip
+
+Calculating probabilities
+\begin{itemize}
+    \item Definition: The probability mass function (pmf) of a discrete random variable $X$ is given by
+    \item[] $f_X(x) = P(X = x), \quad \text{for all } x$
+    \item Definition: A probability density function (pdf) is a continuous random variable $X$ is a real-valued function that can be used to find probabilities using
+    \item[] $P(a \le X \le b) = \integral{a}{b}{f(x)}{x}$
+    \item[] For $a \in {\cal X}, \hspace{5pt} P(X = a) = \integral{a}{a}{f(x)}{x} = 0$ \hspace{5pt} $\Longrightarrow$ \hspace{5pt} For $(a, b) \in {\cal X}, \hspace{10pt} P(a < X < b) =  P(a \le X \le b)$
+\end{itemize}\bigskip
+
+Valid pmfs and pdfs
+\begin{itemize}
+    \item Theorem: A function $f_X(x)$ is a pdf (or pmf) of a random variable $X$ if and only if
+    \begin{enumerate}[(a)]
+        \item  $f_X(x) \ge $ 0 for all $x$.
+        \item $\displaystyle \sum_x f_X(x) = 1$ (pmf) \hspace{20pt} or \hspace{20pt} $\integral{-\infty}{\infty} {f_X(x)}{x} = 1$ (pdf). 
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Cumulative distribution function (cdf)
+\begin{itemize}
+    \item Definition: $F_X(x) = P_X(X \le x),\quad -\infty < x < \infty$
+    \item Properties of cdfs:
+    \begin{enumerate}
+        \item The cdf is defined for $-\infty < x < \infty$ always.
+        \item The range of every cdf is $0 \le F(x) \le 1$ $\Longleftrightarrow$ Limits: $\displaystyle \lim_{x \to -\infty} F(x) = 0$ \hspace{10pt} and \hspace{10pt} $\displaystyle \lim_{x \to \infty} F(x) = 1$
+        \item $F_X(x)$ is a non-decreasing function.
+        \item If $X$ is discrete $\rightarrow$ $F(x)$ is a right continuous step function.
+        \item[] If $X$ is continuous $\rightarrow$ $F(x)$ is a continuous function.
+    \end{enumerate}
+    \item Relationship between continuous cdf and pdf
+    \item[] $F'(x) = f(x)$, or equivalently $\ddx{x} F_X(x) = f_X(x)$
+    \item Alternate definition of pdf:
+    \item[] The pdf of a continuous random variable $X$ as the function that satisfies $F_X(x) = \integral{-\infty}{x}{f(t)}{t} \quad \text{for all } x$.
+\end{itemize}\vspace{50pt}
+
+Finding probabilities using the cdf
+\begin{itemize}
+    \item Cdf always gives a left probability.
+    \item If $X$ is discrete, $\displaystyle F(a) = P(X \le a) = \sum_{x \le a} f(x)$
+    \item[] ``Complement of cdf'': $1 - F(x) = 1 -  P(X \le x) = P(X > x)$
+    \item[] Interval probabilities: $P(a < X \le b) = P(X \le b) - P(X \le a) = F(b) - F(a)$
+    \item If $X$ is continuous: $F_X(x) = \integral{-\infty}{x}{f(t)}{t}$
+    \item[] For a specific value of $x = a$, we find probability with: $F(a) = \integral{-\infty}{a}{f(x)}{x}$
+    \item[] Complement of cdf: $1 - F(a) = 1 - P(X \le a) = 1 - F(a)$
+    \item[] Interval probabilities: $P(a \le X \le b) = P(X \le b) - P(X \le a) = F(b) - F(a)$
+\end{itemize}\vspace{50pt}
+
+%\hl{WHAT?!?!}
+%Survival function
+%\begin{itemize}
+%    \item $S(t) = P(T > t) = 1 - F(t)$.
+%\end{itemize}\bigskip
+%
+%Uniqueness
+%\begin{itemize}
+%    \item Pmfs, pdfs, cdfs and survival functions are unique.
+%\end{itemize}\vspace{100pt}
+
+{\large \bu{Lecture 9 -- Summary Measures}} (2.2, 2.3 and 3.1)\bigskip
+
+Expected value
+\begin{itemize}
+    \item Definition:
+    \item[] If $X$ is discrete $\rightarrow$ $\mu = E(X) = \displaystyle \sum x \, f(x)$
+    \item[] If $X$ is continuous $\rightarrow$ $\mu = E(X) = \integral{-\infty}{\infty}{x \, f(x)}{x}$
+\end{itemize}\bigskip
+
+Expected value of a function of a random variable
+\begin{itemize}
+    \item If $Y = aX + b \rightarrow E(Y) = E(aX + b) = a E(X) + b$
+    \item If $X$ is discrete:
+    \item[] (Used in the derivation of the above identity) If $Y = aX + b \rightarrow f_Y(y) = f_Y(ax + b) = f_X(x)$ 
+    \item[] In general, if $Y = g(X) \rightarrow \displaystyle E(Y) = \sum_y y \, f(y) = E[g(X)] = \sum_x g(x) \, f(x)$
+    \item If $X$ is continuous $\rightarrow$ $E(Y) = \integral{-\infty}{\infty}{y \, f(y)}{y} = E[g(X)] = \integral{-\infty}{\infty}{g(x) \, f(x)}{x}$
+    \item Linear / Distributive property of expectation:
+    \item[] $\displaystyle E\bigg[\sum_{i = 1}^k c_i g_i(X)\bigg] = \sum_{i = 1}^k c_i E[g_i(X)]$
+\end{itemize}\bigskip
+
+Variance and standard deviation
+\begin{itemize}
+    \item Variance definitions:
+    \[
+    V(X) =
+    \left\{
+    \begin{array}{llllll}
+        & \text{\ul{In general}} & & & \text{\ul{Discrete}} & \text{\ul{Continuous}} \\
+        0) & \sigma^2 & & & & \\
+        1) & E[(X  - \mu)^2] & \rightarrow & & \displaystyle \sum (x - \mu)^2 \, f(x) & \integral{-\infty}{\infty}{(x - \mu)^2 \, f(x)}{x} \\
+        2) & E(X^2) - \mu^2 & \rightarrow &  & \displaystyle \sum x^2 \, f(x) - \big[\sum x \, f(x)\big]^2 & \integral{-\infty}{\infty}{x^2 \, f(x)}{x} - \Bigg[\integral{-\infty}{\infty}{x \, f(x)}{x}\Bigg]^2 \\
+    \end{array}
+    \right.
+    \]
+    \item Using variance definition 2) $\Rightarrow E(X^2) = V(X) + [E(X)]^2$
+    \item Standard deviation definition: $\sigma = SD(X) = \sqrt{V(X)}$
+\end{itemize}\bigskip
+
+Variance and standard deviation of $Y = aX + b$
+\begin{itemize}
+    \item If $Y = aX + b \rightarrow \sigma^2_Y = V(Y) = V(aX + b) = a^2 V(X) = a^2 \sigma^2_X$
+    \item[] $\Rightarrow \sigma_Y = SD(Y) = SD(aX + b) = \lvert a \rvert \, SD(X) = \lvert a \rvert \, \sigma_X$
+\end{itemize}\bigskip
+
+Mode
+\begin{itemize}
+    \item Definition: Mode is the $x$ value which maximizes the distribution function $f(x)$.
+\end{itemize}\bigskip
+
+Median and Percentiles
+\begin{itemize}
+    \item Median $m$ of a continuous random variable $X$ is the solution to: $F(m) = P(X \le m) = 0.5$.
+    \item Percentile: For $0 \le p \le 1$, the $100 p^{th}$ percentile of $X$ is the number $x_p$ defined by $F(x_p) = p$.
+    \item $IQR = Q_3 - Q_1$.
+\end{itemize}
+
+\vspace{60pt}
+
+
+{\large \bu{Lecture 10 -- Discrete Distributions}} (2.1, 2.3, 2.4, 2.5, 2.6, 2.7)\bigskip
+
+See distribution table\bigskip
+
+Summary of four Bernoulli-based experiments
+\begin{itemize}
+    \item Distributions: Binomial, Geometric, Negative Binomial, and Hypergeometric
+    \item Throughout all of these, there were three important aspects:
+    \item[] (1) Number of successes \hfill (2)  Number of trials \hfill (3) Probability of success
+    \item Organization of the four distributions based on what we are interested in (the random variable) and what we are given (as parameters).
+    \begin{itemize}
+        \item Distributions counting the number of successes: Binomial and Hypergeometric
+        \begin{itemize}
+            \item Interested in: (1)
+            \item (2) and (3) are given as parameters.
+            \item Only difference is with vs without replacement
+        \end{itemize}
+        \item Distributions counting the number of trials: Geometric and Negative Binomial
+        \begin{itemize}
+            \item Interested in: (2)
+            \item (1) and (3) are given as parameters.
+            \item Only difference is the number of successes
+        \end{itemize}
+    \end{itemize}
+\end{itemize}\bigskip
+
+Poisson distribution
+\begin{itemize}
+    \item The random variable $X$ counts the number of events in a given unit.
+\end{itemize}
+
+\vspace{50pt}
+
+{\large \bu{Lecture 11 -- Continuous Distributions}} (3.1, 3.2, 3.3)\bigskip
+
+See distribution table\bigskip
+
+Survival function
+\begin{itemize}
+    \item $S(t) = P(T > t) = 1 - F(t)$.
+\end{itemize}\bigskip
+
+Linear transformation of normal random variables 
+\begin{itemize}
+    \item Theorem: If $X \sim \text{Normal}\,(\mu, \sigma^2)$ and $Y = aX + b$ $\rightarrow Y \sim \text{Normal}\,(a\mu + b, a^2\sigma^2)$.
+    \item Standardizing: If $X \sim \text{Normal}\,(\mu, \sigma^2)$ and $Z = \frac{X -\mu}{\sigma}$ $\rightarrow Z \sim \text{Normal}\,(\mu = 0,\sigma^2 = 1)$.
+    \item Can standardize any random variable.
+\end{itemize}\bigskip
+
+Normal probabilities and percentiles
+\begin{itemize}
+    \item Z-table: Gives $F_Z(z) = P(Z \le z)$.
+    \item $P(x_1 \le X \le x_2) = P\Big(\frac{x_1 - \mu}{\sigma} \le \frac{X - \mu}{\sigma} \le \frac{x_2 - \mu}{\sigma}\Big) = P(z_1 \le Z \le z_2)$,
+    \item[] where $z_1 = \frac{x_1 - \mu}{\sigma}$ and $\displaystyle z_2 = \frac{x_2 - \mu}{\sigma}$.
+    \item $F_Z(z_p) = p \quad \rightarrow \quad z_p = \frac{x_p - \mu}{\sigma} \quad \rightarrow \quad x_p = \sigma z_p + \mu$.
+\end{itemize}\bigskip
+
+Sums of independent, identically distribution random variables
+\begin{itemize}
+    \item Central Limit Theorem (CLT): If $X_i \followsp{iid}{$f(x)$}$ with mean $\mu$ and variance $\sigma^2$ and $\displaystyle S = \sum_{i = 1}^n X_i \\ \rightarrow S$ $\followsp{approx}{Normal}(n\mu, n\sigma^2)$ for large $n$.
+\end{itemize}
+
+\vspace{50pt}
+
+{\large \bu{Lecture 12 -- Moment Generating Functions}} (2.3, 2.4, 2.6, 2.7, 3.1, 3.2, 3.3)\bigskip
+
+Moments
+\begin{itemize}
+    \item Definition: $n^{th} \text{ moment of } X = E(X^n), \quad\quad n = 1, 2, 3\ldots$
+    \item $n^{th} \text{ moment of } X \text{ about } b = E[(X - b)^n], \quad\quad n = 1, 2, 3\ldots$
+    \item Central moments = $E[(X - \mu)^n], \quad\quad n = 1, 2, 3\ldots$
+\end{itemize}\bigskip
+
+Moment generating functions (mgf)
+\begin{itemize}
+    \item Definition:\bigskip\\
+    \begin{tabular}{c c c c c}
+        & \ul{In general} & & \ul{Discrete} & \ul{Continuous}\\
+        $M_X(t) = $ & $E(\e^{tx})$ & $\rightarrow$ & $\displaystyle \sum_x \e^{tx} f(x) $ & $\integral{-\infty}{\infty}{\e^{tx} \, f(x)}{x}$\\
+    \end{tabular}\newpage
+    \item How to find moments from mgf:
+    \item[] $M'_X(0) = E(X), \quad M''_X(0) = E(X^2), \quad \ldots \quad, \quad M_X^{(n)}(0) = E(X^n)$
+    \begin{enumerate}[*]
+        \item If $X$ is discrete $\rightarrow$ $M_X^{(n)}(t) = \sum x^n \e^{tx} \, f(x)$ and $M_X^{(n)}(0) = \sum x^n \, f(x) = E(X^n)$
+    \end{enumerate}
+    \item Mgf of $Y = aX + b$
+    \item[] $M_Y(t) = M_{aX + b}(t) = \e^{tb} M_X(at)$
+    \item Mgfs are unique.
+    \item Another variance definition: Using mgfs: $M''_X(0) - \big[M'_X(0)\big]^2 = M''_X(t)\big\rvert_{t = 0} - \big[M'_X(t)\big\rvert_{t = 0}\big]^2$
+\end{itemize}\bigskip
+
+\vspace{60pt}
+
+{\large \bu{Lecture 13 -- Functions of Random Variables}} (5.1)\bigskip
+
+Expected value of a loss or claim
+\begin{itemize}
+    \item In general, if loss $x$ with deductible $d$ and cap $c$, we have
+    \[
+    g(x) =
+    \left\{
+    \begin{array}{ll}
+        0 & 0 < x \le d\\
+        x - d & d < x \le d + c\\
+        c & x > d + c
+    \end{array}
+    \right.
+    \]
+\end{itemize}\bigskip
+
+Distribution functions of transformations
+\begin{itemize}
+    \item Theorem: Let $X$ have cdf $F_X(x)$ with range ${\cal X}$, $Y = g(X)$ with and range ${\cal Y}$ and inverse $h(y)$.\bigskip
+    \begin{itemize}
+        \item If $g(x)$ is strictly increasing on ${\cal X} \longrightarrow F_Y(y) = F_X(h(y))$ for $y \in {\cal Y}$.
+        \item If $g(x)$ is strictly decreasing on ${\cal X} \longrightarrow F_Y(y) = 1 - F_X(h(y))$ for $y \in {\cal Y}$.\bigskip
+        \item If $g(x)$ is strictly increasing or strictly decreasing on ${\cal X}$, then
+         \[f_Y(y) = f_X(h(y)) \cdot \lvert h'(y) \rvert \quad\quad \text{for } y \in {\cal Y}.\]
+    \end{itemize}
+\end{itemize}
+
+
+\newpage
+
+{\large \bu{Distributions}}\bigskip
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline\hline
+    \multicolumn{2}{l}{\hspace{150pt}\textbf{Discrete Distributions}}\\
+    \hline\hline
+    
+    \multicolumn{2}{l}{\textbf{Discrete uniform}$\,(N_0, N_1)$} \\
+    Pmf & $P(X = x \mid N_0, N_1) = \frac{1}{N_1 - N_0 + 1}; \quad\quad x = N_0, \ldots, N_1; \quad\quad N_0 \le N_1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{N_0 + N_1}{2}$, \quad\quad $V(X) = \frac{(N_1 - N_0 + 1)^2 -1}{12}$\\
+    Mgf & $M_X(t) = \frac{1}{N_1 - N_0 + 1} \sum_{x = N_0}^{N_1} \e^{tx}$\\
+    Notes & \\
+        
+    \hline
+    \multicolumn{2}{l}{\textbf{Bernoulli}$\,(p)$} \\
+    Pmf & $P(X = x \mid p) = p^x (1 - p)^{1 - x}; \quad\quad\mbox{$x = 0, 1$; \quad\quad 0 < p < 1}$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = p$, \quad\quad $V(X) = p(1 - p) = pq$ \\
+    Mgf & $M_X(t) = (1 - p) + p\e^t = q + p\e^t$\\
+    Notes & Special case of binomial with $n = 1$.\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Binomial}$\,(n, p)$} \\
+    Pmf & $P(X = x \mid n, p) = {n \choose x}\, p^x\, (1 - p)^{n - x}; \quad\quad x = 0, 1, \ldots, n; \quad\quad  0 < p < 1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = np$, \quad\quad $V(X) =  np(1 - p) = npq$ \\
+    Mgf & $M_X(t) = (q + p\e^t)^n$\\
+    Notes & Sum of \textit{iid} bernoulli RVs. \\
+    \hline
+    
+    \multicolumn{2}{l}{\textbf{Geometric}$\,(p)$} \\
+    Pmf & $P(X = x \mid p) = q^{x - 1} \, p; \quad\quad x = 1, 2, \ldots; \quad\quad 0 < p < 1$ \\
+    Cdf & $F_X(x \mid p) = 1 - q^x$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{1}{p}$, \quad\quad $V(X) = \frac{1 - p}{p^2} = \frac{q}{p^2}$ \\
+    Mgf & $M_X(t) = \frac{p\e^t}{1 - q\e^t}; \quad\quad t < -\ln(q)$\\
+    Notes & \Centerstack[l]{Special case of negative binomial with $r = 1$. \\ * See other geometric probabilities. \\ Alternate form $Y = X - 1$. \\ This distribution is \textit{memoryless}: $P(X > s \mid X > t) = P(X > s - t); \quad\quad s > t$.} \\
+    \hline
+\end{tabular}
+}\bigskip
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline
+    \multicolumn{2}{l}{\textbf{Negative binomial}$\,(r, p)$} \\
+    Pmf & $P(X = x \mid r, p) = P(X = x \mid r, p) = {{x - 1} \choose {r - 1}} \, p^r \, q^{x - r}; \quad\quad x = r, r + 1, \ldots; \quad\quad 0 < p < 1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{r}{p}$, \quad\quad $V(X) = \frac{r(1 - p)}{p^2} = \frac{rq}{p^2}$ \\
+    Mgf & $M_X(t) = \big[\frac{p\e^t}{1 - q\e^t}\big]^r; \quad\quad t < -\ln(q)$\\
+    Notes & Sum of \textit{iid} geometric RVs.\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Hypergeometric}$\,(N, M, K)$} \\
+    Pmf & $P(X = x \mid r, p) = P(X = x \mid N, M, K) = \frac{{M \choose x}{{N - M} \choose {K - x}}}{{N \choose K}}; \quad\quad x = 0, 1, \ldots, \text{min}(M, K)$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = K \big(\frac{M}{N}\big)$, \quad\quad $V(X) = K \big(\frac{M}{N}\big) \big(\frac{N - M}{N}\big) \big(\frac{N - K}{N - 1}\big)$ \\
+    Mgf & \\
+    Notes & \Centerstack[l]{If do not require $M \ge K$, ${\cal X} = \{\text{max}(0, K + M - N), \ldots, \text{min}(M, K)\}$, \\ mean and variance converge to that of binomial $(n = K, p = M / K)$ when $N \to \infty$.}\\
+
+    \hline
+    \multicolumn{2}{l}{\textbf{Poisson}$\,(\lambda)$} \\
+    Pmf & $P(X = x \mid \lambda) = \frac{\e^{-\lambda} \lambda^x }{x!}, \quad\quad x = 0, 1, 2, \ldots; \quad\quad \lambda > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \lambda$, \quad\quad $V(X) = \lambda$ \\
+    Mgf & $M_X(t) = \e^{\lambda (\e^t - 1)}$\\
+    Notes & If $X_i \followsp{\ind}{Poisson}(\lambda_i)$, then $\sum X_i  \sim \text{Poisson}(\lambda = \sum \lambda_i)$. \\
+    \hline
+\end{tabular}
+}\vspace{100pt}
+
+Other geometric probabilities
+\begin{itemize}
+    \item Let $X \sim \text{Geometric}(p)$.\bigskip\\
+    {\renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{l l l}
+    $P(X < \infty)$ & $=$ & $1$ \\
+    $P(X > x)$ & $=$ & $q^x$\\
+    $P(X \ge x)$ & $=$ & $q^{x - 1}$\\
+    $P(a < X \le b)$ & $=$ & $q^a - q^b$\\
+    $P(a \le X \le b)$ & $=$ & $q^{a - 1} - q^b$
+    \end{tabular}
+    }
+\end{itemize}\vspace{100pt}
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline\hline
+    \multicolumn{2}{l}{\hspace{150pt}\textbf{Continuous Distributions}}\\
+    \hline\hline
+
+    \multicolumn{2}{l}{\textbf{Continuous uniform}$\,(a, b)$} \\
+    Pdf & $f(x \mid a, b) = \frac{1}{b - a}, \quad\quad a \le x \le b; \quad\quad a, b \in \mathbb{R}, \quad\quad a \le b$ \\
+    Cdf & $F(x) = \frac{x - a}{b - a} \quad\quad a \le x \le b$ \\
+    Survival & $S(t) = \frac{b - t}{b - a} \quad\quad a \le t \le b$ \quad\quad if $T \follow{Uniform}(a, b)$\\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{a + b}{2}$; \quad\quad $V(X) = \frac{(b - a)^2}{12}$\\
+    Mgf & $M_X(t) = \frac{\e^{tb} - \e^{ta}}{t(b - a)} \quad\quad t \ne 0$\\
+    Notes & \\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Exponential}$\,(\lambda)$} \\
+    Pdf & $f(t \mid \lambda) = \lambda \e^{-\lambda t}, \quad\quad t \ge 0; \quad\quad \lambda > 0$ \\
+    Cdf & $F(t) = 1 - \e^{-\lambda t} \quad\quad t \ge 0$ \\
+    Survival & $S(t) = \e^{-\lambda t} \quad\quad t \ge 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{1}{\lambda}$; \quad\quad $V(X) = \frac{1}{\lambda^2}$\\
+    Mgf & $M_X(t) = \frac{\beta}{\beta - t} \quad\quad t < \beta$; \quad\quad if $T \follow{Exp}(\beta)$\\
+    Notes & \Centerstack[l]{Special case of gamma with $\alpha = 1, \beta$. \\ This distribution is \textit{memoryless}: $P(T > a + b \mid T > a) = P(T > b); \quad\quad a,b > 0$. \\ Rate parameterization is given; alternate parameterization is with scale $\theta = 1 / \lambda$.} \\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Gamma}$\,(\alpha, \beta)$} \\
+    Pdf & $f(x \mid \alpha, \beta) = \frac{\beta^\alpha}{\gam{\alpha}} \, x^{\alpha - 1} \, \e^{-\beta x}, \quad\quad x \ge 0; \quad\quad \alpha, \beta > 0$ \\
+    Cdf & N/A \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{\alpha}{\beta}$ \quad\quad $V(X) = \frac{\alpha}{\beta^2}$\\
+    Mgf & $M_X(t) = \big(\frac{\beta}{\beta - t}\big)^\alpha \quad\quad t < \beta$\\
+    Notes & \Centerstack[l]{$\gam{\alpha} = \integral{0}{\infty}{x^{\alpha - 1}\, \e^{-x}}{x}$\\Sum of \textit{iid} exponential RVs. \\ A special case is exponential $(\alpha = 1, \beta)$. \\ Rate parameterization is given; alternate parameterization is with scale $\theta = 1 / \beta$.}\\
+    
+   \hline
+    \multicolumn{2}{l}{\textbf{Normal}$\,(\mu, \sigma^2)$} \\
+    Pdf & $f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \, \exp\big[-\frac{(x - \mu)^2}{2\sigma^2}\big], \quad\quad -\infty < x < \infty; \quad\quad -\infty < \mu < \infty, \quad \sigma > 0$ \\
+    Cdf & N/A \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \mu$, \quad\quad $V(X) = \sigma^2$\\
+    Mgf & $M_X(t) = \exp\big[\mu t + \frac{\sigma^2 t^2}{2}\big]$\\
+    Notes & Special case: Standard normal $Z \follow{Normal}(\mu = 0, \sigma^2 = 1)$.\\
+    \hline
+\end{tabular}
+}\bigskip
+
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline
+    \multicolumn{2}{l}{\textbf{Lognormal}$\,(\mu, \sigma^2)$} \\
+    Pdf & $f(y \mid \mu, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \, \exp\big[-\frac{(\ln(y) - \mu)^2}{2\sigma^2}\big]; \quad\quad  y \ge 0; \quad\quad -\infty < \mu < \infty; \quad\quad \sigma > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(Y) = \e^{\mu + \frac{\sigma^2}{2}}$, \quad\quad $V(Y) = \e^{2\mu + \sigma^2} (\e^{\sigma^2} - 1)$ \\
+    Mgf & \\
+    Notes &  \Centerstack[l]{If $Y \follow{Lognormal} \Longrightarrow \ln(Y) \follow{Normal}(\mu, \sigma^2)$;\\equivalently, if $X \follow{Normal}(\mu, \sigma^2)$ and $Y = \e^X \Longrightarrow Y \follow{Lognormal}$.\\$\mu$ and $\sigma^2$ represent the mean and variance of the normal random variable $X$ which appears in the exponent.}\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Beta}$\,(\alpha, \beta)$} \\
+    Pdf & $f(x \mid \alpha, \beta) = \frac{1}{\Beta{\alpha}{\beta}} \, x^{\alpha-1} (1 - x)^{\beta-1}; \quad\quad  0  \le x \le 1; \quad\quad \alpha, \beta > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{\alpha}{\alpha + \beta}$, \quad\quad $V(X) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}$ \\
+    Mgf & \\
+    Notes & \Centerstack[l]{$\Beta{\alpha}{\beta} = \integral{0}{1}{x^{\alpha-1} (1 - x)^{\beta-1}}{x} = \frac{\gam{\alpha}\gam{\beta}}{\gam{\alpha + \beta}}$}\\
+
+    \hline
+\end{tabular}
+
+
+\end{document}

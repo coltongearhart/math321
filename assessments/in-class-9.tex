@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: In-Class 9}
+
+\end{center}
+
+\bigskip\bigskip
+
+
+Answer all questions. Show your work where necessary.\bigskip
+
+% problem types summary
+% 1) Discrete setup pmf find E(X) and V(X) (by hand and calculator)
+% 2) Discrete expected value of a function of a random variable by hand and SD by calculator
+% 3) Percentiles, mode, expected value and expected value of a function of a RV -> all for continuous piecewise function
+
+
+
+\begin{enumerate}
+    \item A game is played where a fair six-sided die is first rolled. You receive a payout in the following manner:% Lazar problem 2.2-1
+    \begin{itemize}
+        \item If 1, 2 or 3 is rolled the game pays 1 dollar.
+        \item If a 4 or 5 is rolled the game pays 2 dollars.
+        \item If a 6 is rolled the game pays 3 dollars.
+    \end{itemize}
+    \begin{enumerate}
+        \item Find the expected payout of this game by hand.\vspace{80pt}
+        \item Find the variance of the payout of this game by hand and by calculator (confirm the expected value too).\vspace{80pt}
+    \end{enumerate}
+    
+    \item Given pmf table for $X$ below. Let $Y = g(X) = \sqrt{X} + 3$.\bigskip\\% Notes V1 section return to 2.2-2.3 but modified
+    \begin{tabular}{| l || c | c | c | c |}
+        \hline
+        $x$ & 0 & 16 & 25\\
+        \hline
+        $f(x)$ & 0.5 & 0.32 & 0.18\\
+        \hline
+    \end{tabular}\bigskip
+    \begin{enumerate}
+        \item Find $E(Y)$ by hand.\vspace{100pt}
+        \item Find $SD(Y)$ using your calculator.\vspace{80pt}
+    \end{enumerate}
+        
+    \item Let $X$ have the following cdf:
+    \[
+    F(x) =
+        \left\{
+        \begin{array}{ll}
+             \frac{1}{2} x^2 & 0 \le x \le 1\\
+             1 - \frac{1}{2x^2} & 1 < x < \infty\\
+             0 & \text{otherwise}\\
+        \end{array}
+        \right.
+    \]
+    \begin{enumerate}
+        \item Find the difference between the 70\textsuperscript{th} percentile and the 30\textsuperscript{th} percentile.\vspace{170pt}
+        \item Find the mode of this distribution.\vspace{80pt}
+        \item Find $E(X)$.\vspace{160pt}
+        \item Find the expected value of $g(X) = 15X - 3$.\vspace{60pt}
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}

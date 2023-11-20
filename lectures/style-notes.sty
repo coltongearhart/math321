@@ -1,0 +1,26 @@
+% setup
+\usepackage{geometry} 
+\geometry{letterpaper, margin=1.5in,twoside} 	% set margins to 1.5 in (same setup as notes main doc), twoside is for the headers
+\usepackage{fancyhdr}					% customize headers and footers, just the general setup
+\pagestyle{fancy}						% turn on the style
+\fancyhf{}								% clear the header and footer that comes from fancy page
+\renewcommand{\headrulewidth}{0pt} 		% remove the default header rule  = the line (by making it zero width)
+
+% standard / general packages
+\usepackage[T1]{fontenc}					% font encoding
+\usepackage{lmodern}					% font
+\usepackage[parfill]{parskip} 				% start paragraphs with an empty line rather than an indent
+\usepackage{mathtools}					% tools for math typesetting
+\usepackage{amssymb}					% math symbols
+\usepackage{color,soul} 					% highlighter
+
+% additional packages
+\usepackage{graphicx}					% pictures
+\graphicspath{{images/}}					% path for images
+\usepackage{float}						% spacing of floats (i.e. figures)
+\usepackage{booktabs}					% format tables (like line thickness)
+\usepackage{enumerate}					% to specify different counters in lists (e.g.  starting with something different (like 0), roman numerals, a. or a), or more creative like Ex -> Ex 1,Ex 2, ...)
+
+% completed-notes packages
+\usepackage{minitoc}					% create mini table of contents in each section
+\usepackage{pdfpages}					% to insert pdf files

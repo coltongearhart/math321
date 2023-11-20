@@ -1,0 +1,222 @@
+\documentclass{article}
+\usepackage{style-notes}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 320: Probability} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}			% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\comp}[1]{{\sim}#1}		% shortcut for complement of event ~A (tilde without extra space)
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}		% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{n}$
+
+% NOTES on what didn't cover
+% Theory lecture 2 -> sigma algebras, probability as a function (slightly covered later, but still not with borel fields)
+
+\begin{document}
+
+\lecture{3}{Probability}{1}{Probability}{1.1}
+
+\bu{Probability by counting equally likely outcomes}\bigskip
+
+\begin{itemize}
+    \item Now we can update our original definition of probability using the counting concepts.\bigskip
+    \item Definition: Let $A$ be an event from a sample space in which all outcomes are equally likely. The \textbf{probability of $A$}, denoted $P(A)$, is defined by:
+    \begin{align*}
+    \text{Probability of an event} &= \frac{\textit{Number of outcomes in the event}}{\textit{Total number of possible outcomes}}\\\\
+    P(A) &= \\
+    \end{align*}
+    \item Examples: A standard 52 card deck is shuffled and one card is picked at random. Find the probabilities of the following events:
+    \begin{enumerate}[(a)]
+        \item Club and King: \vspace{40pt}
+        \item Club or King: \vspace{40pt}
+        \item Not Club nor King: \vspace{40pt}
+        \item Club or Hearts: \vspace{40pt}
+    \end{enumerate}
+    \item We will formalize these probability ideas soon.
+\end{itemize}\bigskip
+
+\newpage
+
+More counting probability problems\bigskip
+\begin{itemize}
+    \item Now we can use all of the counting tools we've learned and our new probability knowledge to look at more interesting problems.
+    \item \textit{COUNTING STRATEGY}: Solve the numerator and denominator separately.
+    \begin{itemize}
+        \item Numerator: ``IS a condition'' (selecting from restricted sample space).
+        \item Denominator: ``NO condition'' (selecting from unrestricted sample space).
+    \end{itemize}
+    \item Examples:
+    \begin{enumerate}
+        \item A box of jerseys for a pick-up game of basketball contains 8 extra-large jerseys, 7 large jerseys, and 5 medium jerseys. If you are first to the box and grab 3 jerseys, what is the probability that you randomly grab 3 extra-large jerseys.
+\vspace{150pt}
+        \item Suppose we have a shuffled deck and deal seven cards. What is the probability that we draw no queens?\vspace{100pt}
+        \item Suppose we have a shuffled deck and deal three cards. What is the probability that we draw exactly one queen?\vspace{150pt}
+    \end{enumerate}
+    \item Remember in order to use counting tools when finding probabilities, all outcomes need to be equally likely.
+    \item[] This means the just the smallest possible results of the experiment (e.g. drawing a single card), not events (e.g. king or heart).
+\end{itemize}\bigskip
+
+\bu{Generalizing probability}\bigskip
+
+Motivation\bigskip
+\begin{itemize}
+    \item In real data studies, outcomes are rarely equally likely. So we need methods to work with probabilities in these scenarios as well.
+    \item Example: A research study into the percentage of births which involve more than one child leads to the following probability table:\bigskip
+    \begin{center}
+        \begin{tabular}{| l || c | c | c |}
+        \hline
+        Number of children & 1 & 2 & 3\\
+        \hline
+        Probability & 0.9670 & 0.0311 & 0.0019\\
+        \hline
+        \end{tabular}
+    \end{center}\bigskip
+    \item[] Intuitively we can easily find the probability of an event, such as a randomly selected birth involving more than one child, based on this table.\vspace{70pt}
+    \item[] Let's break down what we implicitly did.\bigskip
+    \begin{enumerate}
+        \item Assigned probabilities to each of the \blankul{4.5cm} in the sample space (i.e. the table).
+        \item Wrote the \blankul{1.5cm} of interest in terms of the outcomes of interest.
+        \item \blankul{1cm} probabilities of the mutually exclusive outcomes.
+    \end{enumerate}\bigskip
+    \item This previous example illustrates a natural method for assigning probabilities to events of certain types of experiments.
+\end{itemize}\bigskip
+
+Sample point method for calculated probabilities\bigskip
+\begin{itemize}
+    \item Theorem: Let $S = \{\vecn{O}{n}\}$ be a finite set, where all $O_i$ are individual outcomes each with probability $P(O_i) \ge 0$ and $\sum P(O_i) = 1$. For any $A \in S$,
+    \[P(A) = \sum_{O_i \in A} P(O_i)\]
+    \item Using this theorem, we have steps / techniques to find probability of any event.\newpage
+    \item Example: When players $A$ and $B$ play tennis, the probability that $A$ wins is $2/3$. Suppose that $A$ and $B$ play two matches. What is the probability that $A$ wins at least one match? 
+    \item[] Let $AB$ denote the outcome that player A wins the first game and player B wins the second.
+    \begin{enumerate}
+        \item What are the sample space and individual outcomes?\vspace{30pt}
+        \item Find the probability of each individual outcomes.\vspace{30pt}
+        \item Find the event of interest and express it as a union of individual outcomes.    \vspace{30pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+General definition of probability\bigskip
+\begin{itemize}
+    \item Not all sample spaces are finite or easy to handle. So there are axioms that give general properties that an assignment of probabilities to events must have.
+    \item \textbf{Axioms of Probability}: If you define a way to assign a probability $P(A)$ to any event $A$, the following axioms must be true:\bigskip
+    \begin{enumerate}
+        \item $P(A)$ \hspace{20pt} for any event $A$.
+        \item $P(S) = $ \hspace{10pt}.
+        \item Suppose $\vecn{A}{n}$ is a (possibly infinite) sequence of pairwise mutually exclusive events. Then
+        \[P(A_1 \cup \cdots \cup A_n) = \hspace{100pt}\]
+    \end{enumerate}\bigskip
+    \item Using this new definition, we have two important properites:\bigskip
+    \begin{enumerate}
+        \item \textbf{Any \blankul{1.5cm} can be expressed as a union of mutually exclusive outcomes}.
+        \item \textbf{The probability of an event is the \blankul{1cm} of probabilities of the mutually exclusive outcomes}.
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Theorems and their proofs\bigskip
+\begin{itemize}
+    \item Theorem: For probability assignment $P(\cdot)$ and any event $A$ in the sample space $S$,\\
+    \item[] \hspace{10pt} (a) $P(\emptyset) = $ \hfill (b) $P(A) \le $ \hfill (c) $P(\comp A) = $\hspace{100pt}
+    \newpage
+    \item Proofs (easier to prove out of order):\\  
+    \item[(c)] $P(\comp A) = 1 - P(A)$
+    \item[] \textit{PROOF STRATEGY}: Rewrite events we know and use axioms to simplify their probabilities.\vspace{120pt}
+    \item[(b)] $P(A) \le 1$ \hfill \textit{HINT: Use part (c) of theorem} \vspace{100pt} 
+    \item[] Combined with Axiom 1, this theorem gives us bounds on the probability of any event $A$:\vspace{20pt}
+    \item[(a)] $P(\emptyset) = 0$ \hfill \textit{HINT: Use part (c) of theorem} \vfill 
+    \item Theorem: For probability assignment $P(\cdot)$ and any events $A$ and $B$ in the sample space $S$,\\
+    \begin{enumerate}[(a)]
+        \item $P(A \cap \comp{B}) = $\\
+        \item $P(A \cup B) = $\\
+        \item If $B \subset A$, then $P(B) \hspace{20pt} P(A)$
+    \end{enumerate}
+    \newpage
+    \item Proofs:\\
+    \item[(a)] $P(A \cap \comp B) = P(A) - P(A \cap B)$
+    \item[]  \textit{HINT:  Start with $A$ and use identity $A = (A \cap B) \cup (A \cap \comp{B})$} \vspace{170pt}
+    \item[(b)] $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+    \item[] \textit{HINT: Use identity $(B \cup A) = (B \cup A) \cap (B \cup \comp{B})$} \vspace{220pt}
+    \item[(c)] If $B \subset A$, then $P(B) \le P(A)$
+    \item[] \textit{HINT: Start with Axiom 1 and $P(A \cap \comp{B})$} \vspace{120pt}
+\end{itemize}\bigskip
+
+More examples and concepts / theorems\bigskip
+\begin{enumerate}
+    \item A fair coin is flipped successively until the same face is observed on successive flips. Find the probability that it will take three or more flips of the coin to observe the same face on two consecutive flips.\vspace{150pt}
+    \item Find the probability that in a room of 20 people, there are at least two people sharing the same birthday.\vspace{100pt}
+    \begin{itemize}
+        \item Note on order: When solving these types of problems, the numerator and the denominator must ALWAYS MATCH (be consistent) in terms of order.
+        \item[] So should never have \vspace{20pt}
+    \end{itemize}
+    \item A cryptocurrency exchange sells Bitcoin, Litecoin and Ethereum.
+    \item[] Let $B = $ \{buys Bitcoin\}, $L = $ \{buys Litecoin\} and $E = $ \{buys Ethereum\}.
+    \item[] Based on past sales the exchange determines that for any new customer
+    \begin{align*}
+     & P(B) = 0.50, P(L) = 0.22, P(E) = 0.20, \\
+     & P(B \cap L) = 0.10, P(B \cap E) = 0.15, P(L \cap E) = 0.09, \\
+     & P(B \cap L \cap E) = 0.06
+    \end{align*}
+    \item[] Find the probability that a new customer purchases at least one of these three currencies.\vspace{100pt}
+    \begin{itemize}
+        \item Theorem: For any events $A$, $B$, and $C$,
+        \[P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)\]
+        \item[] The analogous counting rule for the union of three events is: \[n(A \cup B \cup C) = n(A) + n(B) + n(C) - n(A \cap B) - n(A \cap C) - n(B \cap C) + n(A \cap B \cap C)\]
+    \end{itemize}
+\end{enumerate}\bigskip
+
+Quick review\bigskip
+\begin{itemize}
+    \item Everything we are studying begins from \blankul{3cm}.
+    \item[] From these, we obtain \blankul{2cm}, which together make up the \blankul{3cm}.
+    \item We want to know \blankul{3cm} of events (subsets of $S$).
+    \item[] To calculate this, we defined how to assign \blankul{3cm} in general via the \blankul{2cm}.
+    \item Then there are two methods to compute \blankul{3cm}:\bigskip
+    \begin{enumerate}
+        \item \hspace{10pt}\\
+        \item \hspace{10pt}
+    \end{enumerate}
+\end{itemize}\bigskip\bigskip
+
+Odds\bigskip
+\begin{itemize}
+    \item Odds of an event $A$ are generally written as a \blankul{1.5cm} of two integers, such as \blankul{4cm}. The odds against $A$ are given by the \blankul{4cm}.
+    \item[] Formally, odds are another way to represent probability (but the terms are  not interchangeable).\bigskip
+    \item Definition: The \textbf{odds} for an event $A$ are defined as the ratio $P(A)$ to $P(\comp A)$.\\
+    \item[] Odds of $A = $\\
+    \item Converting between odds and probability:
+    \item[] Example: Suppose a soccer team is in a playoff game.
+        \begin{enumerate}[(a)]
+        \item If the probability winning is 0.20, what are the odds of winning?\vspace{40pt}
+        \item If the odds of losing are 7:9, find the probability of winning.\vspace{20pt}
+    \end{enumerate}
+\end{itemize}
+
+\end{document}

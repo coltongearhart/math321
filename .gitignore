@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+
+/.quarto/
+
+*.docx
+test*
+*.maf
+*.mtc0
+*.stc1
+*.stc2
+*.stc3
+*.stc4

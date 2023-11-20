@@ -1,0 +1,102 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: Review Part 3}
+
+\end{center}
+
+% problem types summary
+% 1) 
+% 2) 
+% 3) 
+
+\bigskip\bigskip
+
+\begin{enumerate}
+    \item A player from Spain takes penalty kicks until they score. The probability of scoring from each penalty kick is 0.62. Assume successive attempts are independent. Let $X$ represent the number of attempts for the first score.\bigskip
+    \begin{enumerate}
+        \item Find the distribution of $X$.\vspace{50pt}
+        \item Find the probability the first score is on the $5^{th}$ attempt.\vspace{50pt}
+        \item Find the probability it takes more than 3 attempts for the first score.\vspace{50pt}
+        \item Find the probability it takes less than 5 attempts for the first score.\vspace{50pt}
+        \item Find the probability the first score is on the $4^{th}$ through $7^{th}$ attempt.\vspace{50pt}
+        \item Find $E(X)$ and $SD(X)$.\vspace{50pt}
+        \item Now suppose this player will take penalty kicks until they score three times. Let $Y$ represent the number of attempts to score three times. Find the distribution of $Y$.\vspace{50pt}
+        \item Find the probability it takes more than 6 attempts to score three times.\vspace{50pt}
+        \item Find the probability it takes less than or equal to 4 attempts to score three times.\vspace{50pt}
+    \end{enumerate}\bigskip
+        
+    \item There are 11 players on the field for a team. Let $X$ be the number of players that are wearing Nike boots. Suppose there is a 0.55 probability that each player is wearing Nike boots and that each player's choice is independent of their teammates.\bigskip
+        \begin{enumerate}
+        \item Find the distribution of $X$.\vspace{50pt}
+        \item Find the probability more than 6 players are wearing Nike's.\vspace{50pt}
+        \item Find the probability less or equal to 4 players are not wearing Nike's.\vspace{50pt}
+        \item Find the mgf of $X$.\vspace{50pt}
+        \item Suppose you made an obscure bet where you win \$30 if exactly one player is wearing Nike's and lose \$5 if not. Find the expected value of this bet.\vspace{100pt}
+    \end{enumerate}\bigskip
+    
+    \newpage
+    
+    \item Suppose 150 fans are waiting outside the stadium in Qatar, 20 of which support Portugal and the rest support Morocco. 25 fans are to be randomly selected for a special seating arrangement in the front row. Let $X$ represent the number of Portuguese fans selected.\bigskip
+    \begin{enumerate}
+        \item Find the distribution of $X$.\vspace{60pt}
+        \item Find the probability there is exactly one Portuguese fan selected.\vspace{60pt}
+        \item Find the probability there is at least two Portuguese fans selected. \vspace{60pt}
+        \item Find the probability that the majority of fans selected support Morocco.\vspace{60pt}
+    \end{enumerate}\bigskip
+    
+    \item Suppose goals in soccer matches occur following a Poisson process and the average number of goals per 90 min is 3.5. Let $X$ be the number of goals in a 90 min interval.\bigskip
+    \begin{enumerate}
+        \item Find the probability a game (which is 90 min long) has exactly 3 goals.\vspace{60pt}
+        \item Find the probability a game has more than 2 goals.\vspace{60pt}
+        \item Suppose 3 games are played on a particular day. Find the probability less than 8 goals are scored in the three games.\vspace{80pt}
+    \end{enumerate}\bigskip
+
+     \item Games at the previous world cup in Russia averaged approximately 2.6 goals per 90 min (which is $2.6 / 90 \approx 0.03$ goals per min). Lets assume goals occur following a Poisson process with the given rate. Let $T$ be the waiting time (in minutes) from the start of the match until the first goal.
+     \item[] \textit{Contextually, there is an upper limit for time of a game, but for problem solving assume $t \rightarrow \infty$.}\bigskip
+     \begin{enumerate}
+         \item Find the distribution of $T$.\vspace{30pt}
+         \item Find the probability the first goal occurs before the $20^{th}$ minute.\vspace{50pt}
+         \item Find the probability the first goal occurs after the $80^{th}$ minute.\vspace{50pt}
+         \item Find the probability the first goal occurs between the $40^{th}$ and $50^{th}$ minute.\vspace{50pt}    
+         \item Suppose $W$ is the waiting time from the start of the match until the $3^{rd}$ goal of a match. Find the distribution of $W$. Assume goals occur independently.\vspace{50pt}
+         \item Find $E(W)$, $V(W)$ and $M_W(t)$.\vspace{50pt}
+         \item The stress levels of fans can be modeled as a function of the waiting time until the first goal. Let the stress levels $A = 0.25T^2$.
+         \item[] Find the cdf of $A$, $F_A(a)$.\vspace{150pt}
+         \item Find the pdf of $A$, $f_A(a)$.\vspace{150pt}
+     \end{enumerate}\bigskip
+     
+     \item The density function for the time $T$ in minutes from the start of the match until Messi scores a goal can be given by:
+    \[f_T(t) = \frac{1}{90}, \quad\quad 0 < t < 90\]
+    \begin{enumerate}
+        \item Find the probability Messi scores a goal in the first 15 min of a particular game.\vspace{50pt}
+        \item Find the probability Messi scores a goal in the last 28 min of a particular game.\vspace{50pt}
+        \item If the score at halftime (after 45 min) of a particular game is 0-0, find the probability Messi scores in the first 20 min of the second half.\vspace{50pt}
+    \end{enumerate}\bigskip
+    
+     \item Recall the problem where we modeled the number of players out of 11 that were wearing Nike boots. Now suppose we are considering both teams and all players on the bench, for a total of 52. Let the number of players wearing Nike boots $S \follow{Binomial}(n = 52, p = 0.55)$.\bigskip
+     \begin{enumerate}
+         \item Write $S$ as a sum of \textit{iid} random variables $Y_i$.\vspace{40pt}
+         \item Find the approximate distribution of $S$.\vspace{50pt}
+         \item Find the approximate probability less than 30 players are wearing Nike boots.\vspace{100pt}
+         \item Find the approximate probability more than 40 players are wearing Nike boots.\vspace{100pt}
+         \item Find the approximate probability between 25 and 35 players are wearing Nike boots.\vspace{100pt}
+         \item Find the IQR of $S$.\vspace{100pt}
+     \end{enumerate}
+     
+     \item If $M_X(t) = 0.4\e^{-3t} + 0.25\e^{t} + 0.35\e^{2t}$. Find $E(X)$.\vspace{30pt}
+
+\end{enumerate}
+
+
+
+\end{document}

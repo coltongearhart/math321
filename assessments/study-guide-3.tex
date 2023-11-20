@@ -1,0 +1,267 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\dx}[1]{\,\mathrm{d} #1}		% shortcut for dx after integral (variable x)
+\newcommand{\ddx}[1]{\frac{\mathrm{d}}{\mathrm{d} #1}\,}		% shortcut for derivative d/dx (variable x)
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special' )shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\integral}[4]{\int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\gam}[1]{\Gamma(#1)}		% shortcut for gamma function (variable)
+\newcommand{\Beta}[2]{B(#1, #2)}		% shortcut for beta function B(variable1, variable 2)
+
+
+\begin{document}
+
+\begin{center}
+{\Huge MATH 320: Test 3 Study Guide}
+
+\end{center}
+
+\bigskip\bigskip
+
+{\large \bu{Lecture 10 -- Discrete Distributions}} (2.1, 2.3, 2.4, 2.5, 2.6, 2.7)\bigskip
+
+See distribution table\bigskip
+
+Summary of four Bernoulli-based experiments
+\begin{itemize}
+    \item Distributions: Binomial, Geometric, Negative Binomial, and Hypergeometric
+    \item Throughout all of these, there were three important aspects:
+    \item[] (1) Number of successes \hfill (2)  Number of trials \hfill (3) Probability of success
+    \item Organization of the four distributions based on what we are interested in (the random variable) and what we are given (as parameters).
+    \begin{itemize}
+        \item Distributions counting the number of successes: Binomial and Hypergeometric
+        \begin{itemize}
+            \item Interested in: (1)
+            \item (2) and (3) are given as parameters.
+            \item Only difference is with vs without replacement
+        \end{itemize}
+        \item Distributions counting the number of trials: Geometric and Negative Binomial
+        \begin{itemize}
+            \item Interested in: (2)
+            \item (1) and (3) are given as parameters.
+            \item Only difference is the number of successes
+        \end{itemize}
+    \end{itemize}
+\end{itemize}\bigskip
+
+Poisson distribution
+\begin{itemize}
+    \item The random variable $X$ counts the number of events in a given unit.
+\end{itemize}
+
+\vspace{50pt}
+
+{\large \bu{Lecture 11 -- Continuous Distributions}} (3.1, 3.2, 3.3)\bigskip
+
+See distribution table\bigskip
+
+Survival function
+\begin{itemize}
+    \item $S(t) = P(T > t) = 1 - F(t)$.
+\end{itemize}\bigskip
+
+\newpage
+
+Linear transformation of normal random variables 
+\begin{itemize}
+    \item Theorem: If $X \sim \text{Normal}\,(\mu, \sigma^2)$ and $Y = aX + b$ $\rightarrow Y \sim \text{Normal}\,(a\mu + b, a^2\sigma^2)$.
+    \item Standardizing: If $X \sim \text{Normal}\,(\mu, \sigma^2)$ and $Z = \frac{X -\mu}{\sigma}$ $\rightarrow Z \sim \text{Normal}\,(\mu = 0,\sigma^2 = 1)$.
+    \item Can standardize any random variable.
+\end{itemize}\bigskip
+
+Normal probabilities and percentiles
+\begin{itemize}
+    \item Z-table: Gives $F_Z(z) = P(Z \le z)$.
+    \item $P(x_1 \le X \le x_2) = P\Big(\frac{x_1 - \mu}{\sigma} \le \frac{X - \mu}{\sigma} \le \frac{x_2 - \mu}{\sigma}\Big) = P(z_1 \le Z \le z_2)$,
+    \item[] where $z_1 = \frac{x_1 - \mu}{\sigma}$ and $\displaystyle z_2 = \frac{x_2 - \mu}{\sigma}$.
+    \item $F_Z(z_p) = p \quad \rightarrow \quad z_p = \frac{x_p - \mu}{\sigma} \quad \rightarrow \quad x_p = \sigma z_p + \mu$.
+\end{itemize}\bigskip
+
+Sums of independent, identically distribution random variables
+\begin{itemize}
+    \item Central Limit Theorem (CLT): If $X_i \followsp{iid}{$f(x)$}$ with mean $\mu$ and variance $\sigma^2$ and $\displaystyle S = \sum_{i = 1}^n X_i \\ \rightarrow S$ $\followsp{approx}{Normal}(n\mu, n\sigma^2)$ for large $n$.
+\end{itemize}
+
+\vspace{50pt}
+
+{\large \bu{Lecture 12 -- Moment Generating Functions}} (2.3, 2.4, 2.6, 2.7, 3.1, 3.2, 3.3)\bigskip
+
+Moments
+\begin{itemize}
+    \item Definition: $n^{th} \text{ moment of } X = E(X^n), \quad\quad n = 1, 2, 3\ldots$
+    \item $n^{th} \text{ moment of } X \text{ about } b = E[(X - b)^n], \quad\quad n = 1, 2, 3\ldots$
+    \item Central moments = $E[(X - \mu)^n], \quad\quad n = 1, 2, 3\ldots$
+\end{itemize}\bigskip
+
+Moment generating functions (mgf)
+\begin{itemize}
+    \item Definition:\bigskip\\
+    \begin{tabular}{c c c c c}
+        & \ul{In general} & & \ul{Discrete} & \ul{Continuous}\\
+        $M_X(t) = $ & $E(\e^{tx})$ & $\rightarrow$ & $\displaystyle \sum_x \e^{tx} f(x) $ & $\integral{-\infty}{\infty}{\e^{tx} \, f(x)}{x}$\\
+    \end{tabular}\bigskip
+    \item How to find moments from mgf:
+    \item[] $M'_X(0) = E(X), \quad M''_X(0) = E(X^2), \quad \ldots \quad, \quad M_X^{(n)}(0) = E(X^n)$
+    \begin{enumerate}[*]
+        \item If $X$ is discrete $\rightarrow$ $M_X^{(n)}(t) = \sum x^n \e^{tx} \, f(x)$ and $M_X^{(n)}(0) = \sum x^n \, f(x) = E(X^n)$
+    \end{enumerate}
+    \item Mgf of $Y = aX + b$
+    \item[] $M_Y(t) = M_{aX + b}(t) = \e^{tb} M_X(at)$
+    \item Mgfs are unique.
+    \item Another variance definition: Using mgfs: $M''_X(0) - \big[M'_X(0)\big]^2 = M''_X(t)\big\rvert_{t = 0} - \big[M'_X(t)\big\rvert_{t = 0}\big]^2$
+\end{itemize}\bigskip
+
+
+
+
+\newpage
+
+{\large \bu{Distributions}}\bigskip
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline\hline
+    \multicolumn{2}{l}{\hspace{150pt}\textbf{Discrete Distributions}}\\
+    \hline\hline
+    
+    \multicolumn{2}{l}{\textbf{Discrete uniform}$\,(N_0, N_1)$} \\
+    Pmf & $P(X = x \mid N_0, N_1) = \frac{1}{N_1 - N_0 + 1}; \quad\quad x = N_0, \ldots, N_1; \quad\quad N_0 \le N_1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{N_0 + N_1}{2}$, \quad\quad $V(X) = \frac{(N_1 - N_0 + 1)^2 -1}{12}$\\
+    Mgf & $M_X(t) = \frac{1}{N_1 - N_0 + 1} \sum_{x = N_0}^{N_1} \e^{tx}$\\
+    Notes & \\
+        
+    \hline
+    \multicolumn{2}{l}{\textbf{Bernoulli}$\,(p)$} \\
+    Pmf & $P(X = x \mid p) = p^x (1 - p)^{1 - x}; \quad\quad\mbox{$x = 0, 1$; \quad\quad 0 < p < 1}$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = p$, \quad\quad $V(X) = p(1 - p) = pq$ \\
+    Mgf & $M_X(t) = (1 - p) + p\e^t = q + p\e^t$\\
+    Notes & Special case of binomial with $n = 1$.\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Binomial}$\,(n, p)$} \\
+    Pmf & $P(X = x \mid n, p) = {n \choose x}\, p^x\, (1 - p)^{n - x}; \quad\quad x = 0, 1, \ldots, n; \quad\quad  0 < p < 1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = np$, \quad\quad $V(X) =  np(1 - p) = npq$ \\
+    Mgf & $M_X(t) = (q + p\e^t)^n$\\
+    Notes & Sum of \textit{iid} bernoulli RVs. \\
+    \hline
+    
+    \multicolumn{2}{l}{\textbf{Geometric}$\,(p)$} \\
+    Pmf & $P(X = x \mid p) = q^{x - 1} \, p; \quad\quad x = 1, 2, \ldots; \quad\quad 0 < p < 1$ \\
+    Cdf & $F_X(x \mid p) = 1 - q^x$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{1}{p}$, \quad\quad $V(X) = \frac{1 - p}{p^2} = \frac{q}{p^2}$ \\
+    Mgf & $M_X(t) = \frac{p\e^t}{1 - q\e^t}; \quad\quad t < -\ln(q)$\\
+    Notes & \Centerstack[l]{Special case of negative binomial with $r = 1$. \\ * See other geometric probabilities. \\ Alternate form $Y = X - 1$. \\ This distribution is \textit{memoryless}: $P(X > s \mid X > t) = P(X > s - t); \quad\quad s > t$.} \\
+    \hline
+\end{tabular}
+}\bigskip
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline
+    \multicolumn{2}{l}{\textbf{Negative binomial}$\,(r, p)$} \\
+    Pmf & $P(X = x \mid r, p) = P(X = x \mid r, p) = {{x - 1} \choose {r - 1}} \, p^r \, q^{x - r}; \quad\quad x = r, r + 1, \ldots; \quad\quad 0 < p < 1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{r}{p}$, \quad\quad $V(X) = \frac{r(1 - p)}{p^2} = \frac{rq}{p^2}$ \\
+    Mgf & $M_X(t) = \big[\frac{p\e^t}{1 - q\e^t}\big]^r; \quad\quad t < -\ln(q)$\\
+    Notes & Sum of \textit{iid} geometric RVs.\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Hypergeometric}$\,(N, M, K)$} \\
+    Pmf & $P(X = x \mid r, p) = P(X = x \mid N, M, K) = \frac{{M \choose x}{{N - M} \choose {K - x}}}{{N \choose K}}; \quad\quad x = 0, 1, \ldots, \text{min}(M, K)$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = K \big(\frac{M}{N}\big)$, \quad\quad $V(X) = K \big(\frac{M}{N}\big) \big(\frac{N - M}{N}\big) \big(\frac{N - K}{N - 1}\big)$ \\
+    Mgf & \\
+    Notes & \Centerstack[l]{If do not require $M \ge K$, ${\cal X} = \{\text{max}(0, K + M - N), \ldots, \text{min}(M, K)\}$, \\ mean and variance converge to that of binomial $(n = K, p = M / K)$ when $N \to \infty$.}\\
+
+    \hline
+    \multicolumn{2}{l}{\textbf{Poisson}$\,(\lambda)$} \\
+    Pmf & $P(X = x \mid \lambda) = \frac{\e^{-\lambda} \lambda^x }{x!}, \quad\quad x = 0, 1, 2, \ldots; \quad\quad \lambda > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \lambda$, \quad\quad $V(X) = \lambda$ \\
+    Mgf & $M_X(t) = \e^{\lambda (\e^t - 1)}$\\
+    Notes & If $X_i \followsp{\ind}{Poisson}(\lambda_i)$, then $\sum X_i  \sim \text{Poisson}(\lambda = \sum \lambda_i)$. \\
+    \hline
+\end{tabular}
+}\vspace{100pt}
+
+Other geometric probabilities
+\begin{itemize}
+    \item Let $X \sim \text{Geometric}(p)$.\bigskip\\
+    {\renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{l l l}
+    $P(X < \infty)$ & $=$ & $1$ \\
+    $P(X > x)$ & $=$ & $q^x$\\
+    $P(X \ge x)$ & $=$ & $q^{x - 1}$\\
+    $P(a < X \le b)$ & $=$ & $q^a - q^b$\\
+    $P(a \le X \le b)$ & $=$ & $q^{a - 1} - q^b$
+    \end{tabular}
+    }
+\end{itemize}\vspace{100pt}
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline\hline
+    \multicolumn{2}{l}{\hspace{150pt}\textbf{Continuous Distributions}}\\
+    \hline\hline
+
+    \multicolumn{2}{l}{\textbf{Continuous uniform}$\,(a, b)$} \\
+    Pdf & $f(x \mid a, b) = \frac{1}{b - a}, \quad\quad a \le x \le b; \quad\quad a, b \in \mathbb{R}, \quad\quad a \le b$ \\
+    Cdf & $F(x) = \frac{x - a}{b - a} \quad\quad a \le x \le b$ \\
+    Survival & $S(t) = \frac{b - t}{b - a} \quad\quad a \le t \le b$ \quad\quad if $T \follow{Uniform}(a, b)$\\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{a + b}{2}$; \quad\quad $V(X) = \frac{(b - a)^2}{12}$\\
+    Mgf & $M_X(t) = \frac{\e^{tb} - \e^{ta}}{t(b - a)} \quad\quad t \ne 0$\\
+    Notes & \\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Exponential}$\,(\lambda)$} \\
+    Pdf & $f(t \mid \lambda) = \lambda \e^{-\lambda t}, \quad\quad t \ge 0; \quad\quad \lambda > 0$ \\
+    Cdf & $F(t) = 1 - \e^{-\lambda t} \quad\quad t \ge 0$ \\
+    Survival & $S(t) = \e^{-\lambda t} \quad\quad t \ge 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{1}{\lambda}$; \quad\quad $V(X) = \frac{1}{\lambda^2}$\\
+    Mgf & $M_X(t) = \frac{\beta}{\beta - t} \quad\quad t < \beta$; \quad\quad if $T \follow{Exp}(\beta)$\\
+    Notes & \Centerstack[l]{Special case of gamma with $\alpha = 1, \beta$. \\ This distribution is \textit{memoryless}: $P(T > a + b \mid T > a) = P(T > b); \quad\quad a,b > 0$. \\ Rate parameterization is given; alternate parameterization is with scale $\theta = 1 / \lambda$.} \\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Gamma}$\,(\alpha, \beta)$} \\
+    Pdf & $f(x \mid \alpha, \beta) = \frac{\beta^\alpha}{\gam{\alpha}} \, x^{\alpha - 1} \, \e^{-\beta x}, \quad\quad x \ge 0; \quad\quad \alpha, \beta > 0$ \\
+    Cdf & N/A \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{\alpha}{\beta}$ \quad\quad $V(X) = \frac{\alpha}{\beta^2}$\\
+    Mgf & $M_X(t) = \big(\frac{\beta}{\beta - t}\big)^\alpha \quad\quad t < \beta$\\
+    Notes & \Centerstack[l]{$\gam{\alpha} = \integral{0}{\infty}{x^{\alpha - 1}\, \e^{-x}}{x}$\\Sum of \textit{iid} exponential RVs. \\ A special case is exponential $(\alpha = 1, \beta)$. \\ Rate parameterization is given; alternate parameterization is with scale $\theta = 1 / \beta$.}\\
+    
+   \hline
+    \multicolumn{2}{l}{\textbf{Normal}$\,(\mu, \sigma^2)$} \\
+    Pdf & $f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \, \exp\big[-\frac{(x - \mu)^2}{2\sigma^2}\big], \quad\quad -\infty < x < \infty; \quad\quad -\infty < \mu < \infty, \quad \sigma > 0$ \\
+    Cdf & N/A \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \mu$, \quad\quad $V(X) = \sigma^2$\\
+    Mgf & $M_X(t) = \exp\big[\mu t + \frac{\sigma^2 t^2}{2}\big]$\\
+    Notes & Special case: Standard normal $Z \follow{Normal}(\mu = 0, \sigma^2 = 1)$.\\
+    \hline
+\end{tabular}
+}\bigskip
+
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline
+    \multicolumn{2}{l}{\textbf{Lognormal}$\,(\mu, \sigma^2)$} \\
+    Pdf & $f(y \mid \mu, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \, \exp\big[-\frac{(\ln(y) - \mu)^2}{2\sigma^2}\big]; \quad\quad  y \ge 0; \quad\quad -\infty < \mu < \infty; \quad\quad \sigma > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(Y) = \e^{\mu + \frac{\sigma^2}{2}}$, \quad\quad $V(Y) = \e^{2\mu + \sigma^2} (\e^{\sigma^2} - 1)$ \\
+    Mgf & \\
+    Notes &  \Centerstack[l]{If $Y \follow{Lognormal} \Longrightarrow \ln(Y) \follow{Normal}(\mu, \sigma^2)$;\\equivalently, if $X \follow{Normal}(\mu, \sigma^2)$ and $Y = \e^X \Longrightarrow Y \follow{Lognormal}$.\\$\mu$ and $\sigma^2$ represent the mean and variance of the normal random variable $X$ which appears in the exponent.}\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Beta}$\,(\alpha, \beta)$} \\
+    Pdf & $f(x \mid \alpha, \beta) = \frac{1}{\Beta{\alpha}{\beta}} \, x^{\alpha-1} (1 - x)^{\beta-1}; \quad\quad  0  \le x \le 1; \quad\quad \alpha, \beta > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{\alpha}{\alpha + \beta}$, \quad\quad $V(X) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}$ \\
+    Mgf & \\
+    Notes & \Centerstack[l]{$\Beta{\alpha}{\beta} = \integral{0}{1}{x^{\alpha-1} (1 - x)^{\beta-1}}{x} = \frac{\gam{\alpha}\gam{\beta}}{\gam{\alpha + \beta}}$}\\
+
+    \hline
+\end{tabular}
+
+
+\end{document}
