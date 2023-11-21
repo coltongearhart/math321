@@ -14,5 +14,5 @@
 *.stc3
 *.stc4
 
-test*
-!test*.qmd
+test*.tex
+test*.pdf
