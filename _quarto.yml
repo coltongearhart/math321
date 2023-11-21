@@ -1,0 +1,48 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "MATH 320 --<br>Probability"
+  author: "Colton Gearhart"
+  date: "11-20-2023"
+  cover-image: probability.png
+  chapters:
+    - index.qmd
+    - syllabus.qmd
+
+    - part: test-1.qmd
+      chapters:
+        - lecture-0.qmd
+        - lecture-1.qmd
+        - lecture-2.qmd
+        - lecture-3.qmd
+        - lecture-4.qmd
+        - lecture-5.qmd
+        - lecture-6.qmd
+        - review-1.qmd
+
+    - part: test-2.qmd
+      chapters:
+        - lecture-7.qmd
+        - lecture-8.qmd
+        - lecture-9.qmd
+        - review-2.qmd
+      
+    - part: test-3.qmd
+      chapters:
+        - lecture-10.qmd
+        - lecture-11.qmd
+        - lecture-12.qmd 
+        - review-3.qmd
+        
+    - part: test-3-after.qmd
+      chapters: 
+        - lecture-13.qmd
+        - review-final.qmd
+
+format:
+  html:
+    theme: flatly
+
+title-block-banner: true

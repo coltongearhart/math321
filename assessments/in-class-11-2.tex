@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 320: In-Class 11-2}
+
+\end{center}
+\bigskip\bigskip
+
+% problem types summary
+% 1) gamma pdf, mean and variance
+% 2) gamma E(X^2) via E(X) and V(X)
+% 3) normal probs (Z and X)
+% 4) normal prob, binomial prob using normal prob, clt
+% 5) lognormal prob
+% 6) lognormal prob
+% 7) beta E(X), V(X), and prob
+
+\begin{enumerate}
+
+    \item A electronics website receives orders from all over the world at a mean rate of 150 per hour according to the Poisson process. Let $X$ be the waiting time in minutes until the fifth order.%Lazar problem 3.2-5
+    \begin{enumerate}
+        \item Give the pdf of $X$.\vspace{40pt}
+        \item Find the mean and variance of $X$.\vspace{40pt}
+    \end{enumerate}
+
+    \item Let $X \follow{Gamma}(\alpha = 3, \beta = 1/2)$. Find the expected value of $Y = 30X + 6X^2$.\vspace{100pt}%Actex 8-26 (without context and different numbers)
+
+    \item Find the following probabilities:%Originals
+    \begin{enumerate}
+        \item $P(Z < 1.12)$.\vspace{80pt}
+        \item $P(Z > -0.34)$.\vspace{80pt}
+        \item If $X \sim \text{Normal}\,(\mu = 17, \sigma = 3)$, $P(13 \le X < 22)$.\vspace{80pt}
+    \end{enumerate}
+    
+    \newpage
+    
+    \item The lifetimes of light bulbs produced by a company are normally distributed with mean 150 hours and standard deviation 12.5 hours.%Actex 8-33 (changed b slightly to be more binomial, and original c)
+    \begin{enumerate}
+        \item Find the probability that a bulb will last at least 140 hours.\vspace{70pt}
+        \item If 4 new bulbs are installed at the same time, find the probability at least 3 of them will last more than 140 hours.\vspace{50pt}
+        \item If a pack of 32 light bulbs is installed, find the probability the \textit{combined lifetime} will be less than 4720 hours.\vspace{90pt}
+    \end{enumerate}
+    
+    \item If $X \follow{Normal}(\mu = 5.2, \sigma = 0.8)$ and $Y = \e^X \Longrightarrow Y \follow{Lognormal}$, find $P(100 \le Y \le 500)$.\vspace{90pt}%Actex 8-37
+    
+     \item If $X \follow{Normal}(\mu = 0.10, \sigma = 0.03)$ and $Y = 100\e^X \Longrightarrow Y \follow{Lognormal}$, find $P(Y \le 107.50)$.\vspace{70pt}%Actex 8-40
+     
+     \item If $X \follow{Beta}(\alpha = 2, \beta = 3)$.%Actex 8-54 without context
+     \begin{enumerate}
+         \item Find $E(X)$ and $V(X)$.\vspace{50pt}
+         \item Find $P(X < 0.3)$.
+     \end{enumerate}
+
+\end{enumerate}
+
+
+\end{document}

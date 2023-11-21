@@ -1,0 +1,26 @@
+% Syllabus.tex style
+
+% setup for this doc (no subfiles for this, so this is it)
+\usepackage{geometry} 					% page setup
+\geometry{letterpaper, margin=1in} 				% set margins to 1 in
+\usepackage{fancyhdr}					% customize headers and footers
+\pagestyle{fancy}							% turn on the style
+\fancyhf{}									% clear the header and footer
+\renewcommand{\headrulewidth}{0pt} 			% remove the default header rule (by making it zero width)
+\fancyfoot[R]{\thepage}						% set the right side of the footer to be the page number
+\usepackage{hyperref}					% setup internal and external links
+\hypersetup{								% set up hyperlinks (used for websites here)
+    colorlinks=true,								% change color of font for hyperlinked text instead of a colored border
+    urlcolor=cyan								% set color of links to websites
+}
+
+% standard / general packages
+\usepackage[T1]{fontenc}					% font encoding
+\usepackage{lmodern}					% font
+\usepackage[parfill]{parskip} 				% start paragraphs with an empty line rather than an indent
+\usepackage{mathtools}					% tools for math typesetting
+\usepackage{amssymb}					% math symbols
+\usepackage{color,soul} 					% highlighter
+
+
+

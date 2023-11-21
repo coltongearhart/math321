@@ -1,0 +1,25 @@
+# Lecture 11 -- Continuous Distributions {.unnumbered}
+
+## Guided Notes
+
+FILES: BLANK [lecture-11.pdf](https://github.com/coltongearhart/math320/blob/main/lectures/lecture-11.pdf), [lecture-11.tex](https://github.com/coltongearhart/math320/blob/main/lectures/lecture-11.tex), and [style-notes.sty](https://github.com/coltongearhart/math320/blob/main/lectures/style-notes.sty)
+
+<embed src="lectures/lecture-11-COMPLETED.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## In Class Activities
+
+FILES: [in-class-11.tex](https://github.com/coltongearhart/math320/blob/main/assessments/in-class-11.tex), [in-class-11-2.tex](https://github.com/coltongearhart/math320/blob/main/assessments/in-class-11-2.tex). and [style-assessments.sty](https://github.com/coltongearhart/math320/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for keys :)
+
+<embed src="assessments/in-class-11.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+<embed src="assessments/in-class-11-2.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## Homework
+
+FILES: [homework-11.tex](https://github.com/coltongearhart/math320/blob/main/assessments/homework-11.tex) and [style-assessments.sty](https://github.com/coltongearhart/math320/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for solutions :)
+
+<embed src="assessments/homework-11.pdf" type="application/pdf" width="100%" height="1000px"></embed>
