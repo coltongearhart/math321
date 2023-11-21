@@ -20,6 +20,26 @@
     ]
   },
   {
+    "objectID": "index.html#course-pack",
+    "href": "index.html#course-pack",
+    "title": "MATH 320 –Probability",
+    "section": "Course Pack",
+    "text": "Course Pack\nFILES: BLANK notes-all.pdf, notes-all.tex, notes-completed.tex, and style-notes.sty",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "index.html#assessments",
+    "href": "index.html#assessments",
+    "title": "MATH 320 –Probability",
+    "section": "Assessments",
+    "text": "Assessments\nFILES: assessments-all.tex and style-assessments.sty\nInstructors can contact me for keys, solutions, and tests :)",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
     "objectID": "index.html#source",
     "href": "index.html#source",
     "title": "MATH 320 –Probability",
@@ -30,14 +50,23 @@
     ]
   },
   {
-    "objectID": "lecture-0.html#slides",
-    "href": "lecture-0.html#slides",
-    "title": "Borrowing Money",
-    "section": "Slides",
-    "text": "Slides\nFILE: borrowing-money.pptx",
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "Syllabus",
+    "section": "",
+    "text": "FILE: syllabus.tex and style-syllabus.sty",
     "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "test-1.html",
+    "href": "test-1.html",
+    "title": "Test 1",
+    "section": "",
+    "text": "This section contains all of the content and assessments covered on the first test.",
+    "crumbs": [
+      "Test 1"
     ]
   },
   {
@@ -47,118 +76,8 @@
     "section": "Guided Notes",
     "text": "Guided Notes\nFILES: BLANK lecture-0.pdf, lecture-0.tex, and style-notes.sty",
     "crumbs": [
-      "Personal Finance",
+      "Test 1",
       "Lecture 0 -- Course Overview"
-    ]
-  },
-  {
-    "objectID": "lecture-0.html#activities",
-    "href": "lecture-0.html#activities",
-    "title": "Borrowing Money",
-    "section": "Activities",
-    "text": "Activities\nFILE: car-loans.docx\nInstructors can contact me for keys :)",
-    "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
-    ]
-  },
-  {
-    "objectID": "lecture-1.html#slides",
-    "href": "lecture-1.html#slides",
-    "title": "Borrowing Money",
-    "section": "Slides",
-    "text": "Slides\nFILE: borrowing-money.pptx",
-    "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
-    ]
-  },
-  {
-    "objectID": "lecture-1.html#guided-notes",
-    "href": "lecture-1.html#guided-notes",
-    "title": "Lecture 1 – Set Theory",
-    "section": "Guided Notes",
-    "text": "Guided Notes\nFILES: BLANK lecture-1.pdf, lecture-1.tex, and style-notes.sty",
-    "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
-    ]
-  },
-  {
-    "objectID": "lecture-1.html#activities",
-    "href": "lecture-1.html#activities",
-    "title": "Borrowing Money",
-    "section": "Activities",
-    "text": "Activities\nFILE: car-loans.docx\nInstructors can contact me for keys :)",
-    "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
-    ]
-  },
-  {
-    "objectID": "lecture-0.html#notes",
-    "href": "lecture-0.html#notes",
-    "title": "Lecture 0 – Course Overview",
-    "section": "Notes",
-    "text": "Notes\nFILES: lecture-0.pdf, lecture-0.tex, and style-notes.sty",
-    "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
-    ]
-  },
-  {
-    "objectID": "lecture-1.html#in-class-activity",
-    "href": "lecture-1.html#in-class-activity",
-    "title": "Lecture 1 – Set Theory",
-    "section": "In Class Activity",
-    "text": "In Class Activity\nFILES: in-class-1.tex and style-assessments.sty\nInstructors can contact me for keys :)",
-    "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
-    ]
-  },
-  {
-    "objectID": "lecture-1.html#homework",
-    "href": "lecture-1.html#homework",
-    "title": "Lecture 1 – Set Theory",
-    "section": "Homework",
-    "text": "Homework\nFILES: homework-1.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
-    "crumbs": [
-      "Personal Finance",
-      "Borrowing Money"
-    ]
-  },
-  {
-    "objectID": "lecture-2.html#guided-notes",
-    "href": "lecture-2.html#guided-notes",
-    "title": "Lecture 2 – Counting",
-    "section": "Guided Notes",
-    "text": "Guided Notes\nFILES: BLANK lecture-2.pdf, lecture-2.tex, and style-notes.sty",
-    "crumbs": [
-      "Personal Finance",
-      "Lecture 1 -- Counting"
-    ]
-  },
-  {
-    "objectID": "lecture-2.html#in-class-activity",
-    "href": "lecture-2.html#in-class-activity",
-    "title": "Lecture 2 – Counting",
-    "section": "In Class Activity",
-    "text": "In Class Activity\nFILES: in-class-2.tex and style-assessments.sty\nInstructors can contact me for keys :)",
-    "crumbs": [
-      "Personal Finance",
-      "Lecture 1 -- Counting"
-    ]
-  },
-  {
-    "objectID": "lecture-2.html#homework",
-    "href": "lecture-2.html#homework",
-    "title": "Lecture 2 – Counting",
-    "section": "Homework",
-    "text": "Homework\nFILES: homework-1-2.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
-    "crumbs": [
-      "Personal Finance",
-      "Lecture 1 -- Counting"
     ]
   },
   {
@@ -168,8 +87,63 @@
     "section": "Homework",
     "text": "Homework\nFILES: homework-0.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
     "crumbs": [
-      "Personal Finance",
+      "Test 1",
       "Lecture 0 -- Course Overview"
+    ]
+  },
+  {
+    "objectID": "lecture-1.html#guided-notes",
+    "href": "lecture-1.html#guided-notes",
+    "title": "Lecture 1 – Set Theory",
+    "section": "Guided Notes",
+    "text": "Guided Notes\nFILES: BLANK lecture-1.pdf, lecture-1.tex, and style-notes.sty",
+    "crumbs": [
+      "Test 1",
+      "Lecture 1 -- Set Theory"
+    ]
+  },
+  {
+    "objectID": "lecture-1.html#in-class-activity",
+    "href": "lecture-1.html#in-class-activity",
+    "title": "Lecture 1 – Set Theory",
+    "section": "In Class Activity",
+    "text": "In Class Activity\nFILES: in-class-1.tex and style-assessments.sty\nInstructors can contact me for keys :)",
+    "crumbs": [
+      "Test 1",
+      "Lecture 1 -- Set Theory"
+    ]
+  },
+  {
+    "objectID": "lecture-2.html#guided-notes",
+    "href": "lecture-2.html#guided-notes",
+    "title": "Lecture 2 – Counting",
+    "section": "Guided Notes",
+    "text": "Guided Notes\nFILES: BLANK lecture-2.pdf, lecture-2.tex, and style-notes.sty",
+    "crumbs": [
+      "Test 1",
+      "Lecture 2 -- Counting"
+    ]
+  },
+  {
+    "objectID": "lecture-2.html#in-class-activity",
+    "href": "lecture-2.html#in-class-activity",
+    "title": "Lecture 2 – Counting",
+    "section": "In Class Activity",
+    "text": "In Class Activity\nFILES: in-class-2.tex and style-assessments.sty\nInstructors can contact me for keys :)",
+    "crumbs": [
+      "Test 1",
+      "Lecture 2 -- Counting"
+    ]
+  },
+  {
+    "objectID": "lecture-2.html#homework",
+    "href": "lecture-2.html#homework",
+    "title": "Lecture 2 – Counting",
+    "section": "Homework",
+    "text": "Homework\nFILES: homework-1-2.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
+    "crumbs": [
+      "Test 1",
+      "Lecture 2 -- Counting"
     ]
   },
   {
@@ -179,8 +153,8 @@
     "section": "Guided Notes",
     "text": "Guided Notes\nFILES: BLANK lecture-3.pdf, lecture-3.tex, and style-notes.sty",
     "crumbs": [
-      "Personal Finance",
-      "Lecture 2 -- Counting"
+      "Test 1",
+      "Lecture 3 -- Probability"
     ]
   },
   {
@@ -190,8 +164,8 @@
     "section": "In Class Activity",
     "text": "In Class Activity\nFILES: in-class-3.tex and style-assessments.sty\nInstructors can contact me for keys :)",
     "crumbs": [
-      "Personal Finance",
-      "Lecture 2 -- Counting"
+      "Test 1",
+      "Lecture 3 -- Probability"
     ]
   },
   {
@@ -201,8 +175,8 @@
     "section": "Homework",
     "text": "Homework\nFILES: homework-3.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
     "crumbs": [
-      "Personal Finance",
-      "Lecture 2 -- Counting"
+      "Test 1",
+      "Lecture 3 -- Probability"
     ]
   },
   {
@@ -212,8 +186,8 @@
     "section": "Guided Notes",
     "text": "Guided Notes\nFILES: BLANK lecture-4.pdf, lecture-4.tex, and style-notes.sty",
     "crumbs": [
-      "Personal Finance",
-      "Lecture 1 -- Set Theory"
+      "Test 1",
+      "Lecture 4 -- Conditional Probability"
     ]
   },
   {
@@ -223,8 +197,8 @@
     "section": "In Class Activity",
     "text": "In Class Activity\nFILES: in-class-4.tex and style-assessments.sty\nInstructors can contact me for keys :)",
     "crumbs": [
-      "Personal Finance",
-      "Lecture 1 -- Set Theory"
+      "Test 1",
+      "Lecture 4 -- Conditional Probability"
     ]
   },
   {
@@ -234,7 +208,7 @@
     "section": "Guided Notes",
     "text": "Guided Notes\nFILES: BLANK lecture-5.pdf, lecture-5.tex, and style-notes.sty",
     "crumbs": [
-      "Personal Finance",
+      "Test 1",
       "Lecture 5 -- Independent Events"
     ]
   },
@@ -245,7 +219,7 @@
     "section": "In Class Activity",
     "text": "In Class Activity\nFILES: in-class-5.tex and style-assessments.sty\nInstructors can contact me for keys :)",
     "crumbs": [
-      "Personal Finance",
+      "Test 1",
       "Lecture 5 -- Independent Events"
     ]
   },
@@ -256,7 +230,7 @@
     "section": "Homework",
     "text": "Homework\nFILES: homework-4-5.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
     "crumbs": [
-      "Personal Finance",
+      "Test 1",
       "Lecture 5 -- Independent Events"
     ]
   },
@@ -267,7 +241,7 @@
     "section": "Guided Notes",
     "text": "Guided Notes\nFILES: BLANK lecture-6.pdf, lecture-6.tex, and style-notes.sty",
     "crumbs": [
-      "Personal Finance",
+      "Test 1",
       "Lecture 6 -- Bayes' Theorem"
     ]
   },
@@ -278,41 +252,40 @@
     "section": "In Class Activity",
     "text": "In Class Activity\nFILES: in-class-6.tex and style-assessments.sty\nInstructors can contact me for keys :)",
     "crumbs": [
-      "Personal Finance",
+      "Test 1",
       "Lecture 6 -- Bayes' Theorem"
     ]
   },
   {
-    "objectID": "lecture-9.html#guided-notes",
-    "href": "lecture-9.html#guided-notes",
-    "title": "Lecture 9 – Summary Measures",
-    "section": "Guided Notes",
-    "text": "Guided Notes\nFILES: BLANK lecture-9.pdf, lecture-9.tex, and style-notes.sty",
+    "objectID": "review-1.html#study-guide",
+    "href": "review-1.html#study-guide",
+    "title": "Review – Test 1",
+    "section": "Study Guide",
+    "text": "Study Guide\nFILES: study-guide-1.tex and style-assessments.sty",
     "crumbs": [
-      "Test 2",
-      "Lecture 9 -- Summary Measures"
+      "Test 1",
+      "Review -- Test 1"
     ]
   },
   {
-    "objectID": "lecture-9.html#in-class-activity",
-    "href": "lecture-9.html#in-class-activity",
-    "title": "Lecture 9 – Summary Measures",
-    "section": "In Class Activity",
-    "text": "In Class Activity\nFILES: in-class-9.tex and style-assessments.sty\nInstructors can contact me for keys :)",
+    "objectID": "review-1.html#review-problems",
+    "href": "review-1.html#review-problems",
+    "title": "Review – Test 1",
+    "section": "Review Problems",
+    "text": "Review Problems",
     "crumbs": [
-      "Test 2",
-      "Lecture 9 -- Summary Measures"
+      "Test 1",
+      "Review -- Test 1"
     ]
   },
   {
-    "objectID": "lecture-9.html#homework",
-    "href": "lecture-9.html#homework",
-    "title": "Lecture 9 – Summary Measures",
-    "section": "Homework",
-    "text": "Homework\nFILES: homework-9.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
+    "objectID": "test-2.html",
+    "href": "test-2.html",
+    "title": "Test 2",
+    "section": "",
+    "text": "This section contains all of the content and assessments covered on the second test.",
     "crumbs": [
-      "Test 2",
-      "Lecture 9 -- Summary Measures"
+      "Test 2"
     ]
   },
   {
@@ -360,25 +333,68 @@
     ]
   },
   {
-    "objectID": "review-1.html#study-guide",
-    "href": "review-1.html#study-guide",
-    "title": "Review – Test 1",
-    "section": "Study Guide",
-    "text": "Study Guide\nFILES: study-guide-1.tex and style-assessments.sty",
+    "objectID": "lecture-9.html#guided-notes",
+    "href": "lecture-9.html#guided-notes",
+    "title": "Lecture 9 – Summary Measures",
+    "section": "Guided Notes",
+    "text": "Guided Notes\nFILES: BLANK lecture-9.pdf, lecture-9.tex, and style-notes.sty",
     "crumbs": [
-      "Test 1",
-      "Review -- Test 1"
+      "Test 2",
+      "Lecture 9 -- Summary Measures"
     ]
   },
   {
-    "objectID": "review-1.html#review-problems",
-    "href": "review-1.html#review-problems",
-    "title": "Review – Test 1",
+    "objectID": "lecture-9.html#in-class-activity",
+    "href": "lecture-9.html#in-class-activity",
+    "title": "Lecture 9 – Summary Measures",
+    "section": "In Class Activity",
+    "text": "In Class Activity\nFILES: in-class-9.tex and style-assessments.sty\nInstructors can contact me for keys :)",
+    "crumbs": [
+      "Test 2",
+      "Lecture 9 -- Summary Measures"
+    ]
+  },
+  {
+    "objectID": "lecture-9.html#homework",
+    "href": "lecture-9.html#homework",
+    "title": "Lecture 9 – Summary Measures",
+    "section": "Homework",
+    "text": "Homework\nFILES: homework-9.tex and style-assessments.sty\nInstructors can contact me for solutions :)",
+    "crumbs": [
+      "Test 2",
+      "Lecture 9 -- Summary Measures"
+    ]
+  },
+  {
+    "objectID": "review-2.html#study-guide",
+    "href": "review-2.html#study-guide",
+    "title": "Review – Test 2",
+    "section": "Study Guide",
+    "text": "Study Guide\nFILES: study-guide-2.tex and style-assessments.sty",
+    "crumbs": [
+      "Test 2",
+      "Review -- Test 2"
+    ]
+  },
+  {
+    "objectID": "review-2.html#review-problems",
+    "href": "review-2.html#review-problems",
+    "title": "Review – Test 2",
     "section": "Review Problems",
     "text": "Review Problems",
     "crumbs": [
-      "Test 1",
-      "Review -- Test 1"
+      "Test 2",
+      "Review -- Test 2"
+    ]
+  },
+  {
+    "objectID": "test-3.html",
+    "href": "test-3.html",
+    "title": "Test 3",
+    "section": "",
+    "text": "This section contains all of the content and assessments covered on the third test.",
+    "crumbs": [
+      "Test 3"
     ]
   },
   {
@@ -470,6 +486,38 @@
     ]
   },
   {
+    "objectID": "review-3.html#study-guide",
+    "href": "review-3.html#study-guide",
+    "title": "Review – Test 3",
+    "section": "Study Guide",
+    "text": "Study Guide\nFILES: study-guide-3.tex and style-assessments.sty",
+    "crumbs": [
+      "Test 3",
+      "Review -- Test 3"
+    ]
+  },
+  {
+    "objectID": "review-3.html#review-problems",
+    "href": "review-3.html#review-problems",
+    "title": "Review – Test 3",
+    "section": "Review Problems",
+    "text": "Review Problems",
+    "crumbs": [
+      "Test 3",
+      "Review -- Test 3"
+    ]
+  },
+  {
+    "objectID": "test-3-after.html",
+    "href": "test-3-after.html",
+    "title": "After Test 3",
+    "section": "",
+    "text": "This section contains all of the content and assessments included in the final post test 3.",
+    "crumbs": [
+      "After Test 3"
+    ]
+  },
+  {
     "objectID": "lecture-13.html#guided-notes",
     "href": "lecture-13.html#guided-notes",
     "title": "Lecture 13 – Functions of Random Variables",
@@ -522,90 +570,6 @@
     "crumbs": [
       "After Test 3",
       "Review -- Final"
-    ]
-  },
-  {
-    "objectID": "review-2.html#study-guide",
-    "href": "review-2.html#study-guide",
-    "title": "Review – Test 2",
-    "section": "Study Guide",
-    "text": "Study Guide\nFILES: study-guide-2.tex and style-assessments.sty",
-    "crumbs": [
-      "Test 2",
-      "Review -- Test 2"
-    ]
-  },
-  {
-    "objectID": "review-2.html#review-problems",
-    "href": "review-2.html#review-problems",
-    "title": "Review – Test 2",
-    "section": "Review Problems",
-    "text": "Review Problems",
-    "crumbs": [
-      "Test 2",
-      "Review -- Test 2"
-    ]
-  },
-  {
-    "objectID": "review-3.html#study-guide",
-    "href": "review-3.html#study-guide",
-    "title": "Review – Test 3",
-    "section": "Study Guide",
-    "text": "Study Guide\nFILES: study-guide-3.tex and style-assessments.sty",
-    "crumbs": [
-      "Test 3",
-      "Review -- Test 3"
-    ]
-  },
-  {
-    "objectID": "review-3.html#review-problems",
-    "href": "review-3.html#review-problems",
-    "title": "Review – Test 3",
-    "section": "Review Problems",
-    "text": "Review Problems",
-    "crumbs": [
-      "Test 3",
-      "Review -- Test 3"
-    ]
-  },
-  {
-    "objectID": "index.html#course-pack",
-    "href": "index.html#course-pack",
-    "title": "MATH 320 –Probability",
-    "section": "Course Pack",
-    "text": "Course Pack\nFILES: BLANK notes-all.pdf, notes-all.tex, notes-completed.tex, and style-notes.sty",
-    "crumbs": [
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "syllabus.html",
-    "href": "syllabus.html",
-    "title": "Syllabus",
-    "section": "",
-    "text": "FILE: syllabus.tex and style-syllabus.sty",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
-    "objectID": "index.html#tests",
-    "href": "index.html#tests",
-    "title": "MATH 320 –Probability",
-    "section": "Tests",
-    "text": "Tests\nInstructors can contact me for tests :)",
-    "crumbs": [
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "index.html#assessments",
-    "href": "index.html#assessments",
-    "title": "MATH 320 –Probability",
-    "section": "Assessments",
-    "text": "Assessments\nFILES: assessments-all.tex and style-assessments.sty\nInstructors can contact me for keys, solutions, and tests :)",
-    "crumbs": [
-      "Overview"
     ]
   }
 ]
