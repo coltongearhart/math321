@@ -19,10 +19,11 @@
 {\large \textbf{Due \blankul{4cm}}: Turn in a hard copy, neat and stapled.}\bigskip
 
 % problem types summary
-% 1) Expected value with deductible and cap
-% 2) Cdf and pdf of transformation (increasing function)
-% 3) Cdf and pdf of transformation (decreasing function)
-% 4) Cdf and pdf of a mixed distribution (exponential)
+% 1) Expected value with a) deductible and b) cap
+% 2) Working backwards expected value of deductible
+% 3) Expected value of a function of a random variable (works like a cap)
+% 3) Cdf pdf and probability of transformation (decreasing function)
+% 4) Cdf and probability of a transformation (increasing function)
 
 \begin{enumerate}
     \item Assume the amount of a single loss for an insurance policy has the density function $f(x) = 0.05 \e^{-0.05x}$, for $x > 0$.%Actex 9-1 and 9-2 (with different numbers)
@@ -35,7 +36,7 @@
     \item[] At what level must a deductible be set in order for the expected payment to be 25\% of what it would be with no deductible?\bigskip% Actex 9-28
     
     \item A device that continuously measures and records seismic activity is placed in a remote region. The time, $T$, to failure of this device is uniformly distributed on the interval $[0,80]$ years.
-    \item[] Since the device will not be monitored during its first 10 years of service, the time to discovery of its failure is $X = \text{max}(T, 10)$ (i.e. whichever $X$ takes the value of whichever is greater for that particular $x$ point).% Acted 9-30 (different distribution)
+    \item[] Since the device will not be monitored during its first 10 years of service, the time to discovery of its failure is $X = \text{max}(T, 10)$ (i.e. $X$ takes the value of whichever is greater for that particular $x$ point).% Acted 9-30 (different distribution)
     \begin{enumerate}
         \item Write $X$ as a piecewise function of $T$.%Original addition
         \item Find $E(X)$.%Actex 9-30 (different distribution)
@@ -51,7 +52,7 @@
     \item An investment account earns an annual interest rate $R$ that follows a uniform distribution on the interval $(0.05, 0.08)$. The value of a 10,000 initial investment in this account after one year is given by $V = 10,000\e^R$.
     \begin{enumerate}
         \item Find $F_V(v)$.
-        \item Find $P(V \ge 10,500)$.
+        \item Find $P(V \ge 10,700)$.
     \end{enumerate}\bigskip
   
 \end{enumerate}
@@ -84,7 +85,7 @@ Select answers\bigskip
     \item 
     \begin{enumerate}
         \item 
-        \item $\text{Prob} \approx 0.7802$
+        \item $\text{Prob} \approx 0.5886$
     \end{enumerate}
     
 \end{enumerate}
