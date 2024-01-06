@@ -1,0 +1,7 @@
+# Lecture 7 -- XXX {.unnumbered}
+
+## Guided Notes
+
+FILES: BLANK [lecture-7.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-7.pdf), [lecture-7.tex](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-7.tex), and [style-notes.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-notes.sty)
+
+<embed src="lectures/lecture-7-COMPLETED.pdf" type="application/pdf" width="100%" height="1000px"></embed>

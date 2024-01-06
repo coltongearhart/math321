@@ -1,0 +1,23 @@
+# Lecture 5 -- XXX {.unnumbered}
+
+## Guided Notes
+
+FILES: BLANK [lecture-5.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-5.pdf), [lecture-5.tex](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-5.tex), and [style-notes.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-notes.sty)
+
+<embed src="lectures/lecture-5-COMPLETED.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## In Class Activity
+
+FILES: [in-class-5.tex](https://github.com/coltongearhart/math321/blob/main/assessments/in-class-5.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for keys :)
+
+<embed src="assessments/in-class-5.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## Homework
+
+FILES: [homework-4-5.tex](https://github.com/coltongearhart/math321/blob/main/assessments/homework-4-5.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for solutions :)
+
+<embed src="assessments/homework-4-5.pdf" type="application/pdf" width="100%" height="1000px"></embed>

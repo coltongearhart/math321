@@ -2,19 +2,19 @@
 
 ## Overview
 
-- Below is the course calendar. NOTE this calendar is for the FA-23 semester.
+- Below is the course calendar. NOTE this calendar is for the SP-24 semester.
 
-<embed src="intro/math320-course-calendar-fa23.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+<embed src="intro/math321-course-calendar-sp24.pdf" type="application/pdf" width="100%" height="1000px"></embed>
 
 ## Course Pack
 
-FILES: BLANK [notes-all.pdf](https://github.com/coltongearhart/math320/blob/main/lectures/notes-all.pdf), [notes-all.tex](https://github.com/coltongearhart/math320/blob/main/lectures/notes-all.tex), [notes-completed.tex](https://github.com/coltongearhart/math320/blob/main/lectures/notes-completed.tex), and [style-notes.sty](https://github.com/coltongearhart/math320/blob/main/lectures/style-notes.sty)
+FILES: BLANK [notes-all.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/notes-all.pdf), [notes-all.tex](https://github.com/coltongearhart/math321/blob/main/lectures/notes-all.tex), [notes-completed.tex](https://github.com/coltongearhart/math321/blob/main/lectures/notes-completed.tex), and [style-notes.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-notes.sty)
 
 <embed src="lectures/notes-completed.pdf" type="application/pdf" width="100%" height="1000px"></embed>
 
 ## Assessments
 
-FILES: [assessments-all.tex](https://github.com/coltongearhart/math320/blob/main/assessments/assessments-all.tex) and [style-assessments.sty](https://github.com/coltongearhart/math320/blob/main/assessments/style-assessments.sty)
+FILES: [assessments-all.tex](https://github.com/coltongearhart/math321/blob/main/assessments/assessments-all.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
 
 Instructors can contact me for keys, solutions, and tests :)
 
