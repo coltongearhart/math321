@@ -1,0 +1,374 @@
+\documentclass{article}
+\usepackage{style-notes}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+
+% NOTES on what didn't cover
+
+% confusing notes -> ranges using theory notation
+% -> univariate had fancy X and fancy Y for all values in the fancy R (real # line) with positive probs
+% -> bivariate using R^2 as coordinate plane and implicitly assuming only looking at subset with positive probs. Then when talking about marginal, it uses x in R rather than fancy X (again, implicitly assuming just positive prob sections)
+% -> may be easier to switch next time to drew notation with S_x, S_y so can easily go to S_x,y
+% for now just rolling with R^2 and R
+
+% Sums of two random variables
+% -> Convolution (Actex 11.1.2 - 11.1.5) S = X + Y, and framing probabilities in terms of x and (s - x), so finding the density of X + Y
+% and example 11.3 referencing finding probabilities for continuous S = X + Y -> and finding f_S(s) and F_S(s) (done in problem 11-5 as well)
+
+% Joint cdf (theory lecture 16, first page), there isn't any examples, just the def and a theorem
+% LOOK AT EXAM P syllabus, joint cdfs for discrete seems to be on there
+
+\begin{document}
+
+\lecture{14}{Bivariate Distributions}{4}{Bivariate Distributions}{4.1 and 4.4}
+
+\bu{Introduction}\bigskip
+
+\begin{itemize}
+    \item In previous chapters, we have discussed probability models and computation of probability for events involving only one random variable. These are called \textbf{univariate models}.
+    \item In this chapter, we will discuss models that involve more than one random variable called \textbf{multivariate models}.
+    \item Examples:
+    \begin{itemize}
+        \item Univariate: The body weights of several people in the population is measured.
+        \item Multivariate: Temperature, height, and blood pressure, in addition to weight, are measured. These observations on different characteristics could also be modeled as observations on different random variables.
+    \end{itemize}
+    \item We need to know how to describe and use probability models that deal with more than one random variable at a time.
+    \item[] The basic setting for multivariate random variables is the same as those for univariate random variables.
+    \item Definition of a random variable:
+    \begin{itemize}
+        \item A random variable is a function from the sample space $S$ to $\mathbb{R}$.
+        \item[] Univariate:\vspace{80pt}
+        \item[] Multivariate:\vspace{80pt}
+        \item We could extend this for an $n$-dimensional random vector:\newpage
+        \item We will mainly discuss \textbf{bivariate models}, involving two random variables. With each point in a sample space, we associate an ordered pair of of numbers \\$(x, y) \in \mathbb{R}^2$, where $\mathbb{R}^2$ denotes the plane $\Longrightarrow$ Possible range is the $(x, y)$ coordinate plane.
+    \end{itemize}
+\end{itemize}\bigskip
+
+\bu{Joint probability function for discrete random variables}\bigskip
+
+Example\bigskip
+\begin{itemize}
+    \item An investor owns two assets. They are interested in the value of each of them during one year. It is not enough to know the separate probability distributions, they want to know how the two assets behave together.
+    \item This requires a joint probability distribution for $X$ and $Y$, which can be specified in a table:\bigskip\\
+    \begin{tabular}{| c || c | c | c |}
+        \hline
+        \backslashbox{$y$}{$x$} & 90 & 100 & 110\\
+        \hline\hline
+        0 & .05 & .27 & .18\\
+        \hline
+        10 & .15 & .33 & .02\\
+        \hline
+    \end{tabular}\vspace{40pt}
+\end{itemize}\bigskip
+
+Definition\bigskip
+\begin{itemize}
+    \item The random vector $(X,Y)$ is called a \textbf{discrete random vector} if it has only a \blankul{3cm} number of possible values (i.e. \blankul{2cm} range).\bigskip
+    \item Definition: Let $(X, Y)$ be a discrete bivariate random vector. Then the \textbf{joint probability mass function (joint pmf)} is defined as $f(x,y) = P(X = x, Y = y)$ for all $(x, y) \in \mathbb{R}^2$ and has properties
+    \begin{enumerate}
+        \item \hspace{20pt} $f_{X,Y}(x,y)$ \hspace{30pt} for all $x, y$.
+        \item $\displaystyle \sum\sum f_{X,Y}(x,y) = $
+        \item[] where the sum is over all value $(x,y)$ that are assigned nonzero probabilities.
+        \item Let $A$ be any subset of $\mathbb{R}^2$, then
+        \item[] $\displaystyle P((X,Y) \in A) = \sum\sum f(x,y)$.
+    \end{enumerate}\vspace{25pt}
+    \item The joint pmf of $(X,Y)$ completely defines the probability distribution of the random vector $(X,Y)$, just as the pmf of a discrete univariate random variable does.
+\end{itemize}\bigskip
+
+Examples\bigskip
+\begin{enumerate}
+    \item Consider the experiment of tossing two fair 3-sided die. Let $X = $ sum of two dice and $Y = $ $\lvert$ difference of the two dice $\rvert$.
+    \begin{enumerate}
+        \item Find the sample space and the range of $(X,Y)$.\vspace{100pt}
+        \item Find the joint pmf of $(X,Y)$.
+        \item[] Recall the \textbf{sample point method} for probabilities: $f(x,y) = \frac{\text{\# outcomes in } (x,y)}{\text{total \# outcomes}}$\vspace{170pt}
+        \item Find $P(3Y \ge X)$.\vspace{70pt}
+    \end{enumerate}
+    \item Joint probability functions for discrete random variables are often given in tables, but they may also be given in formulas.
+    \item[] An analyst is studying traffic accidents in two adjacent towns. The random variables $X$ and represents the number of accidents in a day in towns $X$ and $Y$, respectively. The joint probability function for $X$ and $Y$ is given by:
+    \item[] $f(x,y) =  \frac{\e^{-2}}{x!y!}$ \quad for $x = 0, 1, 2, \ldots$ and $y = 0, 1, 2, \ldots$.
+    \item[] Find $P(X = 1, Y < 2)$.\vspace{100pt}
+\end{enumerate}\bigskip
+
+\bu{Marginal distributions for discrete random variables}\bigskip
+
+Motivation and example\bigskip
+\begin{itemize}
+    \item Even if we are considering a probability model for a random vector $(X,Y)$, there may be probabilities of interest that involve only one of the random variables in the vector. For example, $P(X = 2)$.
+    \item $\{X = x\}$ suggests that $Y$ \blankul{5cm} as long as the condition on $X$ is met. This corresponds to the joint event:
+    \item[] $\{X = x\} = $
+    \item Once we know the joint distribution, it is really easy to find the probabilities for individual values of $X$ and $Y$.
+    \item[] Joint pmf table: Marginals = 
+    \item Back to the investor example, if they want to know how each individual asset is behaving:\\
+    \begin{center}
+    \begin{tabular}{| c || c | c | c |}
+        \hline
+        \backslashbox{$y$}{$x$} & 90 & 100 & 110\\
+        \hline\hline
+        0 & .05 & .27 & .18\\
+        \hline
+        10 & .15 & .33 & .02\\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{itemize}\bigskip
+
+Definition\bigskip
+\begin{itemize}
+    \item Let $(X,Y)$ be a discrete bivariate random vector with joint pmf $f_{X,Y}(x,y)$. Then, the \textbf{marginal pmfs} of $X$ and $Y$, $f_X(x) = P(X = x)$ and $f_Y(y) = P(Y = y)$ are given by
+    \[f_X(x) = \sum_y f_{X,Y}(x,y) \hspace{20pt} \text{and} \hspace{20pt} f_Y(y) = \sum_x f_{X,Y}(x,y)\]
+\end{itemize}\bigskip
+
+Example\bigskip
+\begin{itemize}
+    \item Given the joint random vector $(X,Y)$, let
+   \[
+    f(x,y) =
+        \left\{
+        \begin{array}{ll}
+            c(x + y) & \quad \text{for } x = 1, 2, 3 \text{ and } y = 1, 2\\
+            0 & \quad\text{elsewhere}\\
+        \end{array}
+        \right.
+    \]
+    \begin{enumerate}[(a)]
+        \item Find $c$ so that $f(x,y)$ is a valid pmf.\vspace{150pt}
+        \item Find $f_X(x)$ and $f_Y(y)$ (NOTE: should be functions of ONLY $x$ and ONLY $y$, respectively).\vspace{110pt}
+        \item Find $P(X \le 2)$.
+        \item[] Probabilities for only one random variable  $\Longrightarrow$ Find marginal first.\vspace{30pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Summary\bigskip
+\begin{itemize}
+    \item The joint pmf of $(X,Y)$ has more information about the distribution of $(X,Y)$ than the marginal pmfs of $X$ and $Y$ alone.
+    \item[] This is because it contains information about the relationship between $X$ and $Y$. And can easily find the marginal distributions from the joint distribution.
+\end{itemize}\bigskip
+
+\bu{Joint and marginal distributions for continuous random variables}\bigskip
+
+Joint distribution definition\bigskip
+\begin{itemize}
+    \item We can also consider random vectors whose components are continuous random variables. The probability distribution of a continuous random vector is usually described using a pdf, as in the univariate case.
+    \item The definitions are really the same except that integrals replace summations.
+    \item Definition: The \textbf{joint probability density function (joint pdf)} is a function $f(x,y)$ from $\mathbb{R}^2$ into $\mathbb{R}$ such that
+    \begin{enumerate}
+        \item $f_{X,Y}(x,y)$ \hspace{30pt} for all $x, y$.
+        \item $\integral{-\infty}{\infty}{\integral{-\infty}{\infty}{f(x,y)}{x}}{y} = \integral{-\infty}{\infty}{\integral{-\infty}{\infty}{f(x,y)}{y}}{x} = 1$ \hspace{30pt} \text{(switch order of integration)}\bigskip\\
+        \item For $A \subset \mathbb{R}^2$ 
+        \item[] $\displaystyle P((X,Y) \in A) = \integral{}{}{\integral{A}{}{f(x,y)}{x}}{y} = \integral{}{}{\integral{A}{}{f(x,y)}{y}}{x}$
+    \end{enumerate}\bigskip
+\end{itemize}\bigskip
+
+Probabilities\bigskip
+\begin{itemize}
+    \item For a continuous random variable $X$ with pdf $f_X(x)$ and $A = [a, b]$:\vspace{100pt}
+    \item Finding $P((X,Y) \in A)$ can be a bit more complicated because it involves double integration.
+    \item[] For a bivariate continuous random vector $(X,Y)$ with joint pdf $f(x,y)$ and \\$A = [a, b] \times [c, d]$:\vspace{150pt}
+    \item Examples:
+    \begin{enumerate}    
+        \item Suppose $f(x,y) = 2 - 1.2x - 0.8y$ \quad for $0 \le x \le 1, 0 \le y \le 1$.
+        \begin{enumerate}
+            \item Verify this is a valid pdf.\vspace{100pt}
+            \item Rectangular region: Find $P(0.50 \le X \le 1, 0.50 \le Y \le 1)$.\vspace{190pt}
+            \item More general region:\\ Find $P(X + Y > 1)$, \hspace{20pt} $f(x,y) = 2 - 1.2x - 0.8y$ \quad for $0 \le x \le 1, 0 \le y \le 1$\\
+            \item[] (1) Draw range $(\cal{X},\cal{Y})$ \hfill (2) Draw and shade conditions on $(x,y)$\vspace{195pt}
+            \item[] (3) Set bounds \hfill (3) Set bounds (again)\vspace{195pt}
+        \end{enumerate}
+    \end{enumerate}%breaking up enumerate so next wording block is indented less and saves space
+    \item[] Steps
+    \begin{enumerate}[1)]
+        \item Draw the region where the density function is positive (the range of $X$ and $Y$).
+        \item Shade the region of the probability we want (make $Y < f(X)$ or $Y > f(X)$).
+        \item Choose the order of integration and set the bounds of the integrals. Start with the outside integral, then the inside integral.
+        \item[] Suppose we choose $x$ as the outside integral. Find the interval of $x$ in the shaded region. Then find the interval of $y$ in the shaded region as a function of $x$ \\(``moving x'').
+    \end{enumerate}
+    \newpage
+    \begin{enumerate}\setcounter{enumi}{1}%start counter at 2
+        \item Suppose $f(x,y) = 3x$ \quad for $0 \le y \le x \le 1$.
+        \item[] Find $P(0 \le X \le 0.5, Y > 0.25)$.
+        \item[] (1) Draw range $(\cal{X},\cal{Y})$ \hfill (2) Draw and shade conditions on $(x,y)$\vspace{195pt}
+        \item[] (3) Set bounds\vspace{195pt}
+        \item[] (3) Set bounds (again)\vspace{195pt}
+        \item Suppose $f(x,y) = 1$ \quad for $0 \le x \le 1, 0 \le y \le 1$.
+        \item[] Find $P(XY < 0.5)$.
+        \begin{itemize}
+            \item NOTE: Constant density  $\Longrightarrow$ Uniform distribution (i.e. flat surface)
+            \item[] Probability of a uniform distribution is just a \blankul{3cm}
+            \item[] $\mathbb{R}^1: \text{Prob} = \frac{\text{length of interval of interest}}{\text{length of entire interval}}$
+            \item[] $\mathbb{R}^2: \text{Prob} = \frac{\text{Area of interest}}{\text{Total area}}$
+        \end{itemize}\newpage
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Marginal distributions\bigskip
+\begin{itemize}
+    \item Definition: Let $f(x,y)$ be the joint pdf for the bivariate continuous random vector $(X, Y)$. Then the \textbf{marginal pdfs} are defined by:
+        \[f_X(x) = \integral{-\infty}{\infty}{f(x,y)}{y} \hspace{20pt} \text{and} \hspace{20pt} f_Y(y) = \integral{-\infty}{\infty}{f(x,y)}{x}\]
+    \item Examples:
+    \begin{enumerate}
+        \item Continuing previous example 1: $f(x, y) = 2 - 1.2x - 0.8y$ \, for $0 \le x \le 1, 0 \le y \le 1$.
+        \begin{enumerate}
+            \item Find $f_X(x)$ \hspace{20pt} Should be a function of ONLY $x$.\vspace{115pt}
+            \item Find $f_Y(y)$. \hspace{20pt} Should be a function of ONLY $y$.\vspace{115pt}
+        \end{enumerate}
+        \item Suppose $f(x, y) = 1/2$ \quad for $0 \le x \le y \le 2$.
+        \begin{enumerate}
+            \item Find $f_X(x)$.\vspace{115pt}
+            \item Find $f_Y(y)$.\vspace{115pt}
+        \end{enumerate}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\bu{Expected values of functions of random variables}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item Many practical applications require the study of a function of two or more random variables. For example, for the investor that owns two assets, they may wish to find the distribution of $g(X,Y) = X + Y$, which gives the total value of the two assets.
+    \item Other common functions include (where we also need fancier techniques to find the distribution functions):
+    \item[] $XY$ $\rightarrow$ Requires a bivariate transformation in the continuous case.
+    \item[] $\text{min}(X,Y)$ and $\text{max}(X,Y)$ $\rightarrow$ Order statistics.
+    \item For now, we are not going to find distributions of functions of random variable. Rather, we are going focus on expectations of functions of random vectors $g(X,Y)$, which can be computed from the original joint distribution.
+    \item[] These can be computed just as with univariate random variables.
+\end{itemize}\bigskip
+
+Notation\bigskip
+\begin{itemize}
+    \item Sometimes it is convenient to replace the symbols $X$ and $Y$ representing random variables by $X_1$ and $X_2$.
+    \item This is particularly true in situations in which we have more than two random variables. Both will be used from here on out.
+\end{itemize}\bigskip
+
+Expected values of a function of a random variable\bigskip
+\begin{itemize}
+    \item Definition: Let $g(X,Y)$ be a function of a bivariate random vector $(X,Y)$.
+    \begin{enumerate}[(a)]
+        \item If $X$ and $Y$ are discrete with joint pmf $f(x,y)$,
+        \item[] $\displaystyle E[g(X,Y)] = \sum_x \sum_y g(x,y) f(x,y)$
+        \item If $X$ and $Y$ are continuous with joint pdf $f(x,y)$,
+        \item[] $\displaystyle E[g(X,Y)] = \integral{-\infty}{\infty}{\integral{-\infty}{\infty}{g(x,y) f(x,y)}{x}}{y}$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\newpage%so example is all on next page
+
+Examples\bigskip
+\begin{enumerate}
+    \item Back to the investor with two asset random variables $X$ and $Y$:\bigskip\\
+    \begin{tabular}{| c || c | c | c |}
+        \hline
+        \backslashbox{$y$}{$x$} & 90 & 100 & 110\\
+        \hline\hline
+        0 & .05 & .27 & .18\\
+        \hline
+        10 & .15 & .33 & .02\\
+        \hline
+    \end{tabular}\bigskip
+    \item[] Find $E(X + Y)$ and $E(XY)$.\vspace{280pt}
+    \item Suppose $f(x,y) = 3x$ \quad for $0 \le y \le x \le 1$.
+    \item[] Find $E(X^2 Y^2)$.\vspace{200pt}
+\end{enumerate}\bigskip
+
+Special expectations\bigskip
+\begin{itemize}
+    \item Just like with probabilities, even if we are working with random vectors, we may only be interested in expectations for a single variable.
+    \item Definitions:
+    \begin{enumerate}[(a)]
+        \item Let $(X_1,X_2)$ be a bivariate discrete random vector with joint pmf $f(x_1,x_2)$.
+        \begin{enumerate}[i)]
+            \item If $g(X_1,X_2) = X_1$, then\vspace{100pt}
+            \item If $g(X_1,X_2) = (X_1 - \mu_1)^2$, then\vspace{80pt}
+            \item If $g(X_1,X_2) = \e^{tX_1}$, then\vspace{80pt}
+        \end{enumerate}
+        \item[] Results: The mean $\mu_i$, variance $\sigma^2_i$ and mgf $M_{X_i}(t)$ can be computed from the joint distribution (pmf / pdf) $f(x_1,x_2)$ or the marginal distribution (pmf / pdf) $f_{X_i}(x_i)$ for $i = 1,2$.\smallskip
+        \item Same results hold in the continuous case, just replace the summation with integration.
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\newpage%so next example is on new page
+
+Examples\bigskip
+\begin{enumerate}
+    \item Continuing with the investor with two asset random variables $X$ and $Y$:\bigskip\\
+    \begin{tabular}{| c || c | c | c |}
+        \hline
+        \backslashbox{$y$}{$x$} & 90 & 100 & 110\\
+        \hline\hline
+        0 & .05 & .27 & .18\\
+        \hline
+        10 & .15 & .33 & .02\\
+        \hline
+    \end{tabular}\bigskip\\
+    \begin{enumerate}
+        \item Let $g_1(X,Y) = X$. Find $E[g_1(X,Y)]$ using the joint pmf and then using the marginal pmf.\vspace{150pt}
+        \item Let $g_2(X,Y) = Y$. Find $E[g_2(X,Y)]$.\vspace{80pt}
+        \item Compare $E(X + Y)$ and $E(XY)$ to their ``intuitive answers''.\vspace{80pt}
+    \end{enumerate}
+    \item Suppose $f(x, y) = 1/2$ \quad for $0 \le x \le y \le 2$ and $g(X,Y) = Y$. \\Find $E[g(X,Y)]$ both ways (joint pdf and marginal pdf).\vspace{120pt}
+\end{enumerate}
+
+Expected value of $X + Y$ and $XY$\bigskip
+\begin{itemize}
+    \item Theorem: \textbf{Expected value of a sum of two random variables}.\bigskip
+    \begin{itemize}
+        \item Let $(X,Y)$ be a bivariate random vector and function $g(X,Y) = X + Y$.
+        \item[] $E(X + Y) = E(X) + E(Y)$\smallskip
+        \item[] Note: This result always holds (regardless of independence).\bigskip
+        \item Proof:\vspace{190pt}
+        \item[] A similar proof is used for continuous random variables, again just replace \\$\sum$ with $\int$.
+        \item We could generalize this theorem to the following:\bigskip
+        \item[] If $g_1(X,Y)$ and $g_2(X,Y)$ are two functions and $a$, $b$ and $c$ are constants, then
+        \item[] $E[ag_1(X,Y) + bg_2(X,Y) + c] = aE[g_1(X,Y)] + bE[g_2(X,Y)] + c$\\
+        \item $E(X + Y)$ is a special case with $g_1(X,Y) = X$, $g_2(X,Y) = Y$, $a = b = 1$, $c = 0$.
+    \end{itemize}\bigskip
+    \item Products of random variables are not so simple.
+    \item[] The expected value of $XY$ does \textit{not} always equal the product of the expected values.\bigskip
+    \item Theorem: \textbf{Expected value of a product of two random variables}.\bigskip
+    \begin{itemize}
+        \item Let $(X,Y)$ be a bivariate random vector and function $g(X,Y) = XY$.
+        \item[] If $X$ and $Y$ are independent, $E(XY) = E(X) \cdot E(Y)$\smallskip
+        \item Notes:
+        \item[] This theorem may fail to hold if $X$ and $Y$ are not independent. There are examples of random variables $X$ and $Y$ which are not independent but the results of this theorem are still true.\vspace{40pt}
+        \item[] It is still important to be able to compute $E(XY)$ directly when $X$ and $Y$ are not known to be independent, and because it is used in the calculation of covariance, which is also where we will see why the theorem doesn't go both ways.
+    \end{itemize}
+\end{itemize}\bigskip
+
+
+\end{document}

@@ -1,0 +1,2 @@
+\contentsline {section}{\relax Test 1}{2}{section*.2}
+\contentsline {subsection}{\relax Lecture 14 -- Bivariate Distributions}{2}{section*.3}

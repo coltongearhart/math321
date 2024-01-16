@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\comp}{{\sim}}			% shortcut for tilde without extra space, using for complement
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Homework 15}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due} \blankul{4cm}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) discrete conditional pmf tables and probabilities
+% 2) continuous conditional expected value
+% 3) continuous conditional variance
+
+\begin{enumerate}
+    \item An actuary determines that the annual number of tornadoes in counties $X$ and $Y$ are jointly distributed as follows:\bigskip\\%Actex 10-42 (just the setup and table)
+        \begin{tabular}{| c || c | c | c | c |}
+            \hline
+            \backslashbox{$y$}{$x$} & 0 & 1 & 2 & 3\\
+            \hline\hline
+            0 & .12 & .06 & .05 & .02\\
+            \hline
+            1 & .13 & .15 & .12 & .03\\
+            \hline
+            2 & .05 & .15 & .10 & .02\\
+            \hline
+        \end{tabular}\bigskip
+        \begin{enumerate}
+        \item Construct pmf tables for the following conditional random variables: $X \mid Y = 1$ and $Y \mid X = 2$.%Original addition (first tried Y | X < 2, doable but harder)
+        \item[**] Round to 2 decimals.
+        \item Find the following conditional probabilities:
+        \item[] $P(X \ge 1 \mid Y = 1)$, $P(X + Y \le 2 \mid Y = 1)$ and $P(Y^2 \le 2 \mid X = 2)$.%Original addition
+    \end{enumerate}\bigskip
+    
+    \item Let $(X,Y)$ be a bivariate continuous random vector with joint pdf
+    \[f(x,y) = \frac{1}{4}(3x^2 + 2 - y) \quad \text{for } 0 \le x \le 1, 0 \le y \le 2\]
+    \item[] Find the conditional expected value $E(X^3 \mid Y = 0.6)$.\bigskip
+    
+    \item The stock prices of two companies at the end of any given year are modeled with random variables $X$ and $Y$ that follow a distribution with joint density function
+    \[f(x,y) = 2x \quad \text{for } 0 < x < 1, x < y < x + 1\]
+    \item[] Find the conditional variance $V(Y \mid X = x)$.%Actex 10-41
+    
+\end{enumerate}
+
+\vspace{20pt}
+    
+Select answers\bigskip
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $P(X \ge 1 \mid Y = 1) = 0.70$, $P(X + Y \le 2 \mid Y = 1) = 0.65$ and $P(Y^2 \le 2 \mid X = 2) = 0.63$
+    \end{enumerate}
+    
+    \item $E(X^3 \mid Y = 0.6) = 17/48$
+    
+    \item $V(Y \mid X = x) = 1/12$
+        
+\end{enumerate}
+
+\end{document}

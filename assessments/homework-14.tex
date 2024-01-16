@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\comp}{{\sim}}			% shortcut for tilde without extra space, using for complement
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Homework 14}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due} \blankul{4cm}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) construct joint pmf table from context, joint probs, marginal dists, marginal probs
+% 2) construct joint pmf table from context (counting probs), expected value of functions of rvs
+% 3) continuous (general) prob, expected value of sum of rvs
+% 4) continuous (general) prob
+
+\begin{enumerate}
+    \item A fair coin is tossed. If heads is tossed then one fair 4-sided die is thrown and if tails is tossed two fair 4-sided dice are thrown. Let $X = 1$ for heads and $X = 2$ for tails and let $Y$ be the total number of dots on the dice.%Lazar slides problem 4.1 2 (with original additions)
+    \begin{enumerate}
+        \item Plot the range of the joint pmf of $(X,Y)$, then find the corresponding joint probabilities.
+        \item Find the following probabilities: $P(X = Y)$, $P(2X < Y)$, and $P(X + Y \le 7)$. 
+        \item Find the marginal pmfs of $X$ and $Y$, $f_X(x)$ and $f_Y(y)$, respectively.
+        \item Find the following probabilities: $P(X = 1)$ and $P(3 \le Y \le 5)$.
+    \end{enumerate}\bigskip
+    
+    \item A basketball team has 3 players from Ohio, 5 from Indiana and 2 from Kentucky. Two of these players are selected at random for an interview. Let $X$ be the random variable for the number of players from Ohio chosen and let $Y$ be the random variable for the number of players from Indiana chosen.%Actex 10-2 (with different context)
+    \begin{enumerate}
+        \item Construct the joint pmf table for $(X,Y)$.
+        \item Let $g_1(X,Y) = 2X$, $g_2(X,Y) = Y^2$ and $g_3(X,Y) = XY$.
+        \item[] Find the expected values of each $g_i(X,Y)$, $i = 1, 2, 3$.%Original addition
+    \end{enumerate}\bigskip
+    
+    \item A home insurance company separates its claims into two parts: losses due to wind damage and losses due to water damage. If $X$ is the random variable for losses due to wind damage and $Y$ is the random variable for losses due to water damage,%Actex 10-13 (with different context)
+    \[f(x,y) = \frac{30 - x - y}{1875} \quad \text{for } 0 \le x \le 5, 0 \le y \le 25\]
+    \begin{enumerate}
+        \item If a claim is filed after a storm, find the probability that there is more loss due to water damage than wind damage.%Original addition
+        \item Find the expected value of the total loss for a claim, i.e. wind damage plus water damage.%Original addition
+    \end{enumerate}\bigskip
+    
+    \item Let $(X,Y)$ be a bivariate continuous random vector with joint pdf
+    \[f(x,y) = 2x \quad \text{for } 0 \le x \le 1, 0 \le y \le 1\]%Theory 1 HW 8 question 2(?) found it in my review
+    \item[] Find $P(X^2 < Y < X)$.
+\end{enumerate}
+    
+\newpage
+
+Select answers\bigskip
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $P(X + Y \le 7) = 0.8125$
+        \item $P(3 \le Y \le 5) = 0.53125$
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $E[g_3(X,Y)] = 1/3$
+    \end{enumerate}
+    
+    \item
+    \begin{enumerate}
+        \item $\text{Prob} \approx 0.8333$
+        \item $E(X + Y) \approx 11.3889$
+    \end{enumerate}
+    
+    \item $P(X^2 < Y < X) = 1/6$
+    
+\end{enumerate}
+
+\end{document}

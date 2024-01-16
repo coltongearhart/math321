@@ -1,0 +1,267 @@
+\documentclass{article}
+\usepackage{style-notes}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+
+% NOTES on what didn't cover
+
+% Skipping all double expectation theorems this time around (covered in SP 23) -> make into additional content section at some point
+% and skipping notation discussion
+
+% Double expectation theorems for variance (I only stated, didn't do any proof or examples)
+% -> conditional variances (Actex 11.5.2) and end of theory lecture 16-2 (doesn't appear to be in Drew's notes or the textbook)
+% -> first google search I did had a decent explanation of this https://www.math.tamu.edu/~todd.schrader/419_lectures_20a/419_Double_Exp.pdf
+
+
+\begin{document}
+
+\lecture{15}{Conditional Distributions}{4}{Bivariate Distributions}{4.3}
+
+\bu{Introduction}\bigskip
+
+\begin{itemize}
+    \item Oftentimes, two random variables $(X,Y)$ are related. Knowing about the value of $X$ gives us some information about the value of $Y$, even if it doesn't tell us the value $Y$ exactly (can find $E(Y \mid X = x)$, but not the exact value of $Y \mid X = x$).
+    \item Example: Study hours $X$ and Test grade $Y$.
+    \item[] $P(Y > 90 \mid X = 1 \text{ hrs}) \hspace{20pt} P(Y > 90 \mid X = 5 \text{ hrs})$
+    \item Sometimes, knowledge about $X$ gives us no information about $Y$.
+\end{itemize}\bigskip
+
+\bu{Discrete conditional distributions}\bigskip
+
+Conditional pmf\bigskip
+\begin{itemize}
+    \item Recall the conditional probability of events: $\displaystyle P(B \mid A) = \frac{P(\hspace{40pt})}{P(\hspace{10pt})}$
+    \item Events in a conditional distribution.
+    \begin{itemize}
+        \item Suppose that $X$ and $Y$ are discrete random variables. The conditional event of $Y = y$ given $X = x$ is\vspace{30pt}
+        \item[] where \blankul{2cm} is the conditioning event (i.e. the given event),
+        \item[] and \blankul{2cm} is the event of interest (i.e. the event whose probability we want to know).\bigskip
+    \end{itemize}
+    \item Definition: Let $(X,Y)$ be a discrete bivariate random vector with joint pmf $f(x,y)$ and marginal pmfs $f_X(x)$ and $f_Y(y)$.
+    \begin{enumerate}[(a)]
+        \item For any $x$ such that $P(X = x) = f_X(x) > 0$ ($x \in \cal{X}$), the \textbf{conditional pmf of $\boldsymbol{Y}$ given that $\boldsymbol{X = x}$} is the function of $y$ denoted by $f(y \mid x)$ and defined by
+    \[f(y \mid x) = P(Y = y \mid X = x) = \hspace{150pt}\]
+        \item For any $y$ such that $P(Y = y) = f_Y(y) > 0$ ($y \in \cal{Y}$), the \textbf{conditional pmf of $\boldsymbol{X}$ given that $\boldsymbol{Y = y}$} is the function of $x$ denoted by $f(x \mid y)$ and defined by
+    \[f(x \mid y) = P(X = x \mid Y = y) = \hspace{150pt}\]
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Probabilities\bigskip
+\begin{itemize}
+    \item Once we have the conditional pmf, we can find probabilities as expected.
+    \item[] For $A \subset \mathbb{R}^2$,
+    \[P(X \in A \mid Y = y) = \sum_{x \in A} P(X = x \mid Y = y) = \]
+    \item[] (just flip for $y \mid x$)
+    \item We can also show that the conditional pmf is indeed a valid pmf.
+    \item[] Proof, need to show:
+    \begin{enumerate}
+        \item $f(x \mid y) \ge 0$ for all $x$.
+        \item $\displaystyle \sum_x f(x \mid y) = 1$.
+    \end{enumerate}\vspace{170pt}
+\end{itemize}\bigskip\bigskip
+
+Examples\bigskip
+\begin{enumerate}
+    \item Interpreting distributions:
+    \begin{itemize}
+        \item Let $X = $ GPA and $Y = $ study hours per day.
+        \item[] If we are given the joint pmf $f(x, y) = P(X = x, Y = y)$ $\longrightarrow$ 
+        \item[] then we can find the following:
+        \begin{enumerate}[i)]
+            \item $f_X(x) = $ \hspace{85pt} $\longrightarrow$ Probability student has\medskip
+            \item $f_Y(y) = $ \hspace{85pt} $\longrightarrow$ Probability student has\medskip
+            \item $f(x \mid y) = $ \hspace{80pt}$\longrightarrow$ Probability student has\medskip
+            \item $f(y \mid x) = $ \hspace{80pt}$\longrightarrow$ Probability student has\medskip 
+        \end{enumerate}
+    \end{itemize}
+    \item Define the joint pmf of $(X,Y)$ by:
+    \item[] $f(0,10) = f(0,20) = 2/18$, \hspace{5pt} $f(1,10) = f(1,30) = 3/18$,
+    \item[] $f(1,20) = 4/18$, \hspace{5pt} and \hspace{5pt} $f(2,30) = 4/18$.
+    \begin{enumerate}
+        \item Compute the conditional pmf of $Y$ given $X$ for each of the possible values of $X$.\vspace{370pt}
+        \item Find $(X = 2, Y > 20)$
+        \item[] \blankul{2cm} event \vspace{15pt}
+        \item Find $P(X < 1)$
+        \item[] \blankul{2cm} event \vspace{15pt}
+        \item Find $P(Y > 10 \mid X = 0)$
+        \item[] \blankul{2cm} event \vspace{15pt}
+    \end{enumerate}\newpage%so next example is all on same page
+    \item In a previous example, we had the joint pmf
+    \item[] $\displaystyle f(x,y) = \frac{x + y}{21}$ \quad for $x = 1, 2, 3$ and $y = 1, 2$.\bigskip
+    \item[] And we found the marginal distributions:
+    \item[] $\displaystyle f_X(x) = \frac{2x + 3}{21}$ \quad for $x = 1, 2, 3$
+    \item[] $\displaystyle f_Y(y) = \frac{3y + 6}{21} = \frac{y + 2}{7}$ \quad for $y = 1, 2$\bigskip
+    \item[] Find $f(x \mid y)$ and $f(y \mid x)$.\vspace{160pt}
+    \item[] Plots of ranges with corresponding probabilities for all distributions:
+    \begin{figure}[H]
+        \includegraphics[scale=0.9]{{"test-1/joint-marginal-and-conditional-pmfs"}.png}
+    \end{figure}
+\end{enumerate}\bigskip
+
+\bu{Conditional random variable}\bigskip
+
+Understanding conditional random variables\bigskip
+\begin{itemize}
+    \item $Y \mid X = x$ is a random variable about $Y$ having the conditional pmf of $f(y \mid x)$.
+    \item[] The conditional random variables $Y \mid X = 0$ and $Y \mid X = 1$ have different pmfs.
+    \item \textbf{The conditional pmf $\boldsymbol{f(y \mid x)}$ is determined by \blankul{1cm} and thus \blankul{1cm} \\ behaves like a parameter} (e.g. Geometric($p$)), 
+\end{itemize}\bigskip
+
+Relationship between joint pmf and conditional pmfs\bigskip
+\begin{itemize}
+    \item The following theorem contains the relationship between the joint pmf of $X$ and $Y$ and the two conditional pmfs $f(y \mid x)$ and $f(x \mid y)$.
+    \item Theorem: For bivariate random vector $(X,Y)$ with joint pmf $f(x,y)$ and $x$ and $y$ such that $f_X(x) > 0$ and $f_Y(y) > 0$,\bigskip
+    \item[] $f(x, y) = f_Y(y) \cdot f(x \mid y) = f_X(x) \cdot f(y \mid x)$\vspace{70pt}
+\end{itemize}\bigskip
+
+\bu{Continuous conditional distributions}\bigskip
+
+Conditional pdf\bigskip
+\begin{itemize}
+    \item If $X$ and $Y$ are continuous random variables, then $P(X = x) =$\hspace{6pt}, for every value of $x$ $\Longrightarrow$ Can't use $\displaystyle \frac{f(x,y)}{P(X = x)}$ because it is undefined.
+    \item[] To define a conditional probability distribution for $Y$ given $X = x$ when  $X$ and $Y$ are both continuous is analogous to the discrete case with pdfs replacing pmfs.\bigskip
+    \item Definition: Let $(X,Y)$ be a continuous bivariate random vector with joint pdf $f(x,y)$ and marginal pmfs $f_X(x)$ and $f_Y(y)$.
+    \begin{enumerate}[(a)]
+        \item Given $x$ such that $f_X(x) > 0$, \hspace{20pt} $\displaystyle f(y \mid x) = \frac{f(x,y)}{f_X(x)}$
+        \item Given $y$ such that $f_Y(y) > 0$, \hspace{20pt}  $\displaystyle f(x \mid y) = \frac{f(x,y)}{f_Y(y)}$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\newpage
+
+Example\bigskip
+\begin{itemize}
+    \item In a previous example, we had the joint pdf
+    \item[] $f(x, y) = 1/2$ \quad for $0 \le x \le y \le 2$.\bigskip
+    \item[] And we found the marginal distributions:
+    \item[] $f_X(x) = (2 - x)/2$ \quad for $0 \le x \le 2$ \hspace{30pt} and  \hspace{30pt} $f_Y(y) = y/2$ \quad for $0 \le y \le 2$\bigskip
+    \begin{enumerate}[(a)]
+        \item For $0 \le x < 2$, find the conditional pdf $f(y \mid x)$.\bigskip
+        \begin{itemize}
+            \item NOTE: The range of $Y \mid X = x$ often depends on $x$. To help, you should draw the range of $X$ and $Y$ just like when finding joint probabilities.
+            \item For $0 \le x < 2$,
+            \[f(y \mid x) = \hspace{200pt}\]\bigskip
+            \item[] Conditioned on $X = x$, we see that $Y \mid X  = x \sim$\bigskip
+        \end{itemize}\bigskip
+        \item Find the distribution of $Y \mid X = 1$
+        \item[] (we have a specific ``parameter'' value now).\bigskip
+        \item For $0 < y \le 2$, find the conditional pdf $f(x \mid y)$.\bigskip
+        \begin{itemize}
+            \item For $0 < y \le 2$,
+            \[f(x \mid y) = \hspace{200pt}\]\smallskip
+            \item Given $Y = y$, we see that $X \mid Y = y \sim$\vspace{20pt}
+        \end{itemize}\bigskip
+        \item Find the distribution of $X \mid Y = 1.5$\vspace{30pt}
+        \item Find the conditional probability that $X \le 1/2 \mid Y = 1.5$.\vspace{30pt}
+    \end{enumerate}
+\end{itemize}\newpage
+
+\bu{Expected value of a conditional random variable}\bigskip
+
+Conditional expectations and when to use which density\bigskip
+\begin{itemize}
+    \item In addition to their usefulness for calculating probabilities, the conditional pmfs and pdfs can also be used to calculate expected values.
+    \item[] Just remember that $f(y \mid x$) as a function of $y$ is a pmf or pdf; so use it in the same way that we have previously used unconditional pmfs or pdfs. 
+    \item Suppose, we have $f(x,y)$, $f_X(x)$, $f_Y(y)$, $f(y \mid x)$ and $f(x \mid y)$. What density function should we use to compute the following?
+    \begin{enumerate}
+        \item $E(X) = $\vspace{15pt}
+        \item $E(Y^2) = $\vspace{15pt}
+        \item $E(Y - Y) = $\vspace{15pt}
+        \item $E(X^2 \, Y) = $\vspace{15pt}
+        \item $E(Y \mid X = 2) = $\vspace{15pt}
+        \item $E(Y^2 \mid X = 3) = $\vspace{15pt}
+        \item  $E(X \mid X = 3) = $\vspace{15pt}
+        \item $E(X + Y^2 \mid Y = 3) = $\vspace{25pt}
+        \item $E(XY \mid X = 3) = $\vspace{25pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Conditional expected values\bigskip
+\begin{itemize}
+    \item Definition: Let $g(Y)$ be a function of $Y$, then the \textbf{conditional expected value of $\boldsymbol{g(Y)}$ given that $\boldsymbol{X = x}$} is denoted by $E[g(Y) \mid X = x]$ and is given by 
+    \[E[g(Y) \mid x ] = \sum g(y) f(y \mid x) \hspace{20pt} \text{and} \hspace{20pt} E[g(Y) \mid x] = \integral{-\infty}{\infty}{g(y) f(y \mid x)}{y}\]
+    in the discrete and continuous cases, respectively.\bigskip
+    \item Conditional mean and variance definitions (assuming $X$ and $Y$ are discrete):
+    \begin{enumerate}[(i)]
+        \item If $g(Y) = Y$, then the \textbf{conditional mean of $\boldsymbol{Y}$ given $\boldsymbol{X = x}$} is \vspace{40pt}
+        \item If $g(Y) = (Y - \mu_{Y\mid X})^2$, then the \textbf{conditional variance of $\boldsymbol{Y}$ given $\boldsymbol{X = x}$} is\vspace{40pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Examples\bigskip
+\begin{enumerate}
+    \item In a previous example, we had the joint pmf
+    \item[] $\displaystyle f(x,y) = \frac{x + y}{21}$ \quad for $x = 1, 2, 3$ and $y = 1, 2$.\smallskip
+    \item[] And we found the conditional distribution:
+    \item[] $\displaystyle f(x \mid y) = \frac{x + y}{3y + 6}$ \quad for $x = 1, 2, 3$ when $y = 1, 2$.\smallskip
+    \begin{enumerate}
+        \item Find $\mu_{X \mid 1}$.\vspace{60pt}
+        \item Find $\sigma_{X \mid 1}^2$.\vspace{100pt}
+    \end{enumerate}
+    \item For $0< x \le 1$, the conditional pdf of $Y \mid X = x$ is $\hspace{10pt}\displaystyle f(y \mid x) = \frac{2y}{x^2} \quad\quad 0 \le y \le x$.
+    \item[] Note: For this example, the range of \blankul{1cm} depends on \blankul{1cm}. So the density as well as the range change when \blankul{2cm} is given.
+    \begin{enumerate}
+        \item Find $E(Y \mid X = x)$.\vspace{100pt}
+        \item Find the conditional variance $V(Y \mid X = 0.5)$. \vspace{160pt}
+    \end{enumerate}
+\end{enumerate}\bigskip
+
+Understanding conditional expectation\bigskip
+\begin{itemize}
+    \item $E(X)$, $E(Y)$, $E(XY)$ are \blankul{3cm} $\rightarrow$ Center is \blankul{4cm}.
+    \item How about $E(Y \mid X=x)$?
+    \item[] Let's compare the following two conditional expectations. 
+    \[E(Y \mid X = 1/2) = \integral{-\infty}{\infty}{y \hspace{35pt}}{y}\] 
+    \[E(Y \mid X = 1) = \integral{-\infty}{\infty}{y \hspace{35pt}}{y}\]
+    \item The conditional expectation depends only on the \blankul{5cm} which is determined by the value of \blankul{1cm}. Consequently, the conditional expected value, $E(Y \mid X = x)$, is determined by the value of \blankul{1cm}.
+    \item[] In other words, as \blankul{1cm} changes, $E(Y \mid X = x)$ changes. Thus, $E(Y \mid X = x)$ is a function of \blankul{1cm}.\bigskip
+    \item What if $x$ is not specified like $E(Y \mid X)$? Then $E(Y \mid X)$ is a function of random variable of $X$, and thus it is a \blankul{4cm}.
+    \item[] When $x$ is not specified, replace $x$ by $X$. Then $E(Y \mid X) = $\bigskip
+    \item \textbf{Why is conditional expectation important?}
+    \begin{itemize}
+        \item \textbf{Regression Analysis}. The main purpose of regression analysis is to identify \blankul{2cm}, which explains the mean behavior of $Y$ given $X$.
+        \item In regression analysis, we usually assume that $Y$ and $X$ have a \textbf{linear relationship}, that is $E(Y \mid X) = \beta_0 + \beta_1 X$.
+        \item We will study this more later.
+    \end{itemize}
+\end{itemize}\bigskip
+
+
+\end{document}
