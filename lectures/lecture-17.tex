@@ -1,0 +1,307 @@
+\documentclass{article}
+\usepackage{style-notes}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\cov}[1]{\mathrm{Cov}(#1)}		% shortcut for Cov(X,Y) with formatting for Cov
+
+
+% NOTES on what didn't cover
+
+% not mentioning here that if (bivariate case) X and Y are independent, then g(X) and h(Y) are also independent random variables (which makes sense why E(g(X)h(Y)) can be separated), made note about this Return to Sections 4.1 and 4.4 -- Independence
+
+% talking about vector of vectors for independent joint distributions (where the pieces of bold(X) can also be vectors), theory lecture 20 (page 4)
+% connecting to likelihoods (theory lecture 20 (page 5)
+
+% extension of some independence theorems (theory lecture 20 (page 5)
+% -> if the joint pdf is separable into vectors of interest, then it is independent
+% -> if variables are independent, then functions of the random variables are independent
+
+% covariance of two linear functions of random variables, e.g. Cov(aX1 + bX2, cX3 + dX4)
+% end of theory lecture 21
+
+% proof of variance of linear function of random variables (drew 5.3 - page 4)
+
+% skipping everything about sample means and variance in drews, come back to for start of 321 stuff, might come back to Actex proof of CLT (11.4.3))
+
+% finding the distribution (the discrete probabilities) by looking at the sum of the exponential terms (it was a uniform example), Drew problem 5.4-1
+
+% theory lecture 16-3 page 5 mentions that beta + beta \ne beta because of the bounded support
+
+% theory lecture 20 mentions sum of normals is always normal, even if dependent (this is when the bivariate normal comes in, and we have to take into account their covariances (and correlation which is in the pdf of bivar normal)
+
+% drew shows sum of Ch-square is chi-square and how sum of Z^2 is Chi-square (can come back to this when introduce chi-squared dist)
+
+
+\begin{document}
+
+\lecture{17}{Several Random Variables}{5}{Distributions of Functions of Random Variables}{5.3 and 5.4}
+
+\bu{Multivariate distributions}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item Now we are extending bivariate distributions to multivariate distributions.
+    \item[] The good news is that the jump from 2 random variables to 3 or 4 or $n$ random variables is much easier than the jump from 1 to 2.
+    \item The concepts such as marginal and conditional distributions generalize from the bivariate to the multivariate setting.
+    \item []We will start by giving these generalizations, then demonstrating via examples.\bigskip
+    \item A note on notation: Boldface letters are used to denote multiple variates. Write $\mathbf{X}$ to denote $\vecn{X}{n}$ and $\mathbf{x}$ to denote the sample $\vecn{x}{n}$.% note using \mathbf{X} (which makes it not italic (as opposed to \boldsymbol{X} which keeps the italic) so it is easier to differentiate (especially if printed))
+\end{itemize}\bigskip
+
+Definitions and theorems\bigskip
+\begin{itemize}
+    \item Joint distributions and probabilities.
+    \begin{itemize}
+        \item The random vector $\mathbf{X} = (\vecn{X}{n})$ has a range that is a subset of $\mathbb{R}^n$ ($n$ dimensions).
+        \item If $\mathbf{X} = (\vecn{X}{n})$ a discrete random vector (the range is countable), then the \textbf{joint pmf} of $\mathbf{X}$ is the function defined by
+        \[f(\mathbf{x}) = f(\vecn{x}{n}) = P(X_1 = x_1, \ldots, X_n = x_n) \text{ for each } (\vecn{x}{n}) \in \mathbb{R}^n\]
+        \item Finding probabilities: Then, for any $A \subset \mathbb{R}^n$,
+        \[P(\mathbf{X} \in A) = \sum_{\mathbf{x} \in A} f(\mathbf{x})\]
+        \item If $\mathbf{X} = (\vecn{X}{n})$ a continuous random vector, then the \textbf{joint pdf} of $\mathbf{X}$ is the function $f(\mathbf{x}) = f(\vecn{x}{n})$ that satisfies
+        \[P(\mathbf{X} \in A) = \int \cdots \integral{A}{}{f(\mathbf{x})}{\mathbf{x}} = \int \cdots \int_A f(\vecn{x}{n}) \mathrm{d}x_1\cdots \mathrm{d}x_n\]
+    \end{itemize}\newpage
+    \item Expected values.
+    \begin{itemize}
+        \item Let $g(\mathbf{x})$ be a real-valued function defined on the range of $\mathbf{X}$. The \textbf{expected value} of $g(\mathbf{X})$ is
+        \item[] \ul{Discrete} \hspace{100pt} \ul{Continuous}
+        \item[] $\displaystyle E[g(\mathbf{X})] = \sum_{\mathbf{x} \in \mathbb{R}^n} g(\mathbf{x}) f(\mathbf{x}) $ \hspace{30pt} $\displaystyle E[g(\mathbf{X})] = \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty g(\mathbf{x}) f(\mathbf{x})\mathrm{d}x_1\cdots \mathrm{d}x_n$
+        \end{itemize}
+    \item These and other definitions are analogous to the bivariate definitions, except now the sums or integrals are over the appropriate subset of $\mathbb{R}^n$ rather than $\mathbb{R}^2$.
+    \item Marginal distributions.
+    \begin{itemize}
+        \item The \textbf{marginal pdf or pmf} of any subset of the coordinates of $(\vecn{X}{n})$ can be computed by integrating or summing the joint pdf or pmf over all possible values of the other coordinates.
+        \item Thus for example, the marginal distribution of $(\vecn{X}{k})$ the first $k$ coordinates of $(\vecn{X}{n})$ is given by the pdf or pmf:
+        \item[] Simple case: $n = 5$, $k = 2$\vspace{40pt}
+        \item Even though these marginal distributions can themselves be multivariate, they are still called marginal because they have less variables than the joint distribution.
+    \end{itemize}
+    \item Conditional distributions.
+    \begin{itemize}
+        \item The \textbf{conditional pmf or pdf} of a subset of the coordinates of $(\vecn{X}{n})$ given the value of the remaining coordinates is obtained by dividing the joint pdf or pmf by the marginal pdf or pmf of the remaining coordinates.
+\[f(x_{k+1}, \dots, x_n \mid \vecn{x}{k}) = \hspace{150pt}\]
+    \end{itemize}
+\end{itemize}\bigskip
+
+Example\bigskip
+\begin{enumerate}
+    \item Let $n = 4$ and
+    \[f(x_1, x_2, x_3, x_4) = \frac{3}{4}(x_1^2+x_2^2+x_3^2+x_4^2), \quad\quad 0 < x_i < 1,\quad i = 1 ,2 ,3 ,4\]
+    \begin{enumerate}
+        \item Verify $f(x_1,x_2,x_3,x_4)$ is a valid pdf.\vspace{30pt}
+        \item NOTE: Probabilities ALWAYS need ALL integrals.
+        \item[] Find $P(X_1 < 1/2, X_2 < 3/4, X_4 > 1/2)$.
+        \item Find the marginal pdf of $(X_2,X_3)$.\vspace{80pt}
+        \item[] Now any probability or expected value that involves only $X_1$ and $X_2$ can be computed using this marginal pdf.\bigskip
+        \item Find $E(X_2 X_3)$.\vspace{80pt}
+        \item Find the conditional pdf $f(x_1, x_4 \mid x_2, x_3)$.\vspace{80pt}
+        \item Find $P(X_1 > 3/4, X_4 < 1/2 \mid X_2 = 1/3, X_3 = 2/3)$.\vspace{120pt}
+    \end{enumerate}
+\end{enumerate}\bigskip
+
+Independence\bigskip
+\begin{itemize}
+    \item Generally, we will be working with independent random variables. This is a very common assumption in probability and statistics that each observation from a random experiment is independent.
+    \item[] Lets see how this impacts the definitions and theorems we just presented.
+    \item Joint distributions:
+    \begin{itemize}
+            \item Definition: Let random variables $\vecn{X}{n}$ have joint pdf (or pmf) $f(\vecn{x}{n})$ and let $f_{X_i}(x_i)$ be the marginal pdf (or pmf) of $X_i$. Then $\vecn{X}{n}$ are \textbf{mutually independent random variables} if, for every $(\vecn{x}{n})$, the joint pdf (or pmf) can be written as
+        \[f(\vecn{x}{n}) = f_{X_1}(x_1) \cdots f_{X_n}(x_n) = \prod_{i = 1}^n f_{X_i}(x_i)\]
+        \item Notes
+        \begin{itemize}
+            \item We keep the subscripts on $X_i$ because the marginal distributions can be different.
+            \item Mutual independence (strongest form) $\Longrightarrow$ Pairwise independence AND all possible subsets are independent 
+        \end{itemize}
+        \item Example: Let $X_1, X_2, X_3$ be (mutually) independent exponential random variables with parameters $\lambda_1 = 3, \lambda_2 = 5, \lambda_3 = 1$, respectively.
+        \begin{enumerate}[(a)]
+            \item Find the joint pdf of $X_1, X_2, X_3$.\vspace{60pt}
+            \item Find $P(1 < X_1 < 4, X_2 > 3, X_3 \le 2)$\vspace{120pt}
+        \end{enumerate}
+    \end{itemize}
+    \item If $\vecn{X}{n}$ are mutually independent, then knowledge about the values of some coordinates gives us no information about the values of other coordinates. Mutually independent random variables have many nice properties.
+    \item Conditional distributions.
+    \begin{itemize}
+        \item If $\vecn{X}{n}$ are mutually independent, we can show that the conditional distribution of any subset of the coordinates, given the values of the rest of the coordinates, is the same as the marginal distribution of the subset.
+        \item Example: Let $\vecn{X}{4}$ be mutually independent random variables. Show $f(x_3, x_4 \mid x_1, x_2) = f(x_3)  f(x_4)$.\vspace{60pt}
+    \end{itemize}
+    \item Expected value.    
+    \begin{itemize}
+        \item Let $\vecn{X}{n}$  be mutually independent random variables. Let $\vecn{g}{n}$ be real-valued functions such that $g_i(x)$ is a function only of $x_i$, $i = 1, \dots, n$. Then
+        \[E[g_1(X_1) \cdots g_n(X_n)] = \hspace{100pt}\]
+        \item Example: Let $X_1, X_2, X_3$ be independent exponential random variables with parameters $\lambda_1 = 3, \lambda_2 = 5, \lambda_3 = 1$, respectively.
+        \item[] Find $E[(2X_1)(X_2 + 1) (X_3)]$.\vspace{60pt}
+    \end{itemize}
+\end{itemize}\bigskip
+
+\bu{Linear functions of random variables}\bigskip
+ 
+Introduction and definition\bigskip
+\begin{itemize}
+    \item Definition: A \textbf{linear function (combination) of random variables} consists of $n$ random variables $\vecn{X}{n}$ and $n$ coefficient $\vecn{a}{n}$
+    \[a_1 X_1 + a_2 X_2 + \cdots + a_n X_n = \sum_{i = 1}^n a_i X_i\]
+    \item Why is the linear function of random variables important?
+    \item[] Most of estimators of parameters are linear functions of random variables. 
+    \begin{enumerate}
+        \item The estimator of the population mean $\mu = E(X)$ is\vspace{40pt}
+        \item The estimator of the population variance $\sigma^2 = V(X)$ is\vspace{40pt}
+    \end{enumerate}
+    \item In order to study the properties of estimators, it is necessary to know how to compute the expected value and variance of linear functions of random variables.
+    \item[] We will learn how to find their distributions soon (start of MATH 321 topics).
+ \end{itemize}\bigskip
+ 
+ \newpage
+
+Expected value and variance of linear functions of random variables\bigskip
+\begin{itemize}
+    \item We will start by demonstrating these in the simplest cases (small $n$ and no coefficients, i.e. all $a_i = 1$), then generalize. 
+    \item Recall for when $n = 2$.
+    \begin{itemize}
+        \item[] $E(X + Y) = $\bigskip
+        \item[] $V(X + Y) = $\bigskip
+        \item Now generalizing with constants $a$ and $b$.
+        \item[] $E(aX + bY) = $\bigskip
+        \item[] $V(aX + bY) = $\bigskip
+    \end{itemize}
+    \item Now for $n = 3$.
+    \begin{itemize}
+        \item[] $E(X + Y + Z) = $\vspace{25pt}
+        \item[] $V(X + Y + Z) = $\vspace{170pt}
+    \end{itemize}
+    \item The general pattern should be easy to see. Now we can extend this to $n$ (still with no coefficients).\bigskip
+    \item[] Theorem: \textbf{Mean and variance of $\boldsymbol{X_1 + \cdots + X_n}$}
+    \[E\bigg(\sum_{i = 1}^n X_i\bigg) = \hspace{300pt}\]
+    \[V\bigg(\sum_{i = 1}^n X_i\bigg) = \hspace{300pt}\]\bigskip
+    \newpage
+    \item Finally, in general we have the following theorem:
+    \begin{enumerate}[(i)]
+        \item \textbf{Expected value of a linear function of random variables}
+        \[E[a_1 X_1 + a_2 X_2+ \cdots + a_n X_n] = a_1 E(X_1) + a_2 E(X_2) + \cdots + a_n E(X_n)\]
+        \item \textbf{Variance of a linear function of random variables}
+        \[V[a_1 X_1 + a_2 X_2+ \cdots + a_n X_n] = \sum_{i = 1}^n a_i^2 V(X_i) + 2 \sum_{i < j} a_i a_j \cov{X_i,X_j}\]
+        \item[] If $\vecn{X}{n}$ are mutually independent (or uncorrelated),
+        \[V[a_1 X_1 + a_2 X_2+ \cdots + a_n X_n] = \sum_{i = 1}^n a_i^2 V(X_i)\]
+    \end{enumerate}
+    \item Easy way to understand and remember the variance of linear functions of random variables.
+    \begin{itemize}
+        \item Lets look at the result when we square simple linear functions and expand:\vspace{20pt}\\
+        \begin{tabular}{l l l l}
+            $(X_1 + X_2)^2$ & $=$ & $(X_1 + X_2) (X_1 + X_2)$ & $=$ \\\\
+            $(X_1 + X_2 + X_3)^2$ & $=$ & & \vspace{60pt}\\
+            $(a_1 X_1 + a_2 X_2 - a_3 X_3)^2$ & $=$ & & \\
+        \end{tabular}\vspace{40pt}
+        \item Why is this useful? Replace all quadratic (squared) terms with variances and cross (interaction) terms with covariances.\bigskip\\
+        \begin{tabular}{l l l}
+            $V(X_1 + X_2 + X_3)$ & $=$ \vspace{40pt}\\
+            $V(a_1 X_1 + a_2 X_2 - a_3 X_3)$ & $=$ \\
+        \end{tabular}\bigskip\newpage
+        \item If we have more than 3 random variables, this still works!\bigskip\\
+        \begin{tabular}{l l l}
+            $(a_1 X_1 + a_2 X_2 + \cdots + a_n X_n)^2$ & $=$ & $\displaystyle \sum_{i = 1}^n a_i^2 X_i^2 + 2 \sum_{i < j} a_i a_j X_i X_j$ \\\\
+            $V(a_1 X_1 + a_2 X_2 + \cdots + a_n X_n)^2$ & $=$ & $\displaystyle \sum_{i = 1}^n a_i^2 V(X_i) + 2 \sum_{i < j} a_i a_j \cov{X_i, X_j}$ \\
+        \end{tabular}\bigskip
+        \item Example: Let $X_1$, $X_2$ and $X_3$ be random variables, where 
+$V(X_1) = 1$, $V(X_2) = 3$, $V(X_3) = 5$, $\cov{X_1,X_2} =-0.4$, $\cov{X_1,X_3} = 0.5$, $\cov{X_2,X_3} = 2$.
+    \item[] Find $V(3 X_1 - X_2 + 2 X_3)$.\vspace{150pt}
+    \end{itemize}
+\end{itemize}\bigskip
+
+
+\bu{Mgf of sums of independent random variables}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item In some applications, it is sufficient to know the mean and variance of a linear combination of random variables, say, $Y$. This is what we learned last section (5.3).
+    \item[] However, it is often helpful to know exactly how $Y$ is distributed (pmf / pdf / mgf). The easiest way to do this is via moment generating functions.
+    \item Recall the definition: The moment generating function (mgf) of random variable $X$ (or the distribution of $X$), denoted $M_X(t)$, was defined by the following in the univariate case\bigskip\\
+    \begin{tabular}{c c c c c}
+        & \ul{In general} & & \ul{Discrete} & \ul{Continuous}\\
+        $M_X(t) = $ & $E(\e^{tx})$ & $\rightarrow$ & $\displaystyle \sum_x \e^{tx} f(x) $ & $\integral{-\infty}{\infty}{\e^{tx} \, f(x)}{x}$\\
+    \end{tabular}\bigskip
+    \item[] Additionally, the mgf of a random variable uniquely determines its distribution (i.e. no two random variables with ``different'' distributions share the same pdf).
+\end{itemize}\bigskip
+
+Mgf of sums of independent random variables\bigskip
+\begin{itemize}
+    \item Theorem: Let $X$ and $Y$ be independent random variables with mgfs $M_X(t)$ and $M_Y(t)$. Then the mgf of the random variable $S = X + Y$ is given by
+    \[M_S(t) = M_X(t) \cdot M_Y(t)\]
+    \item Proof:\vspace{90pt}
+    \item Example 1: $X \follow{Normal}(\mu_1, \sigma_1^2)$ and $Y \follow{Normal}(\mu_2, \sigma_2^2)$ and $X \ind Y$. Find the distribution of $S = X + Y$.\vspace{90pt}
+    \item Note: Whenever finding the distribution of a sum random variables (e.g. $X + Y$), always start with mgfs. It is usually to use the mgf rather than doing transformations using the pmf / pdf.\bigskip
+    \item Now we can extend the previous theorem to a sum of $n$ random variables:
+    \item[] Theorem: Let $\vecn{X}{n}$ be mutually independent random variables with mgfs $M_{X_1}(t), \ldots, M_{X_n}(t)$. Let $Y = X_1 + \cdots + X_n$.
+    \[M_Y(t) = \hspace{300pt}\]
+    \item[] In particular, if $\vecn{X}{n}$ all have the same distribution with mgf $M_X(t)$, then
+    \[M_Y(t) = \]
+    \item More examples: 
+    \begin{enumerate}\setcounter{enumi}{1}
+        \item Suppose $X_1$ and $X_2$ are independent Poisson random variables with means $\lambda_1$ and $\lambda_2$, respectively. Find the distribution of $X_1 + X_2$.
+        \item[] Recall that the mgf of a Poisson$(\lambda)$ distribution is $M_X(t) = \e^{\lambda(\e^t - 1)}$.\vspace{30pt}
+        \item Suppose $X_1$ and $X_2$ are $iid$ Bernoulli random variables ($M_X(t) = (1 - p) + p\e^t$). Find the distribution of $X_1 + X_2$.\vspace{30pt}
+        \item The same logic can be used for $iid$ geometric distributions ($M_X(t) = \frac{p\e^t}{1 - q\e^t}$) and $iid$ exponential distributions ($M_X(t) = \frac{\beta}{\beta - t}$).\vspace{50pt}
+        \item Suppose $\vecn{X}{n}$ are mutually independent random variables, and \\$X_i\ \follow{Gamma}(\alpha_i, \beta)$. Find the distribution of $Y = X_1+ \cdots + X_n$.
+        \item[] Recall that the mgf of a Gamma$(\alpha, \beta)$ distribution is $M_X(t) = \big(\frac{\beta}{\beta - t}\big)^\alpha$.\vspace{110pt}
+    \end{enumerate}
+    \item In general, we can say extend the previous examples and state the following results, which all match our previous explanations / interpretations of the relationships between these distributions:
+    \begin{itemize}
+        \item Poisson:
+        \item[] If $\vecn{X}{n} \followsp{\ind}{Poisson}(\lambda_i)$, then $Y = X_1 + \cdots + X_n \follow{Poisson}(\lambda_1 + \cdots + \lambda_n)$.\bigskip
+        \item Bernoulli:
+        \item[] $\vecn{X}{n} \followsp{iid}{Bernoulli}(p)$, then $Y = X_1 + \cdots + X_n \follow{Binomial}(n, p)$.\bigskip
+        \item Geometric:
+        \item[] If $\vecn{X}{r} \followsp{iid}{Geometric}(p)$, then $Y = X_1 + \cdots + X_r \follow{Negative Binomial}(r, p)$.\bigskip
+        \item Exponential:
+        \item[] $\vecn{X}{\alpha} \followsp{iid}{Exponential}(\lambda)$, then $Y = X_1 + \cdots + X_\alpha \follow{Gamma}(\alpha, \beta)$.\bigskip
+        \item Gamma:
+        \item[] $\vecn{X}{n} \followsp{\ind}{Gamma}(\alpha_i, \beta)$, then $Y = X_1 + \cdots + X_n \follow{Gamma}(\alpha_1 + \cdots + \alpha_n, \beta)$.\bigskip
+    \end{itemize}
+    \item Extension of previous theorem to sums of linear combinations of random variables:
+     \item[] Let $\vecn{X}{n}$ be mutually independent random variables with mgfs $M_{X_1}(t), \ldots, M_{X_n}(t)$. Let $\vecn{a}{n}$ and $\vecn{b}{n}$ be fixed constants. Let $Y = (a_1 X_1 + b_1) + \cdots + (a_n X_n + b_n)$. Then the mgf of $Y$ is
+     \[M_Y(t) = \big(\e^{t \sum b_i}\big) M_{X_1}(a_1 t) \cdots M_{X_n}(a_n t)\]
+     \item[] Proof:\vspace{100pt}
+     \item Example: Let $X_1 \follow{Normal}(\mu = 5, \sigma^2 = 4)$, $X_2 \follow{Normal}(\mu = 3, \sigma^2 = 8)$, and $X_1 \ind X_2$. Find the distribution of $Y = 3X_1 + 2X_2 - 1$.
+     \item[] Recall $M_X(t) = \exp\big[\mu t + \frac{\sigma^2 t^2}{2}\big]$.\vspace{150pt}
+     \item Important result from this:
+     \item[] Theorem: Let $\vecn{X}{n}$ be mutually independent random variables with \\$X_i \follow{Normal}(\mu_i, \sigma_i^2)$. Let $\vecn{a}{n}$ and $\vecn{b}{n}$ be fixed constants. Then,
+     \[Y =\sum_{i = 1}^n (a_i X_i + b_i) \follow{Normal}\bigg(\mu = \sum_{i = 1}^n (a_i \mu_i + b_i), \, \sigma^2 = \sum_{i = 1}^n a_i^2 \sigma_i^2\bigg)\]\vspace{15pt}
+     \item[]  $\Longrightarrow$ Sum of normal random variables is \blankul{2cm} normal.
+\end{itemize}
+
+\end{document}

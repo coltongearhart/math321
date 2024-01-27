@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\cov}[1]{\mathrm{Cov}(#1)}		% shortcut for Cov(X,Y) with formatting for Cov
+\newcommand{\corr}[1]{\mathrm{Corr}(#1)}		% shortcut for Corr(X,Y) with formatting for Corr
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Homework 16}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due} \blankul{4cm}: Turn in a hard copy, neat and stapled.}\bigskip
+
+
+% problem types summary
+% 1) find joint density from two independent vars and find joint probability and variance
+% 2) show independence and find cov
+% 3) find corr of independent vars, find conditional dist for independent vars
+% 4) calculating corr, and for function of vars finding cov, corr and variance of sum
+
+\begin{enumerate}
+    \item An insurance company sells two types of auto insurance policies: Basic and Deluxe.%Actex 10-33 (just broken down into steps and changed letters)
+    \item[] The time until the next Basic Policy ($X$) claim is an exponential random variable with mean two days. The time until the next Deluxe Policy claim ($Y$) is an independent exponential random variable with mean three days.
+    \begin{enumerate}
+        \item Find the density function needed to solve $P(Y < X)$.
+        \item Calculate the probability from part (a).
+        \item Find the variance of the combined waiting time for the two different policy types $X + Y$.%Original addition
+    \end{enumerate}\bigskip
+    
+    \item Let $\displaystyle f(x,y) = \frac{4(1 - xy)}{3}$ \quad for $0 \le x \le 1$ and $0 \le y \le 1$.%Actex 11-11 part c (using density from 11-8, previous questions have it broken down, but letting them figure that out)
+    \begin{enumerate}
+        \item Show if $X$ and $Y$ are independent or dependent.
+        \item Find $\cov{X,Y}$.
+    \end{enumerate}\bigskip
+    
+    \item A joint density function is given by
+    \[f(x,y) = kx \quad  0 < x < 1, 0 < y < 1\]
+    \item[] where $k$ is a constant.
+    \begin{enumerate}
+        \item Find $\corr{X,Y}$.%Actex 11-53 (except corr instead of cov)
+        \item Find $f(x \mid y)$.%Original addition
+    \end{enumerate}\bigskip
+    
+    \item Let $X$ and $Y$ be the number of hours that a randomly selected person watches movies and sporting events, respectively, during a month. The following information is known about $X$ and $Y$.%Actex 11-50 (setup)
+    \[E(X) = 50 \quad V(X) = 50 \quad E(Y) = 20 \quad V(Y) = 30 \quad \cov{X,Y} = 10\]
+    \begin{enumerate}%All original additions
+        \item Find $\corr{X,Y}$.
+        \item Let $X'$ and $Y'$ now represent the number of minutes spent watching movies and sporting events respectively. Find $\cov{X',Y'}$.
+        \item Find $\corr{X',Y'}$.
+        \item Find $V(X' + Y')$.
+    \end{enumerate}
+    
+\end{enumerate}
+
+\newpage
+    
+Select answers\bigskip
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $P(Y < X) = 0.4$
+        \item $V(X + Y) = 13$
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $\cov{X, Y} = -1/81$
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item 
+        \item 
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item $\corr{X, Y} \approx 0.2582$ 
+        \item $\cov{X', Y'} = 36,000$ 
+        \item 
+        \item $V(X' + Y') = 360,000$
+    \end{enumerate}
+        
+\end{enumerate}
+
+\end{document}

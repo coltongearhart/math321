@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\cov}[1]{\mathrm{Cov}(#1)}		% shortcut for Cov(X,Y) with formatting for Cov
+\newcommand{\corr}[1]{\mathrm{Corr}(#1)}		% shortcut for Corr(X,Y) with formatting for Corr
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: In-Class 16}
+\end{center}
+
+\bigskip\bigskip
+
+% problem types summary
+% 1) showing independence (by def) and using independence to find probabilities and expected value
+% 2) showing independence by inspection, calculator work to find cov (alternate formula and by def) and corr
+
+\begin{enumerate}
+    \item Let $\displaystyle f(x,y) = \frac{xy^2}{12}, \quad 0 \le x \le 3, 0 \le y \le 2$.%Lazar Problem 4.1-6 (except made continuous, so had to find new normalizing constant)
+    \begin{enumerate}
+        \item Show if $X$ and $Y$ are independent or dependent using the definition.\vspace{100pt}
+        \item Using your results from part (a), write the integrals to find $P(X > 2, Y < 1.5)$ and $E(Y^3\sqrt{X})$ (don't actually solve, just set up).\vspace{50pt}
+    \end{enumerate}
+    
+    \item Let $\displaystyle f(x,y) = \frac{x + 2y}{18}$\quad for $x = 1, 2$ and $y = 1, 2$ be the joint pmf for the random vector $(X,Y)$.%Lazar Problem 4.2-1
+    \begin{enumerate}
+        \item Show if $X$ and $Y$ are independent or dependent by inspection.\vspace{50pt}
+        \item Using your calculator, find all of the following items:
+        \item[] $E(X)$, $E(Y)$, $SD(X)$, $SD(Y)$ and $E(XY)$.\vspace{150pt}
+        \item Using your results from part (c), calculate $\cov{X,Y}$ using the alternate formula and $\corr{X,Y}$.\vspace{100pt}
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}

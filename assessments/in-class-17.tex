@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: In-Class 17}
+\end{center}
+
+\bigskip\bigskip
+
+
+% problem types summary
+% 1) variance of linear combination of rvs
+% 2) independent joint binomial probability, distribution of sum of binomials via mgf, binomial probability
+% 3) find multivariate marginal dist and conditional dist
+% 4) distribution and probability of sum of normals
+
+\begin{enumerate}
+    \item Find $V(W - 3X - 0.5Y + 4Z)$ in terms of the variances and covariances of $W$, $X$, $Y$ and $Z$.\vspace{100pt}%Original questions
+    
+    \item Let $X_1, X_2, X_3$ be mutually independent random variables where $X_1 \follow{Bin}(n = 3, p = 0.2)$, \\$X_2 \follow{Bin}(n = 4, p = 0.2)$, and $X_3 \follow{Bin}(n = 5, p = 0.2)$.\bigskip%Lazar HW 2 AQ2
+    \begin{enumerate}
+        \item Find $P(X_1 = 2, X_2 = 1, X_3 = 3)$.\vspace{100pt}
+        \item Find the distribution of $S = X_1 + X_2 + X_3$ using the mgf technique.\vspace{100pt}%Original addition
+        \item Find $P(S < 4)$.\vspace{50pt}
+    \end{enumerate}\newpage
+    
+    \item Suppose $f(x, y, z) = \frac{1}{4}x, \quad 0 \le x \le 2, 0 \le y \le 1, 0 \le z \le 2$.\bigskip%Original questions (made up the range and main piece of joint density then found normalizing constant)
+    \begin{enumerate}
+        \item Find the marginal distribution $f(y)$.\vspace{130pt}
+        \item Find the conditional distribution $f(x,z \mid y)$.\vspace{130pt}
+    \end{enumerate}
+    
+    \item Let $X_1, X_2, X_3$ be mutually independent random variables where $X_1 \follow{Normal}(\mu = 150, \sigma^2 = 225)$, $X_2 \follow{Normal}(\mu = 100, \sigma^2 = 64)$, and $X_3 \follow{Normal}(\mu = 200, \sigma^2 = 81)$.%Lazar HW 2 AQ7 (setup without context, problem i-ish)
+    \item[] Find $P(X_1 + 3X_2 < 2X_3)$.
+    \item[] \textit{HINT: Rearrange the probability statement to see the distribution we need to find first.}
+\end{enumerate}
+
+
+    
+
+\end{document}
