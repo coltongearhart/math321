@@ -875,7 +875,7 @@ Upload your completed (to the best of your ability) the completed starter file f
 
 ## Homework
 
-FILES: Excel [high-school-data.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/files/high-school-data.xlsx), R [high-school-data.csv](https://github.com/coltongearhart/math321/blob/main/r/files/data/high-school-data.csv),  [homework-3.tex](https://github.com/coltongearhart/math321/blob/main/assessments/homework-3.tex), and  [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+FILES: Excel [high-school-data.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/high-school-data.xlsx), R [high-school-data.csv](https://github.com/coltongearhart/math321/blob/main/r/files/data/high-school-data.csv),  [homework-3.tex](https://github.com/coltongearhart/math321/blob/main/assessments/homework-3.tex), and  [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
 
 Instructors can contact me for solutions :)
 
