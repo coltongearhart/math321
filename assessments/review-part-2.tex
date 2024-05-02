@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+\newcommand{\order}[2]{#1_{(#2)}}		% shortcut for order stat notation X_{(j)} (random variable and subscript variable)
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Review Part 2}
+
+\end{center}
+
+% problem types summary
+% 1) probability for sum of normals
+% 2) order stats -> extreme cdfs and pdfs, middle cdf and pdfs, middle probability using cdf and setting up expected value and probability using middle pdf
+% 3) MME
+% 4) MLE
+% 5) CLT for mean and sum from geometric
+% 6) CLT for mean unknown dist given mu and unknown sigma^2, t dist derivation, Z dist derivation
+
+\bigskip\bigskip
+
+\begin{enumerate}
+    \item Let $X_1$ and $X_2$ be independent random variables where $X_1 \follow{Normal}(\mu = 1, \sigma = 2)$, and \\ $X_2 \follow{Normal}(\mu = 5, \sigma = 3)$.
+    \item[] Find $P(3X_1 - X_2 < 2)$.\vspace{70pt}
+
+    
+    \item Let $\order{X}{1}, \ldots, \order{X}{8}$ be the order statistics of a random sample of size $n = 8$ from a random variable $X$ with pdf%Original question
+    \[f(x) = \frac{3}{4} (x^2 + 1), \quad 0 \le x \le 1\]
+    \begin{enumerate}
+        \item Find the cdf of $X$, $F_X(x)$, and $P(X \le 0.25)$.\vspace{140pt}
+        \item Find the cdfs $F_{\order{X}{1}}(x)$ and $F_{\order{X}{8}}(x)$.\vspace{140pt}
+        \item Find the pdfs $f_{\order{X}{1}}(x)$ and $f_{\order{X}{8}}(x)$.\vspace{140pt}
+        \item Find the cdf $F_{\order{X}{6}}(x)$\vspace{140pt}
+        \item Find $P(\order{X}{6} \le 0.25)$.\vspace{140pt}
+        \item Find the pdf $f_{\order{X}{5}}(x)$.\vspace{140pt}
+        \item Write the integrals to find $E(\order{X}{5})$ and $P(\order{X}{5} \ge 0.75)$\vspace{140pt}
+    \end{enumerate}\newpage
+    
+    \item Let $\vecn{X}{n}$ be a random sample from $f(x \mid \theta) = \theta x, \quad 0 < x < 1, \, \theta > 0$.%Original pdf
+    \begin{enumerate}
+        \item Find the MME of $\theta$.\vspace{140pt}
+        \item Show if $\hat{\theta}_{MME}$ is unbiased.\vspace{60pt}
+    \end{enumerate}
+    
+    \item  Let $\vecn{X}{n}$ be a random sample from $f(x \mid \theta) = (\theta + 1) x ^{\theta}, \quad 0 < x < 1, \, \theta > -1$.%Math stats with apps problem 9.88
+    \begin{enumerate}
+        \item Find the MLE of $\theta$.\vspace{320pt}
+        \item Find the MLE of $\displaystyle E(X) = \frac{\theta+1}{\theta+2}$.\vspace{60pt}
+    \end{enumerate}\newpage
+    
+    \item Let $\vecn{X}{35}$ be a random sample from a $\text{Geometric }(p = 0.45)$ experiment.%Original question
+    \begin{enumerate}
+        \item Let $Y_1$ be the average number of trials to get the first success in the $n = 35$ runs of this experiment, i.e. $Y_1 = \bar{X}$. Find the distribution of $Y_1$.\vspace{80pt}
+        \item Let $Y_2$ be the total number of runs (across all trials) to get the first success in $n = 35$ trials of this experiment, i.e. $Y_2 = \sum_{i = 1}^{35} X_i$. Find the distribution of $Y_2$.\vspace{80pt}
+    \end{enumerate}
+    
+    \item Let $\vecn{X}{40}$ be a random sample from a $f(x)$, where $\mu = 15$ and $\sigma^2$ is unknown. Let $\bar{X}$ be the sample mean and $S$ be the sample standard deviation.%Original question
+    \begin{enumerate}
+        \item Find the distribution of $\bar{X}$.\vspace{80pt}
+        \item Find the distribution of $\displaystyle \frac{\bar{X} - 15}{S / \sqrt{40}}$.\vspace{80pt}
+        \item Suppose we know the population variance $\sigma^2 = 4$. Find the distribution of $\displaystyle \frac{\bar{X} - 15}{2 / \sqrt{40}}$.\vspace{80pt}
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}

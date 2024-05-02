@@ -1,5 +1,5 @@
 \documentclass{article}
-\usepackage{style-notes}
+\usepackage{style-lectures}
 
 \newcounter{lecnum} 	% define counter for lecture number
 \renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
@@ -235,7 +235,7 @@ Expected value and variance of linear functions of random variables\bigskip
         \item If we have more than 3 random variables, this still works!\bigskip\\
         \begin{tabular}{l l l}
             $(a_1 X_1 + a_2 X_2 + \cdots + a_n X_n)^2$ & $=$ & $\displaystyle \sum_{i = 1}^n a_i^2 X_i^2 + 2 \sum_{i < j} a_i a_j X_i X_j$ \\\\
-            $V(a_1 X_1 + a_2 X_2 + \cdots + a_n X_n)^2$ & $=$ & $\displaystyle \sum_{i = 1}^n a_i^2 V(X_i) + 2 \sum_{i < j} a_i a_j \cov{X_i, X_j}$ \\
+            $V(a_1 X_1 + a_2 X_2 + \cdots + a_n X_n)$ & $=$ & $\displaystyle \sum_{i = 1}^n a_i^2 V(X_i) + 2 \sum_{i < j} a_i a_j \cov{X_i, X_j}$ \\
         \end{tabular}\bigskip
         \item Example: Let $X_1$, $X_2$ and $X_3$ be random variables, where 
 $V(X_1) = 1$, $V(X_2) = 3$, $V(X_3) = 5$, $\cov{X_1,X_2} =-0.4$, $\cov{X_1,X_3} = 0.5$, $\cov{X_2,X_3} = 2$.

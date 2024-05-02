@@ -1,0 +1,43 @@
+# Lecture 6 -- Confidence Intervals {.unnumbered}
+
+## Guided Notes
+
+FILES: BLANK [lecture-6.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-6.pdf), [lecture-6.tex](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-6.tex), and [style-lectures.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-lectures.sty)
+
+<embed src="lectures/lecture-6-COMPLETED.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## In-Class Activity
+
+FILES: [in-class-6.tex](https://github.com/coltongearhart/math321/blob/main/assessments/in-class-6.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for keys :)
+
+<embed src="assessments/in-class-6.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## Homework
+
+FILES: Excel [homework-6-data.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/files/homework-6-data.xlsx), R [homework-6-data.RData](https://github.com/coltongearhart/math321/blob/main/r/files/data/homework-6-data.RData),  [homework-6.tex](https://github.com/coltongearhart/math321/blob/main/assessments/homework-6.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+
+- If doing the assignment in R: After saving the .RData file in the same directory as your R script, run the following command to load the data.
+
+```{r}
+
+# load data
+load("r/files/data/homework-6-data.RData")
+
+```
+
+```{r}
+#| echo: false
+
+# preview datasets
+for (obj in ls()) {
+  cat('---', obj, '---\n') # print variable name with formatting
+  str(get(obj)) # display structure
+}
+
+```
+
+Instructors can contact me for solutions :)
+
+<embed src="assessments/homework-6.pdf" type="application/pdf" width="100%" height="1000px"></embed>

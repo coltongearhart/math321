@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: In-Class 6}
+\end{center}
+
+\bigskip\bigskip
+
+% problem types summary
+% 1) conditions for CI for p, two sided interval, one sided lower and upper intervals
+% 2) difference in two proportions two sided interval
+% 3) two sided CI for p
+% 4) difference in two proportions two sided interval
+% 5) several two sided intervals for p, changing different variables for the CI and seeing results
+
+
+
+\begin{enumerate}
+    \item A NatGeo Poll interviewed 1200 hiking enthusiasts and asked ``Are you more afraid of spiders or snakes??'' Out of the 1200 people, 768 responded ``Ewww, snakes...''
+    \begin{enumerate}%CSCC 1450 UPDATED LU 7 - Confidence Intervals and Sample Size for Proportions - Days 1 and 2
+        \item Check the conditions for a confidence interval for the true proportion $p$ of hikers who are more afraid of snakes.\vspace{20pt}
+        \item Calculate a 95\% confidence interval for $p$.\vspace{60pt}
+        \item Calculate a 90\% lower-bound confidence interval for $p$ and a 90\% upper-bound confidence interval for $p$.\vspace{60pt}% Extra addition
+    \end{enumerate}
+    
+    \item The poll from (1) also asked 1100 climbers the same question. 662 of the 1100 climbers, responded ``Ewww, snakes....''%CSCC 1450 UPDATED LU 9 - Inferences from Two Samples
+    \item[] Calculate a 92\% confidence interval for the difference in proportion of climbers vs hikers who are more afraid of snakes than spiders. State the conclusion as well.\vspace{120pt}
+    
+    \item 15 out of 23 people from a random sample said their National Championship team is still remaining in their NCAA March Madness Bracket.%CSCC 1450 UPDATED LU 7 - Confidence Intervals and Sample Size for Proportions - Days 1 and 2
+    \item[] Calculate a 85\% confidence interval for the true proportion $p$ of brackets that still have their National Championship team remaining.\vspace{70pt}\newpage
+ 
+    \item For a comparison of the rates of defectives produced by two assembly lines, independent random samples of 100 items were selected from each line. Line A yielded 18 defectives in the sample, and line B yielded 12 defectives.
+    \item[] Find a 98\% confidence interval for the true difference in proportions of defectives for the two lines AND state a conclusion if one line produces a higher proportion of defectives than the other.\vspace{120pt}% Math stats with apps problem 8.65
+    
+    \item From a random sample 500 people, 64\% said they prefer to vacation at the beach compared to the mountains.%CSCC 1450 UPDATED LU 7 - Confidence Intervals and Sample Size for Proportions - Days 1 and 2
+    \begin{enumerate}
+        \item Calculate a 93\% confidence interval for the true proportion $p$ of people who prefer beaches over mountains for vacation.\vspace{70pt}
+        \item If the sample size was increased to 600 people and all else remains constant, what will happen to the new confidence interval? Calculate this new interval.\vspace{70pt}
+        \item If the confidence level for the interval from (a) changed to 90\% confident, what will happen to the new confidence interval? Calculate this new interval.\vspace{70pt}
+    \end{enumerate}
+        
+\end{enumerate}
+
+
+\end{document}

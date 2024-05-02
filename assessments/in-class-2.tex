@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\order}[2]{#1_{(#2)}}		% shortcut for order stat notation X_{(j)} (random variable and subscript variable)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: In-Class 2}
+\end{center}
+
+\bigskip\bigskip
+
+% problem types summary
+% 1) bivariate order stats survival function and cdfs
+% 2) extreme order stats for 3 variables cdfs and pdfs (solve in different ways), probabilities of order stats, then median (middle) order stat using theorems
+% 3) R testing sample from t follows normal with qqplot
+
+\begin{enumerate}
+    \item Suppose $X_1, X_2 \overset{iid}\sim f(x) = 3x^2 \quad 0 < x < 1$.
+    \begin{enumerate}% Original question (based on notes when introduced order stats)
+        \item Find the survival function of $\order{X}{1} = min(X_1, X_2)$.\vspace{80pt}
+        \item Find the cdf of $\order{X}{1} = min(X_1, X_2)$.\vspace{40pt}
+        \item Find the cdf of $\order{X}{2} = max(X_1, X_2)$.\vspace{80pt}
+    \end{enumerate}\bigskip
+    
+    \item Let $X_1, X_2, X_3$ be a random sample from Exponential ($\lambda = 2)$.
+    \begin{enumerate}% Original questions (combo of (less variables) pieces of lazar 6.3-1 and 6.3-3 problems)
+        \item Find the cdf of $\order{X}{3} = max(X_1, X_2, X_3)$.\vspace{100pt}
+        \item Find the pdf of $\order{X}{3} = max(X_1, X_2, X_3)$ by taking the derivative of part (a).\vspace{100pt}
+        \item Find the pdf of $\order{X}{3} = max(X_1, X_2, X_3)$ using the pdf theorem (answer should match (b)).\vspace{80pt}
+        \item Find the cdf of $\order{X}{1} = min(X_1, X_2, X_3)$. \textit{HINT: Can start with the cdf written as a probability statement and then think about it with logic to continue (and use a complement).}\vspace{130pt}
+        \item Find $P(\order{X}{1} < 1.5)$ and $P(\order{X}{3} < 1.5)$.\vspace{80pt}
+        \item Find the cdf and the pdf of the sample median $\order{X}{2}$ using the theorems.\vspace{150pt}
+    \end{enumerate}\bigskip
+    
+    \item Use R to create a qqplot using the following steps:
+    \begin{enumerate}
+        \item Generate (and save) a random sample of size $n = 100$ from $X \follow{$t$}(2)$.
+        \item Run the following two lines:
+        \item[] qqnorm(< your sample >)
+        \item[] qqline(< your sample >)
+        \item Roughly sketch the result, which is visually testing whether a $t$ distribution matches the characteristics of a normal distribution.
+        \item[] Is there a pattern? Draw / trace it. What does this pattern tell you about the $t$-distribution? 
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}

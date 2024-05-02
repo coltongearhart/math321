@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+\newcommand{\cov}[1]{\mathrm{Cov}(#1)}		% shortcut for Cov(X,Y) with formatting for Cov
+\newcommand{\corr}[1]{\mathrm{Corr}(#1)}		% shortcut for Corr(X,Y) with formatting for Corr
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Review Part 1}
+
+\end{center}
+
+% problem types summary
+% 1) continuous joint pdf probabilities, independence, conditional pdfs and expected value
+% 2) continuous joint pdf probabilities, independence, conditional pdfs and expected value
+% 3) discrete joint pmf probabilities, marginal and conditional pmfs, conditional probabilities and expected values, cov, corr and variances of sum of rvs
+
+\bigskip\bigskip
+
+\begin{enumerate}
+    \item Let $(X,Y)$ be a bivariate continuous random vector with joint pdf \\ $\displaystyle f(x,y) = 3x$ \quad for $0 \le y \le x \le 1$.% Math stats with apps 5.5 (just the pdf, modified questions)
+    \begin{enumerate}
+        \item Find $P(X \ge 0.5, Y \ge 0.5)$.\vspace{175pt}
+        \item Show if $X \ind Y$ using the definition.\vspace{140pt}
+        \item Find the conditional pdfs $f(x \mid y)$ and $f(y \mid x)$.\vspace{120pt}
+        \item Using result from (c), find $E(X \mid Y = 0.5)$.\vspace{100pt}
+    \end{enumerate}\bigskip
+    
+    \item Let $(X,Y)$ be a bivariate continuous random vector with joint pdf \\ $\displaystyle f(x,y) = 4xy$ \quad for $0 \le x \le 1, 0 \le y \le 1$.% Math stats with apps 5.8 (just the pdf, original and modified questions)
+    \begin{enumerate}
+        \item Find $P(Y \ge X)$.\vspace{175pt}
+        \item Show if $X \ind Y$ by inspection.\vspace{70pt}
+        \item Using result from (b), find $E(X^4 Y)$\vspace{150pt}
+    \end{enumerate}\bigskip
+    
+    \item Let $(X,Y)$ be a bivariate discrete random vector with joint pmf table: \hspace{20pt} % Math stats with apps 5.19 (just the pmf table (modified to less values), original and modified questions)
+    \begin{tabular}{| c || c | c |}
+        \hline
+        \backslashbox{$y$}{$x$} & 0 & 1\\
+        \hline\hline
+        0 & 2/9 & 3/9 \\
+        \hline
+        1 & 2/9 & 1/9 \\
+        \hline
+        2 & 1/9 & 0 \\
+        \hline
+    \end{tabular}\bigskip
+    \begin{enumerate}
+        \item Find the following probabilities: $P(X \le 1, Y = 0)$, $P(X + 1 \le Y)$, and $P(Y^2 = X)$.\vspace{50pt} 
+        \item Find the marginal pmfs of $X$ and $Y$. Also find the conditional pmfs of $f(x \mid Y = 0)$ and $f(x \mid Y = 1)$.\vspace{140pt}
+        \item Find the following: $E(X \mid Y = 1)$, and $E(X + 1 \mid Y = 0)$.\vspace{100pt}
+        \item Find $\cov{X,Y}$.\vspace{150pt}
+        \item Find $\corr{X,Y}$.\vspace{120pt}
+        \item Find $V(X + Y)$.\vspace{60pt}
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,336 @@
+\documentclass{article}
+\usepackage{style-lectures}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+\newcommand{\gam}[1]{\Gamma(#1)}		% shortcut for gamma function (variable)
+\newcommand{\order}[2]{#1_{(#2)}}		% shortcut for order stat notation X_{(j)} (random variable and subscript variable)
+
+% NOTES on what didn't cover
+
+% from stat inference (theory textbook), order stats for discrete variables
+% -> the cdf are pretty much the same thing, except with discrete cdfs
+% -> the pdf is a bit different, but simple to understand
+% -> technically for continuous, the assumption is that you can't have ties (so my demonstration is a bit off)
+% good resource for order stats: https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathematical_Statistics_and_Stochastic_Processes_(Siegrist)/06:_Random_Samples/6.06:_Order_Statistics#:~:text=The%20sample%20range%20is%20r,dispersion%20of%20the%20data%20set.
+
+%technically S is biased for sigma when discussing qq plot strategies
+
+% solving E[F_X(X_(j))] as a function of a random variable (so integrating and using the pdf, I only used the theorem at the end
+% -> drew problem 6.3-1
+
+% darth vader rule to solve the expected value as integral of survival function, I don't get how it works (the integration) for this problem (cause of infinity)
+% -> also I never introduced this earlier either, could maybe throw it in where actex does? Chapter 9 (applications of continuous RVs) after mixed distributions
+% -> drew problem 6.3-2
+
+% proof of the pdf theorem as derivative of the cdf
+% -> page 250
+
+% proof (or the idea in general) of E[F_X(X_(j))] coming from the fact that F(X) ~ unif(0,1) and the jth order stat is a beta dist, which is where we get the j / (n+1) result
+% -> textbook page 251
+% -> also shown in theory lecture 3 page 3
+
+% joint distributions of order stats to find pdfs of range and midrange
+% -> theory lecture 3 page 5
+
+
+\begin{document}
+
+\lecture{2}{Order Statistics}{6}{Point Estimation}{6.3}
+
+\bu{Order statistics}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item Sample values such as the smallest, largest, or middle observation from a random sample can provide additional summary information. For example, the median price of houses sold during the previous month might be useful for estimating the cost of living.
+\end{itemize}\bigskip
+
+Definition\bigskip
+\begin{itemize}
+    \item The \textbf{order statistics} of a random sample $\vecn{X}{n}$ are the sample values placed in ascending order. They are denoted by $\order{X}{1}, \ldots, \order{X}{n}$.
+    \item[] The order statistics are random variables that satisfy $\order{X}{1} \le \cdots \le X_{(n)}$. In particular
+    \begin{align*}
+    \order{X}{1} &= \min_{1 \le i \le n} X_i,\\
+    \order{X}{2} &= \text{second smallest } X_i\\
+    &\vdots\\
+    \order{X}{n} &= \max_{1 \le i \le n} X_i.
+    \end{align*}
+    \item The formulas for the pdfs of the order statistics for a random sample from a continuous population will be the main topic in this section.
+    \item Notes:
+    \begin{itemize}
+        \item The distribution of  $X_{(j)}$ is not the same as the distribution of $X_j$
+        \item The range / support of is always the same as the random variable you are sampling from.
+    \end{itemize}
+
+\end{itemize}\bigskip
+
+Bivariate case, min and max of two random variables\bigskip
+\begin{itemize}
+    \item Before we generalize order statistics to $n$ random variables, we will look at the bivariate case.
+    \item[] This means we are studying the min and max of two random variables.
+    \item Derivation of the distributions of the functions $min(X_1, X_2)$ and $max(X_1, X_2)$.
+    \item[] Setup: Let $X_i \followsp{iid}{$f(x)$}$ for $i = 1,2$. We also have $F_X(x)$ and $S_X(x) = 1 - F_X(x)$.
+    \begin{itemize}
+        \item Minimum: Using the above notation with $n = 2$, let $\order{X}{1} = min(X_1, X_2)$.
+        \item We need to set up a probability statement that will make finding the distribution of $min(X_1, X_2)$ easier.\vspace{130pt}
+        \item Now we can find the distribution.\vspace{170pt}
+        \item Maximum: Let $\order{X}{2} = max(X_1, X_2)$.\vspace{250pt}
+    \end{itemize}
+    \item Examples:
+    \begin{enumerate}
+        \item Let $X_i \followsp{\ind}{Exp}(\lambda_i)$. Find the distribution of $min(X_1,X_2)$.\vspace{170pt}
+        \begin{itemize}
+            \item Adding context: Suppose $X_1$ and $X_2$ are independent waiting times for accidents in two towns where $X_i \followsp{iid}{Exp}(\lambda = 1)$. Then $Min = min(X_1,X_2) \sim$
+            \item This can be interpreted in a natural way. In each of two separate towns we are waiting for the first accident in a process where the average number of accidents is 1 per month. When we study the accidents of both towns we are waiting for the first accident in the process where the average number of accidents is a total of 2 per month.
+        \end{itemize}\bigskip
+        \item Let $X_i \followsp{iid}{Uniform}(0,10)$ for $i = 1,2$.
+        \begin{enumerate}
+            \item Find the distribution of $min(X_1,X_2)$ and $max(X_1, X_2)$.\newpage
+            \item Find the expected value of $min(X_1,X_2)$ and $max(X_1, X_2)$.\vspace{160pt}
+        \end{enumerate}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Generalizing order statistics\bigskip
+\begin{itemize}
+    \item Example: Let $X$ be a random variable with pdf $f(x) = 2x, \quad 0 < x < 1$ and let $\vecn{X}{5}$ be a random sample from $X$.
+    \begin{enumerate}[(a)]
+        \item Find the pdf of $\order{X}{1}$, the first order statistic.
+        \item[] Note: One strategy is to find cdf first, and then take derivative to find pdf.
+        \item[] $f_{\order{X}{j}}(x) = F'_{\order{X}{j}}(x)$.
+        \item[] Also we are going to frame everything using cdfs rather than survival functions like with the bivariate case.\newpage
+        \item Find the pdf of $\order{X}{4}$, the fourth order statistic.\vspace{220pt}
+        \item Find $P(X < 1/2)$, $P(\order{X}{1} < 1/2)$, and $P(\order{X}{4} < 1/2)$.\vspace{150pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Order statistics distribution theorem\bigskip
+\begin{itemize}
+    \item Theorem: Let $\order{X}{1}, \ldots, \order{X}{n}$ denote the order statistics of a random sample, $\vecn{X}{n}$, from a continuous population with cdf $F_X(x)$ and pdf $f_X(x)$. Then the \textbf{cdf of $\boldsymbol{\order{X}{j}}$} is
+    \[F_{\order{X}{j}}(x) = \sum_{k = j}^n {n \choose k} [F_{X}(x)]^k [1- F_X(x)]^{n - k}\]
+and the \textbf{pdf of $\boldsymbol{\order{X}{j}}$} is 
+    \[f_{\order{X}{j}}(x) = \frac{n!}{(j - 1)!(n - j)!} \, [F_X(x)]^{j - 1} \, f_X(x) \, [1 - F_X(x)]^{n - j}\]\bigskip
+    \item Walk through for proof of theorem:
+    \begin{itemize}
+        \item Obtaining the pdf for the $j$th order statistic is the main goal. To do this, we first find the cdf for $X_{(j)}$ and then differentiate it to get the pdf.
+         \item[] The equation for the cdf of the $j$th order statistic is closely related to the cdf of the binomial distribution.
+        \item $\order{X}{j}$ represents the $j$th smallest value. So the cdf is
+        \[F_{\order{X}{j}}(x) = P(\order{X}{j} \le x)\]
+        \begin{itemize}
+            \item Interpretation: This is the probability that at least $j$ of $X_i$s are less than or equal to $x$.
+            \item[] So, we are essentially just counting something, specifically the number of random variables in our random sample less than $x$.
+            \item Example: Let $\vecn{X}{5}$ be a random sample from $f(x)$. We are interested finding in $P(\order{X}{3} \le 4)$.
+            \item[] Note: If $\order{X}{j} \le x$, then $\order{X}{j-1} \le x$ must be true. But $\order{X}{j+1} \le x$ can also be true.\bigskip\\
+            \begin{tabular}{c c c c c c}
+                Data & $\order{X}{1}$ & $\order{X}{2}$ & $\order{X}{3}$ & $\order{X}{4}$ & $\order{X}{5}$\\
+                \hline\\
+                (a) & 2 & 3 & 4 & 5 & 6 \\\\
+                (b) & 2 & 3 & 4 & 4 & 5 \\\\
+                (c) & 2 & 3 & 4 & 4 & 4 \\\\
+                (d) & 2 & 4 & 4 & 5 & 6 \\\\
+                (e) & 2 & 5 & 4 & 5 & 6 \\
+            \end{tabular}\bigskip
+        \end{itemize}\bigskip
+        \item Thus, we can use the binomial distribution to find the cdf of $\order{X}{j}$.
+        \item[] We can define the event of success as $\{X_j \le x\}$, because we are counting how many of the original sample $\vecn{X}{n}$ are less than $x$.
+        \item Let $Y$ be a random variable that counts the number of $\vecn{X}{n}$ less than or equal to $x$.
+        \item[] Then, we see that $Y \sim $\vspace{180pt}
+        \item Then $f_{\order{X}{j}}(x) = \frac{d}{dx} F_{\order{X}{j}}(x)$.
+        \item[] This derivation is not straightforward, but it can be intuitively understood.
+        \item Concept: The pdf assigns our $n$ random variables to three groups of sizes:
+        \item[] Recall a \textbf{partition} of $n$ objects into $k$ groups of sizes $\vecn{n}{k}$ equals $\frac{n!}{n_1! \cdot \ldots \cdot n_k!}$.\vspace{100pt}
+        \[f_{\order{X}{j}}(x) = \frac{n!}{(j - 1)!\, 1! \, (n - j)!} \, [P(X \le x)]^{j - 1} \, f_X(x) \, [P(X > x)]^{n - j}\]\vspace{60pt}
+    \end{itemize}
+    \item It is worth noting the special cases for the extreme order statistics (then show for bivariate case):
+    \item[] Smallest: $f_{\order{X}{1}}(x) = n f(x) [1 - F(x)]^{n-1}$ $\rightarrow$\vspace{20pt}
+    \item[] Largest: $f_{\order{X}{n}}(x) = n [F(x)]^{n-1}f(x)$ $\rightarrow$
+\end{itemize}\bigskip
+
+Specific order statistics and functions of order statistics\bigskip
+\begin{itemize}
+    \item Several very common statistics are actually order statistics.
+    \item[] The importance of order statistics has increased because of more frequent use of nonparametric inferences and robust procedures.
+    \item Sample median: 
+    \begin{itemize}
+        \item The sample median, which we will denote by $M$, is a number such that approximately one-half of the observations less than $M$ and one-half are greater.
+        \item In terms of the order statistics, $M$ is defined by
+        \[M =
+        \left\{
+        \begin{array}{ll}
+            \order{X}{\frac{n+1}{2}} & \text{if $n$ is odd}\\
+            \big[\order{X}{\frac{n}{2}} + \order{X}{\frac{n}{2} + 1}\big] / 2 & \text{if $n$ is even}\\
+        \end{array}
+        \right.\]
+        \item[] So it is the sole middle observation or the average of the two middle observations.
+        \item The median is a measure of location that might be considered as alternative to the sample mean.
+        \item Sample mean vs sample median.
+	\begin{itemize}
+            \item Sample mean: Can be \textbf{more efficient} (i.e. more accurate in some sense because it's using all of the data ($\sum X_i$)).
+            \item[] But \textbf{less robust} because it can be affected by outliers when using all of the data.
+            \item Sample median: \textbf{Less efficient} because it only uses the first half of the data (e.g. if $\boldsymbol{x} = \{1, 2, 3, 4, 5\}$, it is only using 1, 2 and 3 to find the median (starts from left and stops when it gets to the median)).
+            \item[] But \textbf{more robust} because it is only using half the data.
+        \end{itemize}
+        \end{itemize}
+    \item Sample range, $R = \order{X}{n} - \order{X}{1} = max(\vecn{X}{n}) - min(\vecn{X}{n})$.
+    \item[] This is a measure of spread which gives the distance spanned by the entire sample.
+    \item $IQR = Q_3 - Q_1$.
+    \item[] In terms of order statistics, given an even $2m$ or odd $2m+1$ random variables:\bigskip\\
+     \begin{tabular}{l l l}
+        $Q_1$ & $=$ & median of the smallest $m$ values\\
+        $Q_3$ & $=$ & median of the largest $m$ values\\
+    \end{tabular}
+    \item[] This is a measure of spread that might be considered as alternative to the standard deviation. It is better for skewed data or when there is outliers.
+    \item $\displaystyle \text{Midrange} = \frac{\order{X}{1} + \order{X}{n}}{2}$.
+    \item[] This is a measure of location like the sample mean or median. It is found by averaging (or taking the midpoint) of the min and max of the random sample.
+    \item To find the distributions of functions of order statistics, e.g. involving more than than one statistic such as the sample range $R$ or midrange, we have two options:
+    \item[] a) Find the pdf of multiple ordered statistics (i.e. multivariate transformation).
+    \item[] b) OR we can use simulation! (like we did in our sampling distribution R notes)
+    \begin{itemize}
+        \item First we could simulate the sampling distribution of the statistic of interest.
+        \item[] Then use those results to approximate any quantity we need!
+        \item For example, suppose we have 10,000 values for $\hat{R} = max(\vecn{x}{n}) \,-\, min(\vecn{x}{n})$.\medskip
+        \item[] $E(R) \approx $\medskip
+        \item[] If we want to estimate $P(R > x)$. Let $I$ be an indicator variable such that
+        \[I =
+        \left\{
+        \begin{array}{lll}
+            1 & $=$ & \text{if $R > x$}\\
+            0 & $=$ & \text{if $R \le x$}\\
+        \end{array}
+        \right.\]
+        \item[] $\displaystyle P(R > x) \approx $
+        \item Simulation is a very powerful tool that allows researchers to study things that don't have theoretical solutions.
+    \end{itemize}\bigskip
+    \item Examples:
+    \begin{enumerate}
+        \item Continuing previous example:
+        \item[] $\vecn{X}{5} \overset{iid}\sim f(x) = 2x \hspace{5pt} \text{and} \hspace{5pt} F(x) = x^2 \quad 0 < x < 1$.
+        \begin{enumerate}
+            \item Find the cdf of the sample median $\order{X}{3}$.\vspace{200pt}
+            \item Find the pdf of the sample median $\order{X}{3}$.\vspace{200pt}
+        \end{enumerate}\newpage
+        \item Wind damage to insured homes are independent random variables with common pdf and cdf
+        \[f(x) = \frac{3}{x^4} \quad x > 1 \hspace{20pt} \longrightarrow \hspace{20pt} F(x) = 1 - \frac{1}{x^3} \quad x > 1\]
+        \item[] where $x$ is in thousands of dollars. Find the expected value of the largest of three such claims.\vspace{200pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Order statistics as estimators of population percentiles\bigskip
+\begin{itemize}
+    \item Expected value of the ``position'' of order statistics.
+    \item[] Theorem: Let $\order{X}{1}, \ldots, \order{X}{n}$ denote the order statistics of a random sample of size $n$ from a continuous population with cdf $F_X(x)$. Then
+    \[E[F_X(\order{X}{j})] = \frac{j}{n+1}, \quad j = 1, \ldots, n\]
+    \item Breaking down theorem:
+    \begin{itemize}
+        \item For our population distribution, $F_X(x) = P(X \le x) = p$ represents the cumulative probability up to and including $x$, or equivalently the area under $f(x)$ less than $x$.\vspace{30pt}
+        \item[] Recall that probability is a function, so here we are inputting a constant, particular $x$ value and getting the corresponding probability $p$ as a result (which is also a constant).
+        \item Now if we input the $j$th order statistic $\order{X}{j}$ (which is a random variable) into $F_X(x)$, the output is a random area ($\approx$ random variable $p$), which represents the probability $X$ is less than or equal to $\order{X}{j}$:
+        \[F_X(\order{X}{j}) = P(X \le \order{X}{j})\]
+        \item Because it is a random variable, we can find the expected value.
+        \[E[F_X(\order{X}{j})] = \frac{j}{n+1}\]
+        \item[] Example: Let $n = 9$ and $j = 6$. Find $E[F_X(\order{X}{6})]$.\bigskip
+    \end{itemize}
+    \item Using this theorem:
+    \begin{itemize}
+        \item Recall for $0 \le p \le 1$ the \textbf{100}$\boldsymbol{p^{th}}$ \textbf{percentile of} $\boldsymbol{X}$ is the number $x_p$ defined by
+        \[P(X \le x_p) = F(x_p) = p\]
+        \item Thus, we can use $\order{X}{j}$ as an estimator of $x_p$, where $p = j / (n+1)$.
+        \item[] Note that $p$ is a function of $j$ and $n$  $\Longrightarrow$ We are figuring out which percentile, $x_p$, $\order{X}{j}$ estimates.
+        \[F(x_p) = p \hspace{10pt} \longrightarrow \hspace{10pt} F(x_{j / (n+1)}) = \frac{j}{n+1} \hspace{100pt}\]\vspace{60pt}
+   \end{itemize}
+\end{itemize}\bigskip
+
+q--q plots\bigskip
+\begin{itemize}
+    \item Extension of previous theorem:
+    \begin{itemize}
+        \item Now let's consider the previous order statistic $\order{X}{j-1}$ as well, which is of course another random variable.
+        \item[] $F_X(\order{X}{j}) - F_X(\order{X}{j-1})$ represents the probability (area under curve) between two adjacent order statistics $\order{X}{j}$ and $\order{X}{j-1}$.  The expected value of this random area is
+        \[E[F_X(\order{X}{j}) - F_X(\order{X}{j-1})] = \hspace{100pt}\]
+        \item We could also show the area below the first order stat and the area above the last order stat:
+        \[E[F_X(\order{X}{1})] = \frac{1}{n+1} \hspace{20pt} \text{and} \hspace{20pt}E[1 - F_X(\order{X}{n})] = \frac{1}{n+1}\]\vspace{20pt}
+        \item This means the order statistics $\order{X}{1} < \order{X}{2} < \cdots < \order{X}{n}$ partition the range of $X$ into $n+1$ parts and thus create $n+1$ areas under $f(x)$ and above the $x$-axis.
+        \item[] On average, each of the $n+1$ areas equals $1 / (n + 1)$.\vspace{150pt}
+    \end{itemize}
+    \item So, we can use the relationships shown above to test whether a random variable $X$ has a certain distribution by ``matching up'' the sample order statistics with the theoretical percentiles. This is the process to get the numbers used in a q--q plot.
+    \begin{enumerate}[(1)]
+        \item Compute the percentiles $x_{\frac{1}{n+1}}, \ldots, x_{\frac{n}{n+1}}$ of the population distribution we are testing.
+        \item Compare (1) to the observed sample order statistics $\order{x}{1}, \ldots, \order{x}{n}$.
+        \item[] If the theoretical distribution is a good model for the observations, then we should see
+        \[\order{x}{1} \approx x_{\frac{1}{n+1}} \quad , \quad \ldots \quad, \quad \order{x}{n} \approx x_{\frac{n}{n+1}}\]
+    \end{enumerate}
+    \item Definition: Let $X$ be a random variable, $\order{x}{1}, \dots, \order{x}{n}$ be the observed sample order statistics of a random sample of size $n$, and $x_{\frac{1}{n+1}}, \ldots, x_{\frac{n}{n+1}}$ be the percentiles from some particular distribution. A plot of the points
+    \[(\order{x}{1}, x_{\frac{1}{n+1}}) \,\, , \,\, \ldots \,\, , \,\, (\order{x}{n}, x_{\frac{n}{n+1}})\]
+    \item[] is known as a \textbf{quantile--quantile plot}, or more simply a \textbf{q--q  plot}.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.55]{{"test-2/qq-plot-interpretations"}.png}
+    \end{figure}
+    \item Interpretation of a q--q plot.
+    \begin{itemize}
+        \item If we picked a good model (i.e. $X$ has the particular distribution), then \\ $\order{x}{j} \approx x_{\frac{j}{n+1}}$ and the q--q plot should be nearly a straight line through the origin with slope = 1 (i.e. diagonal line).
+        \item Conversely, a strong deviation from this line is evidence that the distribution did not produce the data.
+        \item Sidenote: It's called a quantile--quantile plot because the sample order statistics $\order{x}{1}, \dots, \order{x}{n}$ associated with the sample $\vecn{x}{n}$ are called the \textbf{sample quantiles of order} $\boldsymbol{j / (n+1)}$ and the percentile $x_p$ of a theoretical distribution is the \textbf{quantile of order} $\boldsymbol{p}$, and we are using $p = j / (n+1)$ to match them up.  
+    \end{itemize}\bigskip
+    \item Using q--q plots.
+    \begin{itemize}
+        \item Usually we are not trying to see if the data come from a particular distribution, but rather from a parametric family of distributions (such as the normal, uniform, or exponential, etc.).
+        \item[] We are usually forced into this situation because we don't know the parameters. So typically, the next step, after the q--q plot, may be to estimate the parameters, which we will learn how to do later.
+    \end{itemize}\vspace{50pt}
+    \item q--q plots for the normal distribution.
+    \begin{itemize}
+        \item q--q plots are often used to test whether a random sample is from a normal distribution.
+        \item When creating the plot, we of course need to calculate the theoretical percentiles. This requires specifying $\mu$ and $\sigma^2$ when using invNorm() or qnorm(); but as mentioned these are usually unknown. 
+        \item[] So we have two strategies:
+        \begin{enumerate}
+            \item We could use the sample statistics as best guess of the population parameters ($\bar{X} \rightarrow \mu$ and $S^2 \rightarrow \sigma^2$), as we know these are unbiased estimators. 
+            \item[] If we do this, the q--q plot should follow the diagonal line.\bigskip
+            \item If we don't want to make this assumption. We can make use of the relationship to the standard normal distribution:\vspace{50pt}
+            \item[] Thus if we vary $p$ and plot $(x_p, z_p)$, we get a straight line with slope $1 / \sigma$.\vspace{100pt}
+            \item[] This means we can still test if a random sample came from a normal distribution without having to know / guess the mean and standard deviation.
+            \item[] So if we plot $(\order{x}{1}, z_{\frac{1}{n+1}}) \,\, , \,\, \ldots \,\, , \,\, (\order{x}{n}, z_{\frac{n}{n+1}})$, which has our ordered sample data on the $x$-axis now as estimates of the population percentiles, we should see an approximately straight line. If so, then $\frac{1}{\text{slope}}$ is an approximation of $\sigma$.
+        \end{enumerate}
+    \end{itemize}
+\end{itemize}\bigskip
+
+\end{document}

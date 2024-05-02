@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\ho}{H_0}		% shortcut for null hypothesis formatted nicely
+
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Homework 7}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due} \blankul{4cm}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) independent, large samples difference of means test
+% 2) one large sample mean test
+% 3) independent, large samples difference in proportions
+% 4) one small sample mean test AND confidence interval
+
+For all the questions below, do the following:\bigskip
+\begin{itemize}
+    \item Define the parameter(s) of interest AND state the null and alternative hypotheses.
+    \item Define the test statistic and calculate it.
+    \item Determine the rejection region and/or calculate the p-value as necessary.
+    \item State the conclusion and any additional insights that can be drawn.
+\end{itemize}\bigskip
+
+\begin{enumerate}
+    \item A survey published in the American Journal of Sports Medicine reported the number of meters (m) per week swum by two groups of swimmers -- those who competed exclusively in breaststroke and those who competed in the individual medley (which includes breaststroke). The number of meters per week practicing the breaststroke was recorded for each swimmer, and the summary statistics are given below.
+    \item[] Is there sufficient evidence to indicate that the average number of meters per week spent practicing breaststroke is greater for exclusive breaststrokers than it is for those swimming individual medley? Use $\alpha = 0.05$ and the ``traditional method'' to make your conclusion.%Math stats with apps 10.17
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"images/data-swim"}.png}
+    \end{figure}
+    
+    \item The hourly wages in a particular industry are normally distributed with mean \$13.20 and standard deviation \$2.50. A company in this industry employs 40 workers, paying them an average of \$12.20 per hour.
+    \item[] Can this company be accused of paying substandard wages? Use an $\alpha = 0.01$ level test and the ``p-value'' method to make your conclusion.\bigskip%Math stats with apps 10.18
+    
+    \item The commercialism of the U.S. space program has been a topic of great interest since Dennis Tito paid \$20 million to ride along with the Russian cosmonauts on the space shuttle. In a survey of 500 men and 500 women, 20\% of the men and 26\% of the women responded that space should remain commercial free.
+    \item[] Does statistically significant evidence exist to suggest that there is a difference in the population proportions of men and women who think that space should remain commercial free? Use $\alpha = 0.05$.\bigskip% Math stats with apps 10.28
+    
+    \item Operators of gasoline-fueled vehicles complain about the price of gasoline in gas stations. The total tax per gallon for gasoline at each of these 18 locations is given below (in cents). Suppose that these measurements constitute a random sample of size 18:%Math stats with apps 10.65
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"images/data-gas"}.png}
+    \end{figure}
+    \item[] Is there sufficient evidence to claim that the average per gallon gas tax is less than 41 cents? Use $\alpha = 0.05$.
+
+\end{enumerate}\bigskip
+
+
+
+\vspace{50pt}
+
+Select answers\bigskip
+\begin{enumerate}
+    \item $TS \approx 4.756 \Longrightarrow$ Reject $\ho$
+    
+    \item $\text{p-value} \approx 0.0057 \Longrightarrow$ Reject $\ho$
+    
+    \item $TS \approx -2.254, \text{p-value} \approx 0.024 \Longrightarrow$ Reject $\ho$
+    
+    \item $TS \approx -0.858, \text{p-value} \approx 0.201 \Longrightarrow$ Fail to reject $\ho$
+    
+\end{enumerate}
+
+\end{document}

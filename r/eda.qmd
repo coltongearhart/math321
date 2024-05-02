@@ -1,0 +1,565 @@
+---
+title: "Lecture / R Notes 3 -- Exploratory Data Analysis"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    df-print: kable
+execute: 
+  warning: false
+  message: false
+---
+
+## Prerequisites
+
+```{r}
+
+# load packages
+library(tidyverse)
+
+```
+
+### Piping
+
+Often, we want to perform multiple functions, i.e. take an object, do something to it, then do something to the output.
+
+One way to do this is with *nesting* functions → `f(x)`.
+
+```{r}
+
+x <- rnorm(n = 10, mean = 10, sd = 2)
+sd(scale(x))
+
+```
+
+The **pipe** is another (equivalent) way to combine functions that is more readable. We can think of this as *chaining* functions together.
+
+-   Piping → `x %>% f`, read as "and then".
+
+-   Takes the object / result on the left and uses (passes) it as the *first* argument of the function on the right.
+
+```{r}
+
+x <- rnorm(n = 10, mean = 10, sd = 2)
+x %>% scale %>% sd
+
+```
+
+There is a base R version of the pipe as well `|>`, but we will continue to use `%>%` (it has some better functionality that we won't dive into).
+
+### ggplot
+
+Starting from scratch
+
+-   ggplot2 builds plots based on an approach called the **grammar of graphics** (hence "gg"plot2).
+
+-   The grammar of graphics approach requires explicit aesthetic mapping of data to geometric features.
+
+-   All plots follow a similar structure that builds up from the `ggplot()` function, which creates a "blank canvas".
+
+-   And the first thing we can do is specify the dataset we will be using and rerun the code.
+
+```{r}
+
+ggplot(data = diamonds)
+
+```
+
+-   Now it is primed with the data, but we haven't told it to do anything.
+
+Aesthetic mapping
+
+-   Next, we can add a layer of geometric features with `geom_*()`. This uses uses **aesthetic mapping**, which takes values of a variable and translates them into a visual feature.
+
+-   Choice of geometry depends on the data types of the variables of interest from the supplied dataset as well as the intent for creating the plot.
+
+-   In the example below, both variables (`carat` and `price`) are continuous. So we can use a scatterplot visualize their relationship. This is created by adding a layer of points via `geom_point()`.
+
+-   Simply use `+` between ggplot2 functions to add **layers**.
+
+```{r error = TRUE}
+
+# attempt to create scatterplot
+ggplot(data = diamonds,
+       x = carat,
+       y = price) + 
+  geom_point()
+
+```
+
+-   The code above throws an error because R can't find `carat` and `price` because it is looking for standalone objects (i.e. vectors named `carat` and `price`).
+
+-   So to tell R that the attributes are from the `diamonds` dataset, use the `aes()` function. In other words, this function connects the plot features to the dataframe specified in the `data` argument. Lets correct the above code.
+
+```{r}
+
+# correctly create scatterplot
+ggplot(data = diamonds,
+       aes(x = carat,
+           y = price)) +
+  geom_point()
+
+```
+
+## Exploratory data analysis
+
+### Introduction
+
+We are now moving into the next part of our course: "So I have some data, what do I do with it?"
+
+```{r}
+
+# preview data
+diamonds %>% glimpse
+
+```
+
+Eventually we will learn how to do some formal procedures / tests (i.e. inference) such as parameter estimation, hypothesis tests and confidence intervals, but first we want to explore the data in order to get a "feel" for it.
+
+This is where **Exploratory data analysis (EDA)** comes into play. Here is the idea behind it:
+
+-   EDA is the process of using numerical summaries and visualizations to explore your data and to identify potential relationships between variables.
+
+-   It is an investigative process in which you use summary statistics and graphical tools to get to know your data and understand what you can learn from them.
+
+-   Because EDA involves exploring, it is iterative. You are likely to learn different aspects about your data from different graphs. Typical goals are understanding:
+
+    -   The distribution of variables in your data set. It can be as simple as determining the shape of your data (symmetric, skewed, unimodal, bimodal, etc.), or even testing distributions via q--q plots.
+
+    -   The relationships between variables (bivariate analysis), such as scatterplots and correlation.
+
+    -   Whether or not your data have outliers or unusual points that may indicate data quality issues or lead to interesting insights.
+
+    -   Whether or not your data have patterns over time.
+
+Now, we will mention some of the background behind common EDA practices, but focus mainly on the application of EDA techniques in both R and Excel.
+
+### Descriptive statistics
+
+#### Most common statistics
+
+**Goal**: Summarize a whole dataset with a single or few measures (mean, standard deviation, etc.).
+
+Suppose we collect data $x_1, \dots, x_n$ (might be a realization of a random sample $X_1, \dots, X_n$ from $f(x)$). Then we can summarize this dataset with:
+
+(Notation: These are specific realizations of the random variables $\bar{X}$, $S^2$ and $V(X)$, so we switch to lower case letters)
+
+1.  Sample mean $\displaystyle \bar{x} = \frac{1}{n} \sum_{i = 1}^n x_i$
+
+2.  Sample variance: $\displaystyle s^2 = \frac{1}{n - 1} \sum_{i = 1}^n (x_i - \bar{x})^2$
+
+3.  Data (or population) variance: $\displaystyle v = \frac{1}{n} \sum_{i = 1}^n (x_i - \bar{x})^2$
+
+    -   This is an alternate version of the variance that comes from a change in perspective of the data.
+
+    -   If we view our dataset as a population now (i.e. this is every single data point of interest), rather than a sample (subset) of a larger population, we make an adjustment to the coefficient of $n$ out front.
+
+    -   Treating $x_1, \ldots, x_n$ as a population, we can artificially create probability distribution (called an *empirical distribution* since it is determined by the data) by placing the weight $1/n$ on each value $x_i$.
+
+    -   Then we can find the mean and variance of this empirical distribution.
+
+|        |               |               |          |               |
+|--------|---------------|---------------|----------|---------------|
+| $x$:   | $x_1$         | $x_2$         | $\ldots$ | $x_n$         |
+| $f(x)$ | $\frac{1}{n}$ | $\frac{1}{n}$ | $\ldots$ | $\frac{1}{n}$ |
+
+$$
+\begin{align*}
+\mu &= \sum x_i f(x_i) = \sum x_i \frac{1}{n} = \bar{x}\\
+\sigma^2 &= \sum(x_i - \mu)^2 f(x) = \sum(x_i - \bar{x})^2 \frac{1}{n}= v
+\end{align*}
+$$
+
+This is why there is two different versions of the standard deviation on the TI-84 1-Var Stats and in excel (`STDEV.S()` (sample) and `STDEV.P()` (population)).
+
+-   Example: Data ($n = 15)$: 10, 23, 4, 6, 9, 3, 15, 6, 12, 11, 19, 10, 6, 8, 15
+
+![](files/images/standard-deviations.png)
+
+Rationale: We use the sample variance $s^2$ over the population variance $v$ for sample data to make the estimates of $\sigma^2$ come out better on average (i.e. **unbiased**).
+
+-   Relationship: $s^2 = \frac{n}{n-1}v$
+
+We have already seen the common functions to calculate these summary measures: `mean()`, `var()` and `sd()`.
+
+#### Order statistics
+
+-   **Five-number summary**: To provide additional summary information, we can use sample order statistics. Recall some important facts about order statistics.
+
+    -   $X_{(1)}, \ldots, X_{(n)}$ are the sample values placed in ascending order and realized values of these random variables are denoted $x_{(1)}, \ldots, x_{(n)}$.
+
+    -   We use $X_{(j)}$ as an estimator of $x_p$, where $p = j / (n+1)$. The realized value of this parameter (parameters just have to be any population quantity) is $\hat{x}_p$.
+
+    -   Note that there are different algorithms for computing sample percentiles (and each software may use something different), so we will not dig into the details behind each, rather just know the general interpretation.
+
+    1.  Sample minimum $x_{(1)}$
+
+    2.  Lower / first quartile $q_1 = \hat{x}_{0.25}$
+
+    3.  Median (second quartile) $m = \hat{x}_{0.50}$
+
+    4.  Upper / third quartile $q_3 = \hat{x}_{0.75}$
+
+    5.  Sample maximum $x_{(n)}$
+
+*Example: Compute the 5 number summary of the following observations.*
+
+```{r}
+
+# load data
+x <- c(60, 71, 73, 77, 80, 83, 86, 87, 90, 90, 90, 94)
+
+# compute 5 number summary
+# -> compare these summaries to that of the TI-84
+summary(x)
+
+# compute other sample percentiles
+quantile(diamonds$price, c(0.10, 0.90)) 
+
+```
+
+-   Common statistics based on the five-number summary:
+
+    -   Sample range, $R = x_{(n)} - x_{(1)}$
+
+    -   $IQR = q_3 - q_1$.
+
+*Example: Calculate the above statistics for the price of diamonds.*
+
+```{r}
+
+# calculate statistics
+range(diamonds$price) %>% diff()
+IQR(diamonds$price)
+
+```
+
+### Displaying data
+
+#### Big picture
+
+-   As we saw with the diamonds data, displaying raw information is terrible and useless. It is just way too much... That is why we collapse it down to just a few measures with our descriptive statistics.
+
+-   There are two aspects to any EDA that can apply in all fields: *understanding* and *relating*.
+
+-   We are learning the "behind the scenes" of how the concepts work, the theory and derivations, and then how to apply them. All of that is great, but we need to be able to relate it to our audience in a way that they can comprehend and then use the information.
+
+#### Frequency (and relative frequency) tables
+
+-   Used to organize qualitative or quantitative data sets.
+
+-   If qualitative, simply count the number of observations in each category.
+
+-   If quantitative, here is how to construct:
+
+    -   Data is binned, i.e. grouped together. All bins will have equal length.
+
+    -   Frequency = count of observations in each bin.
+
+    -   Relative frequency = proportion of observations in each bin = Freq / $n$.
+
+-   Choosing bin width / number of bins.
+
+    -   This is a subjective choice; it depends on how granular (closely, exactly) you want to show the data. With more bins, each bin gets smaller. So the data gets more spread out across the bins (smaller frequencies and relative frequencies).
+
+    -   Advantage of frequency tables: Great for condensing and summarizing the raw data.
+
+    -   Disadvantage: Lose information, we no longer know what the specific values were, only what bin (range of values) they are in.
+
+    -   So why not just use a lot of bins? Then we would be keeping more information right??
+
+    -   But then it loses the conciseness that made it a good representation in the first place. Hard to really get anything from this frequency table?
+
+    -   So it is a balancing act.
+
+*Example: Create several frequency tables for the diamonds data. Convert one to a relative frequency table.*
+
+```{r}
+
+# categorical frequency table
+table(diamonds$cut)
+
+# numeric frequency table
+# -> set breaks breaks
+breaks <- seq(from = 0, to = 6, length = 5)
+
+# -> discretize into new variable
+diamonds$carat_cat <- cut(diamonds$carat, breaks = breaks, include.lowest = TRUE)
+
+# -> create frequency table
+table(diamonds$carat_cat)
+
+# -> convert to relative frequency table
+round(table(diamonds$carat_cat) / length(diamonds$carat_cat), 5)
+
+```
+
+#### Bar graphs
+
+-   A **bar graph** (also known as bar chart or bar plot) is used for *categorical* data and assigns a height of a bar to the count (or relative count) of a group.
+
+-   Comparisons are made easier with visuals than just numbers (although keep in mind that sometimes simpler is better and a table suffices).
+
+-   If the data is setup so that there is one row per observation (i.e. not already summarized), then we can use `geom_bar()` to make our bar graph, where it will transform the data to counts automatically.
+
+```{r}
+
+# create bar graph
+ggplot(data = diamonds,
+       aes(x = cut)) + 
+  geom_bar()
+
+```
+
+#### Histograms, density histograms and density curves
+
+-   A basic **histogram** is a *univariate* plot that can be used for *continuous* variables.
+
+-   It is used to visualize the "shape" of data (i.e. which type of observations are more or less prevalent).
+
+![](files/images/dist-shapes.png)
+
+-   The shape also gives us insight into the relationship between several common descriptive statistics:
+
+$$
+\begin{align*}
+\text{Right-skewed} &: \text{mean} > \text{median} > \text{mode}\\
+\text{Symmetric} &: \text{mean} \approx \text{median} \approx \text{mode}\\
+\text{Left-skewed} &:\text{mean} < \text{median} < \text{mode}\\
+\end{align*}
+$$
+
+-   To create a histogram, use `geom_histogram()`.
+
+*Example: Create a histogram of the diamond prices. Modify the visual appearance of the histogram.*
+
+```{r}
+
+# create histogram
+ggplot(data = diamonds,
+       aes(x = price)) + 
+  geom_histogram(bins = 20,
+                 color = "black",
+                 fill = "white")
+
+```
+
+-   A **density histogram** is a visual of a relative frequency table that is scaled to match the corresponding pdf. Here is the calculation that goes on behind the scenes:
+
+$$P(c_1 < X \le c_2) \approx \frac{\text{Freq}}{n} \hspace{10pt} \text{on } (c_1, c_2]$$
+
+![](files/images/density-hist.png)
+
+$$
+\begin{align*}
+\text{Area} &= \text{base} \times \text{height}\\
+\frac{\text{Freq}}{n} &= (c_2 - c_1) \times h(x)\\
+\end{align*}
+$$
+
+$$\Longrightarrow h(x) = \frac{\text{Freq}}{n(c_2 - c_1)}$$
+
+- Then do this process for each bin, essentially scaling the heights so that the total area = 1 (like  area under curve (AUC) of a pdf).
+
+*Example: Convert the previous histogram to a density histogram.*
+
+```{r}
+
+# create density histogram
+ggplot(data = diamonds,
+       aes(x = price,
+           y = after_stat(density))) + 
+  geom_histogram(bins = 20,
+                 color = "black",
+                 fill = "white")
+
+```
+
+-   A more objective way to represent the data is called a **density curve**, which is a *smooth curve* based off the observed data that has an AUC of 1.
+
+-   We can think of this smooth curve as a blanket thrown over the top of our density histogram as shown below.
+
+*Example: Add a density curve to the previous density histogram.*
+
+```{r}
+
+# overlay density curve to density histogram
+ggplot(data = diamonds,
+       aes(x = price,
+           y = after_stat(density))) + 
+  geom_histogram(color = "black",
+                 fill = "white") +
+  geom_density(adjust = 2,
+               col = "blue")
+
+```
+
+-   Density curves provide us with a way to visualize a quantitative distribution by group. This allows us to see differences in shape / spread for each level of the group.
+
+*Example: Create multiple density curves for the price of each cut.*
+
+```{r}
+
+# multiple density curves
+ggplot(data = diamonds,
+       aes(x = price,
+           y = after_stat(density),
+           color = cut)) + 
+  geom_density()
+
+```
+
+#### Boxplots
+
+-   Boxplots are another common plot, which are used to visualize the distribution of a *numeric* variable. However, they no longer map the raw data; this is another example of when an aesthetic has an implicit transformation, which is then used to build the plot rather than straight from the raw data.
+
+-   Instead, `boxplot()` and `geom_boxplot()` map the five number summary that is computed from the raw data.
+
+*Example: Create a boxplot of the carats of diamonds.*
+
+```{r}
+
+# create single boxplot
+boxplot(diamonds$carat, horizontal = TRUE)
+
+```
+
+-   `geom_boxplot()` requires a continuous variable to be mapped to either the `x` or `y` argument, depending on the desired orientation of the boxplot.
+
+- We can also make **comparative (side-by-side) boxplots** by mapping a categorical variable to the other axis. This results in boxplots based on a single continuous variable, but grouped by the levels of the categorical variable. This is another way to plot a numerical response with a categorical explanatory variable.
+
+*Example: Create boxplots of the carats of diamonds for each cut.*
+
+```{r}
+
+# create comparative boxplots
+ggplot(data = diamonds,
+       aes(x = carat,
+           y = cut)) + 
+  geom_boxplot()
+
+```
+
+- Boxplots can be used to identify **outliers**, which are observations that lie outside the overall pattern in a distribution.
+
+- Suspected outliers can significantly impact subsequent analyses, and thus if found, much consideration should be given for how to properly handle them.
+
+- Rule: A point is classified as an outlier if it is:
+
+    - Below $q_1 - 1.5 \times IQR$ (low outlier) or above $q_3 +1.5 \times IQR$ (high outlier).
+
+![](files/images/boxplot-outliers.png)
+
+*Example: Create boxplot based on the following data and extract the outliers. Then calculate the lower and upper fences for determining outliers.*
+
+```{r}
+
+# load data
+x <- c(50, 61, 73, 77, 80, 83, 86, 87, 90, 90, 90, 100)
+
+# create boxplot and extract outlier
+boxplot(x, horizontal = TRUE)
+boxplot(x, horizontal = TRUE)$out
+
+# calculate lower and upper fences
+as.numeric(quantile(x, 0.25) - 1.5 * IQR(x))
+as.numeric(quantile(x, 0.75) + 1.5 * IQR(x))
+
+```
+
+#### Scatterplots
+
+- Now that we have explored each variable individually or incorporated categorical explanatory variables for numeric responses, we want to explore the pairwise relationships between our variables.
+
+- This is done via **scatterplots**, where we are looking for the visual dependence.
+
+- To create scatterplots, use `geom_point()`.
+
+```{r}
+
+# create scatterplot
+ggplot(data = diamonds,
+       aes(x = table,
+           y = depth)) +
+  geom_point(color = "blue",
+             alpha = 0.05)
+
+```
+
+- Then we can quantify the linear dependence by calculating the sample correlation as an estimator of the population correlation. Recall:
+
+$$\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]$$
+
+$$\rho_{XY} = \text{Corr}(X,Y) = \frac{\text{Cov}(X,Y)}{\sqrt{V(X) V(Y)}}$$
+
+$$
+r = \frac{1}{n - 1} \frac{\sum_{i = 1}^n (x_i - \bar{x})(y_i - \bar{y})}{s_x \, s_y}
+$$
+*Example: Calculate the correlation for the variables in the above scatterplot.*
+
+```{r}
+
+# calculate correlation
+cor(diamonds$table, diamonds$depth)
+
+```
+
+### Testing distributions
+
+#### q-q plots
+
+- Once we have made histogram and have a decent idea of the shape of a distribution, we could use our sample order statistics to test potential models that they originated from.
+
+*Example: See if the following data came from a gamma distribution.*
+
+```{r}
+
+# load data
+# -> generated from x <- rgamma(n = 37, shape = 5, rate = 1)
+x <- c(3.158,2.475,3.894,4.157,4.844,1.141,2.344,3.873,2.89,9.029,3.593,4.452,4.239,5.922,4.486,7.015,7.53,3.585,2.95,3.244,6.101,4.171,3.463,9.789,4.248,5.132,2.181,8.296,2.632,8.239,5.09,4.742,5.817,8.546,7.317,8.745,3.555)
+
+# check shape
+hist(x, freq = FALSE)
+
+# create qqplot
+# -> order data
+x_ordered <- sort(x)
+
+# -> calculate theoretical percentiles
+theoretical_percentiles <- qgamma(p = ppoints(length(x), a = 0), shape = 3, rate = 0.5)
+
+# qqplot
+qqplot(x = x_ordered, y = theoretical_percentiles)
+abline(a = 0, b = 1)
+
+```
+
+- Note that this follows a straight line, which means gamma is a good fit. Except it isn't on the $y = x$ line, which means we need better estimates of the parameters.
+
+```{r}
+
+# recalculate theoretical percentiles with correct values and plot
+theoretical_percentiles <- qgamma(p = ppoints(length(x), a = 0), shape = 5, rate = 1)
+qqplot(x = x_ordered, y = theoretical_percentiles)
+abline(a = 0, b = 1)
+
+```
+
+#### Empirical rule
+
+- We can also test for the normal distribution by computing interval  probabilities and seeing if they match up to the **empirical rule**. Using sample information:
+
+1. $\approx$ 68% of data is in $(\bar{x} - s, \bar{x} + s)$.
+
+2. $\approx$ 95% of data is in $(\bar{x} - 2s, \bar{x} + 2s)$.
+
+3. $\approx$ 99.7% of data is in $(\bar{x} - 3s, \bar{x} + 3s)$.
+
+- If so, this suggests a normal model may be appropriate if the shape also is roughly bell-shaped.
+  
+![](files/images/empirical-rule.png)
+
+- Another way to identify outliers (based on mean and standard deviation)
+
+    - **Three-sigma rule**: Based on the empirical rule, nearly all data lies within three standard deviations of the mean. Thus, points that lie outside of this interval can be considered outliers.

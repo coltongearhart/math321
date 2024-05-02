@@ -1,0 +1,15 @@
+# Lecture 17 -- Several Random Variables {.unnumbered}
+
+## Guided Notes
+
+FILES: BLANK [lecture-17.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-17.pdf), [lecture-17.tex](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-17.tex), and [style-lectures.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-lectures.sty)
+
+<embed src="lectures/lecture-17-COMPLETED.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## In-Class Activity
+
+FILES: [in-class-17.tex](https://github.com/coltongearhart/math321/blob/main/assessments/in-class-17.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for keys :)
+
+<embed src="assessments/in-class-17.pdf" type="application/pdf" width="100%" height="1000px"></embed>

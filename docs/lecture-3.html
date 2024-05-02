@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.545">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MATH 321 –Mathematical Statistics - Lecture 3 – Explorartory Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./lecture-4.html" rel="next">
+<link href="./lecture-2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./test-2.html">Test 2</a></li><li class="breadcrumb-item"><a href="./lecture-3.html">Lecture 3 – Explorartory Data Analysis</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./test-2.html">Test 2</a></li><li class="breadcrumb-item"><a href="./lecture-3.html">Lecture 3 – Explorartory Data Analysis</a></li></ol></nav>
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Lecture 3 – Explorartory Data Analysis</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH 321 –<br>Mathematical Statistics</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./test-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Test 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 14 – Bivariate Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 15 – Conditional Distributions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 16 – Independence and the Correlation Coefficient</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 17 – Several Random Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./review-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review – Test 1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./test-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Test 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 1 – Random Samples and Common Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2 – Order Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lecture 3 – Explorartory Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 4 – Point Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./review-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review – Test 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./test-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Test 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 5 – The Central Limit Theorem</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 6 – Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 7 – Hypothesis Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./review-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review – Test 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./test-3-after.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">After Test 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 8 – Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./review-final.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Review – Final</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#excel-notes" id="toc-excel-notes" class="nav-link active" data-scroll-target="#excel-notes">Excel Notes</a></li>
+  <li><a href="#r-notes" id="toc-r-notes" class="nav-link" data-scroll-target="#r-notes">R Notes</a>
+  <ul class="collapse">
+  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a></li>
+  <li><a href="#working-with-data" id="toc-working-with-data" class="nav-link" data-scroll-target="#working-with-data">Working with data</a></li>
+  </ul></li>
+  <li><a href="#in-class-activity" id="toc-in-class-activity" class="nav-link" data-scroll-target="#in-class-activity">In-Class Activity</a></li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">Homework</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="excel-notes" class="level2">
+<h2 class="anchored" data-anchor-id="excel-notes">Excel Notes</h2>
+<p>FILES: <a href="https://github.com/coltongearhart/math321/blob/main/excel/files/eda-STARTER.xlsx">eda-STARTER.xlsx</a> and <a href="https://github.com/coltongearhart/math321/blob/main/excel/files/eda-COMPLETED.xlsx">eda-COMPLETED.xlsx</a></p>
+</section>
+<section id="r-notes" class="level2">
+<h2 class="anchored" data-anchor-id="r-notes">R Notes</h2>
+<p>FILES: <a href="https://github.com/coltongearhart/math321/blob/main/r/files/eda-r-STARTER.zip">eda-r-STARTER.zip</a> (this contains both starter files below with the necessary data and images)</p>
+<section id="eda" class="level3">
+<h3 class="anchored" data-anchor-id="eda">EDA</h3>
+<p>FILE: <a href="https://github.com/coltongearhart/math321/blob/main/r/eda.html">eda.html</a></p>
+<section id="prerequisites" class="level4">
+<h4 class="anchored" data-anchor-id="prerequisites">Prerequisites</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<section id="piping" class="level5">
+<h5 class="anchored" data-anchor-id="piping">Piping</h5>
+<p>Often, we want to perform multiple functions, i.e.&nbsp;take an object, do something to it, then do something to the output.</p>
+<p>One way to do this is with <em>nesting</em> functions → <code>f(x)</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(<span class="fu">scale</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>The <strong>pipe</strong> is another (equivalent) way to combine functions that is more readable. We can think of this as <em>chaining</em> functions together.</p>
+<ul>
+<li><p>Piping → <code>x %&gt;% f</code>, read as “and then”.</p></li>
+<li><p>Takes the object / result on the left and uses (passes) it as the <em>first</em> argument of the function on the right.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%&gt;%</span> scale <span class="sc">%&gt;%</span> sd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>There is a base R version of the pipe as well <code>|&gt;</code>, but we will continue to use <code>%&gt;%</code> (it has some better functionality that we won’t dive into).</p>
+</section>
+<section id="ggplot" class="level5">
+<h5 class="anchored" data-anchor-id="ggplot">ggplot</h5>
+<p>Starting from scratch</p>
+<ul>
+<li><p>ggplot2 builds plots based on an approach called the <strong>grammar of graphics</strong> (hence “gg”plot2).</p></li>
+<li><p>The grammar of graphics approach requires explicit aesthetic mapping of data to geometric features.</p></li>
+<li><p>All plots follow a similar structure that builds up from the <code>ggplot()</code> function, which creates a “blank canvas”.</p></li>
+<li><p>And the first thing we can do is specify the dataset we will be using and rerun the code.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Now it is primed with the data, but we haven’t told it to do anything.</li>
+</ul>
+<p>Aesthetic mapping</p>
+<ul>
+<li><p>Next, we can add a layer of geometric features with <code>geom_*()</code>. This uses uses <strong>aesthetic mapping</strong>, which takes values of a variable and translates them into a visual feature.</p></li>
+<li><p>Choice of geometry depends on the data types of the variables of interest from the supplied dataset as well as the intent for creating the plot.</p></li>
+<li><p>In the example below, both variables (<code>carat</code> and <code>price</code>) are continuous. So we can use a scatterplot visualize their relationship. This is created by adding a layer of points via <code>geom_point()</code>.</p></li>
+<li><p>Simply use <code>+</code> between ggplot2 functions to add <strong>layers</strong>.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attempt to create scatterplot</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> carat,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> price) <span class="sc">+</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `geom_point()`:
+! Problem while setting up geom.
+ℹ Error occurred in the 1st layer.
+Caused by error in `compute_geom_1()`:
+! `geom_point()` requires the following missing aesthetics: x and y</code></pre>
+</div>
+</div>
+<ul>
+<li><p>The code above throws an error because R can’t find <code>carat</code> and <code>price</code> because it is looking for standalone objects (i.e.&nbsp;vectors named <code>carat</code> and <code>price</code>).</p></li>
+<li><p>So to tell R that the attributes are from the <code>diamonds</code> dataset, use the <code>aes()</code> function. In other words, this function connects the plot features to the dataframe specified in the <code>data</code> argument. Lets correct the above code.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correctly create scatterplot</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> carat,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exploratory-data-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h4>
+<section id="introduction" class="level5">
+<h5 class="anchored" data-anchor-id="introduction">Introduction</h5>
+<p>We are now moving into the next part of our course: “So I have some data, what do I do with it?”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preview data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">%&gt;%</span> glimpse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 53,940
+Columns: 10
+$ carat   &lt;dbl&gt; 0.23, 0.21, 0.23, 0.29, 0.31, 0.24, 0.24, 0.26, 0.22, 0.23, 0.…
+$ cut     &lt;ord&gt; Ideal, Premium, Good, Premium, Good, Very Good, Very Good, Ver…
+$ color   &lt;ord&gt; E, E, E, I, J, J, I, H, E, H, J, J, F, J, E, E, I, J, J, J, I,…
+$ clarity &lt;ord&gt; SI2, SI1, VS1, VS2, SI2, VVS2, VVS1, SI1, VS2, VS1, SI1, VS1, …
+$ depth   &lt;dbl&gt; 61.5, 59.8, 56.9, 62.4, 63.3, 62.8, 62.3, 61.9, 65.1, 59.4, 64…
+$ table   &lt;dbl&gt; 55, 61, 65, 58, 58, 57, 57, 55, 61, 61, 55, 56, 61, 54, 62, 58…
+$ price   &lt;int&gt; 326, 326, 327, 334, 335, 336, 336, 337, 337, 338, 339, 340, 34…
+$ x       &lt;dbl&gt; 3.95, 3.89, 4.05, 4.20, 4.34, 3.94, 3.95, 4.07, 3.87, 4.00, 4.…
+$ y       &lt;dbl&gt; 3.98, 3.84, 4.07, 4.23, 4.35, 3.96, 3.98, 4.11, 3.78, 4.05, 4.…
+$ z       &lt;dbl&gt; 2.43, 2.31, 2.31, 2.63, 2.75, 2.48, 2.47, 2.53, 2.49, 2.39, 2.…</code></pre>
+</div>
+</div>
+<p>Eventually we will learn how to do some formal procedures / tests (i.e.&nbsp;inference) such as parameter estimation, hypothesis tests and confidence intervals, but first we want to explore the data in order to get a “feel” for it.</p>
+<p>This is where <strong>Exploratory data analysis (EDA)</strong> comes into play. Here is the idea behind it:</p>
+<ul>
+<li><p>EDA is the process of using numerical summaries and visualizations to explore your data and to identify potential relationships between variables.</p></li>
+<li><p>It is an investigative process in which you use summary statistics and graphical tools to get to know your data and understand what you can learn from them.</p></li>
+<li><p>Because EDA involves exploring, it is iterative. You are likely to learn different aspects about your data from different graphs. Typical goals are understanding:</p>
+<ul>
+<li><p>The distribution of variables in your data set. It can be as simple as determining the shape of your data (symmetric, skewed, unimodal, bimodal, etc.), or even testing distributions via q–q plots.</p></li>
+<li><p>The relationships between variables (bivariate analysis), such as scatterplots and correlation.</p></li>
+<li><p>Whether or not your data have outliers or unusual points that may indicate data quality issues or lead to interesting insights.</p></li>
+<li><p>Whether or not your data have patterns over time.</p></li>
+</ul></li>
+</ul>
+<p>Now, we will mention some of the background behind common EDA practices, but focus mainly on the application of EDA techniques in both R and Excel.</p>
+</section>
+<section id="descriptive-statistics" class="level5">
+<h5 class="anchored" data-anchor-id="descriptive-statistics">Descriptive statistics</h5>
+<section id="most-common-statistics" class="level6">
+<h6 class="anchored" data-anchor-id="most-common-statistics">Most common statistics</h6>
+<p><strong>Goal</strong>: Summarize a whole dataset with a single or few measures (mean, standard deviation, etc.).</p>
+<p>Suppose we collect data <span class="math inline">\(x_1, \dots, x_n\)</span> (might be a realization of a random sample <span class="math inline">\(X_1, \dots, X_n\)</span> from <span class="math inline">\(f(x)\)</span>). Then we can summarize this dataset with:</p>
+<p>(Notation: These are specific realizations of the random variables <span class="math inline">\(\bar{X}\)</span>, <span class="math inline">\(S^2\)</span> and <span class="math inline">\(V(X)\)</span>, so we switch to lower case letters)</p>
+<ol type="1">
+<li><p>Sample mean <span class="math inline">\(\displaystyle \bar{x} = \frac{1}{n} \sum_{i = 1}^n x_i\)</span></p></li>
+<li><p>Sample variance: <span class="math inline">\(\displaystyle s^2 = \frac{1}{n - 1} \sum_{i = 1}^n (x_i - \bar{x})^2\)</span></p></li>
+<li><p>Data (or population) variance: <span class="math inline">\(\displaystyle v = \frac{1}{n} \sum_{i = 1}^n (x_i - \bar{x})^2\)</span></p>
+<ul>
+<li><p>This is an alternate version of the variance that comes from a change in perspective of the data.</p></li>
+<li><p>If we view our dataset as a population now (i.e.&nbsp;this is every single data point of interest), rather than a sample (subset) of a larger population, we make an adjustment to the coefficient of <span class="math inline">\(n\)</span> out front.</p></li>
+<li><p>Treating <span class="math inline">\(x_1, \ldots, x_n\)</span> as a population, we can artificially create probability distribution (called an <em>empirical distribution</em> since it is determined by the data) by placing the weight <span class="math inline">\(1/n\)</span> on each value <span class="math inline">\(x_i\)</span>.</p></li>
+<li><p>Then we can find the mean and variance of this empirical distribution.</p></li>
+</ul></li>
+</ol>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x\)</span>:</td>
+<td><span class="math inline">\(x_1\)</span></td>
+<td><span class="math inline">\(x_2\)</span></td>
+<td><span class="math inline">\(\ldots\)</span></td>
+<td><span class="math inline">\(x_n\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{1}{n}\)</span></td>
+<td><span class="math inline">\(\frac{1}{n}\)</span></td>
+<td><span class="math inline">\(\ldots\)</span></td>
+<td><span class="math inline">\(\frac{1}{n}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[
+\begin{align*}
+\mu &amp;= \sum x_i f(x_i) = \sum x_i \frac{1}{n} = \bar{x}\\
+\sigma^2 &amp;= \sum(x_i - \mu)^2 f(x) = \sum(x_i - \bar{x})^2 \frac{1}{n}= v
+\end{align*}
+\]</span></p>
+<p>This is why there is two different versions of the standard deviation on the TI-84 1-Var Stats and in excel (<code>STDEV.S()</code> (sample) and <code>STDEV.P()</code> (population)).</p>
+<ul>
+<li>Example: Data (<span class="math inline">\(n = 15)\)</span>: 10, 23, 4, 6, 9, 3, 15, 6, 12, 11, 19, 10, 6, 8, 15</li>
+</ul>
+<p><img src="r/files/images/standard-deviations.png" class="img-fluid"></p>
+<p>Rationale: We use the sample variance <span class="math inline">\(s^2\)</span> over the population variance <span class="math inline">\(v\)</span> for sample data to make the estimates of <span class="math inline">\(\sigma^2\)</span> come out better on average (i.e.&nbsp;<strong>unbiased</strong>).</p>
+<ul>
+<li>Relationship: <span class="math inline">\(s^2 = \frac{n}{n-1}v\)</span></li>
+</ul>
+<p>We have already seen the common functions to calculate these summary measures: <code>mean()</code>, <code>var()</code> and <code>sd()</code>.</p>
+</section>
+<section id="order-statistics" class="level6">
+<h6 class="anchored" data-anchor-id="order-statistics">Order statistics</h6>
+<ul>
+<li><p><strong>Five-number summary</strong>: To provide additional summary information, we can use sample order statistics. Recall some important facts about order statistics.</p>
+<ul>
+<li><p><span class="math inline">\(X_{(1)}, \ldots, X_{(n)}\)</span> are the sample values placed in ascending order and realized values of these random variables are denoted <span class="math inline">\(x_{(1)}, \ldots, x_{(n)}\)</span>.</p></li>
+<li><p>We use <span class="math inline">\(X_{(j)}\)</span> as an estimator of <span class="math inline">\(x_p\)</span>, where <span class="math inline">\(p = j / (n+1)\)</span>. The realized value of this parameter (parameters just have to be any population quantity) is <span class="math inline">\(\hat{x}_p\)</span>.</p></li>
+<li><p>Note that there are different algorithms for computing sample percentiles (and each software may use something different), so we will not dig into the details behind each, rather just know the general interpretation.</p></li>
+</ul>
+<ol type="1">
+<li><p>Sample minimum <span class="math inline">\(x_{(1)}\)</span></p></li>
+<li><p>Lower / first quartile <span class="math inline">\(q_1 = \hat{x}_{0.25}\)</span></p></li>
+<li><p>Median (second quartile) <span class="math inline">\(m = \hat{x}_{0.50}\)</span></p></li>
+<li><p>Upper / third quartile <span class="math inline">\(q_3 = \hat{x}_{0.75}\)</span></p></li>
+<li><p>Sample maximum <span class="math inline">\(x_{(n)}\)</span></p></li>
+</ol></li>
+</ul>
+<p><em>Example: Compute the 5 number summary of the following observations.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">71</span>, <span class="dv">73</span>, <span class="dv">77</span>, <span class="dv">80</span>, <span class="dv">83</span>, <span class="dv">86</span>, <span class="dv">87</span>, <span class="dv">90</span>, <span class="dv">90</span>, <span class="dv">90</span>, <span class="dv">94</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># compute 5 number summary</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; compare these summaries to that of the TI-84</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  60.00   76.00   84.50   81.75   90.00   94.00 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute other sample percentiles</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(diamonds<span class="sc">$</span>price, <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.90</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 10%  90% 
+ 646 9821 </code></pre>
+</div>
+</div>
+<ul>
+<li><p>Common statistics based on the five-number summary:</p>
+<ul>
+<li><p>Sample range, <span class="math inline">\(R = x_{(n)} - x_{(1)}\)</span></p></li>
+<li><p><span class="math inline">\(IQR = q_3 - q_1\)</span>.</p></li>
+</ul></li>
+</ul>
+<p><em>Example: Calculate the above statistics for the price of diamonds.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate statistics</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(diamonds<span class="sc">$</span>price) <span class="sc">%&gt;%</span> <span class="fu">diff</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18497</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(diamonds<span class="sc">$</span>price)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4374.25</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="displaying-data" class="level5">
+<h5 class="anchored" data-anchor-id="displaying-data">Displaying data</h5>
+<section id="big-picture" class="level6">
+<h6 class="anchored" data-anchor-id="big-picture">Big picture</h6>
+<ul>
+<li><p>As we saw with the diamonds data, displaying raw information is terrible and useless. It is just way too much… That is why we collapse it down to just a few measures with our descriptive statistics.</p></li>
+<li><p>There are two aspects to any EDA that can apply in all fields: <em>understanding</em> and <em>relating</em>.</p></li>
+<li><p>We are learning the “behind the scenes” of how the concepts work, the theory and derivations, and then how to apply them. All of that is great, but we need to be able to relate it to our audience in a way that they can comprehend and then use the information.</p></li>
+</ul>
+</section>
+<section id="frequency-and-relative-frequency-tables" class="level6">
+<h6 class="anchored" data-anchor-id="frequency-and-relative-frequency-tables">Frequency (and relative frequency) tables</h6>
+<ul>
+<li><p>Used to organize qualitative or quantitative data sets.</p></li>
+<li><p>If qualitative, simply count the number of observations in each category.</p></li>
+<li><p>If quantitative, here is how to construct:</p>
+<ul>
+<li><p>Data is binned, i.e.&nbsp;grouped together. All bins will have equal length.</p></li>
+<li><p>Frequency = count of observations in each bin.</p></li>
+<li><p>Relative frequency = proportion of observations in each bin = Freq / <span class="math inline">\(n\)</span>.</p></li>
+</ul></li>
+<li><p>Choosing bin width / number of bins.</p>
+<ul>
+<li><p>This is a subjective choice; it depends on how granular (closely, exactly) you want to show the data. With more bins, each bin gets smaller. So the data gets more spread out across the bins (smaller frequencies and relative frequencies).</p></li>
+<li><p>Advantage of frequency tables: Great for condensing and summarizing the raw data.</p></li>
+<li><p>Disadvantage: Lose information, we no longer know what the specific values were, only what bin (range of values) they are in.</p></li>
+<li><p>So why not just use a lot of bins? Then we would be keeping more information right??</p></li>
+<li><p>But then it loses the conciseness that made it a good representation in the first place. Hard to really get anything from this frequency table?</p></li>
+<li><p>So it is a balancing act.</p></li>
+</ul></li>
+</ul>
+<p><em>Example: Create several frequency tables for the diamonds data. Convert one to a relative frequency table.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># categorical frequency table</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(diamonds<span class="sc">$</span>cut)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Fair      Good Very Good   Premium     Ideal 
+     1610      4906     12082     13791     21551 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># numeric frequency table</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; set breaks breaks</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">6</span>, <span class="at">length =</span> <span class="dv">5</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; discretize into new variable</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>diamonds<span class="sc">$</span>carat_cat <span class="ot">&lt;-</span> <span class="fu">cut</span>(diamonds<span class="sc">$</span>carat, <span class="at">breaks =</span> breaks, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; create frequency table</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(diamonds<span class="sc">$</span>carat_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[0,1.5] (1.5,3] (3,4.5] (4.5,6] 
+  48498    5410      31       1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; convert to relative frequency table</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">table</span>(diamonds<span class="sc">$</span>carat_cat) <span class="sc">/</span> <span class="fu">length</span>(diamonds<span class="sc">$</span>carat_cat), <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[0,1.5] (1.5,3] (3,4.5] (4.5,6] 
+0.89911 0.10030 0.00057 0.00002 </code></pre>
+</div>
+</div>
+</section>
+<section id="bar-graphs" class="level6">
+<h6 class="anchored" data-anchor-id="bar-graphs">Bar graphs</h6>
+<ul>
+<li><p>A <strong>bar graph</strong> (also known as bar chart or bar plot) is used for <em>categorical</em> data and assigns a height of a bar to the count (or relative count) of a group.</p></li>
+<li><p>Comparisons are made easier with visuals than just numbers (although keep in mind that sometimes simpler is better and a table suffices).</p></li>
+<li><p>If the data is setup so that there is one row per observation (i.e.&nbsp;not already summarized), then we can use <code>geom_bar()</code> to make our bar graph, where it will transform the data to counts automatically.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create bar graph</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> cut)) <span class="sc">+</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="histograms-density-histograms-and-density-curves" class="level6">
+<h6 class="anchored" data-anchor-id="histograms-density-histograms-and-density-curves">Histograms, density histograms and density curves</h6>
+<ul>
+<li><p>A basic <strong>histogram</strong> is a <em>univariate</em> plot that can be used for <em>continuous</em> variables.</p></li>
+<li><p>It is used to visualize the “shape” of data (i.e.&nbsp;which type of observations are more or less prevalent).</p></li>
+</ul>
+<p><img src="r/files/images/dist-shapes.png" class="img-fluid"></p>
+<ul>
+<li>The shape also gives us insight into the relationship between several common descriptive statistics:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+\text{Right-skewed} &amp;: \text{mean} &gt; \text{median} &gt; \text{mode}\\
+\text{Symmetric} &amp;: \text{mean} \approx \text{median} \approx \text{mode}\\
+\text{Left-skewed} &amp;:\text{mean} &lt; \text{median} &lt; \text{mode}\\
+\end{align*}
+\]</span></p>
+<ul>
+<li>To create a histogram, use <code>geom_histogram()</code>.</li>
+</ul>
+<p><em>Example: Create a histogram of the diamond prices. Modify the visual appearance of the histogram.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create histogram</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> price)) <span class="sc">+</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>A <strong>density histogram</strong> is a visual of a relative frequency table that is scaled to match the corresponding pdf. Here is the calculation that goes on behind the scenes:</li>
+</ul>
+<p><span class="math display">\[P(c_1 &lt; X \le c_2) \approx \frac{\text{Freq}}{n} \hspace{10pt} \text{on } (c_1, c_2]\]</span></p>
+<p><img src="r/files/images/density-hist.png" class="img-fluid"></p>
+<p><span class="math display">\[
+\begin{align*}
+\text{Area} &amp;= \text{base} \times \text{height}\\
+\frac{\text{Freq}}{n} &amp;= (c_2 - c_1) \times h(x)\\
+\end{align*}
+\]</span></p>
+<p><span class="math display">\[\Longrightarrow h(x) = \frac{\text{Freq}}{n(c_2 - c_1)}\]</span></p>
+<ul>
+<li>Then do this process for each bin, essentially scaling the heights so that the total area = 1 (like area under curve (AUC) of a pdf).</li>
+</ul>
+<p><em>Example: Convert the previous histogram to a density histogram.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create density histogram</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> price,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">after_stat</span>(density))) <span class="sc">+</span> </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>A more objective way to represent the data is called a <strong>density curve</strong>, which is a <em>smooth curve</em> based off the observed data that has an AUC of 1.</p></li>
+<li><p>We can think of this smooth curve as a blanket thrown over the top of our density histogram as shown below.</p></li>
+</ul>
+<p><em>Example: Add a density curve to the previous density histogram.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overlay density curve to density histogram</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> price,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">after_stat</span>(density))) <span class="sc">+</span> </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust =</span> <span class="dv">2</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Density curves provide us with a way to visualize a quantitative distribution by group. This allows us to see differences in shape / spread for each level of the group.</li>
+</ul>
+<p><em>Example: Create multiple density curves for the price of each cut.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multiple density curves</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> price,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">after_stat</span>(density),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> cut)) <span class="sc">+</span> </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="boxplots" class="level6">
+<h6 class="anchored" data-anchor-id="boxplots">Boxplots</h6>
+<ul>
+<li><p>Boxplots are another common plot, which are used to visualize the distribution of a <em>numeric</em> variable. However, they no longer map the raw data; this is another example of when an aesthetic has an implicit transformation, which is then used to build the plot rather than straight from the raw data.</p></li>
+<li><p>Instead, <code>boxplot()</code> and <code>geom_boxplot()</code> map the five number summary that is computed from the raw data.</p></li>
+</ul>
+<p><em>Example: Create a boxplot of the carats of diamonds.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create single boxplot</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(diamonds<span class="sc">$</span>carat, <span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><code>geom_boxplot()</code> requires a continuous variable to be mapped to either the <code>x</code> or <code>y</code> argument, depending on the desired orientation of the boxplot.</p></li>
+<li><p>We can also make <strong>comparative (side-by-side) boxplots</strong> by mapping a categorical variable to the other axis. This results in boxplots based on a single continuous variable, but grouped by the levels of the categorical variable. This is another way to plot a numerical response with a categorical explanatory variable.</p></li>
+</ul>
+<p><em>Example: Create boxplots of the carats of diamonds for each cut.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create comparative boxplots</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> carat,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> cut)) <span class="sc">+</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>Boxplots can be used to identify <strong>outliers</strong>, which are observations that lie outside the overall pattern in a distribution.</p></li>
+<li><p>Suspected outliers can significantly impact subsequent analyses, and thus if found, much consideration should be given for how to properly handle them.</p></li>
+<li><p>Rule: A point is classified as an outlier if it is:</p>
+<ul>
+<li>Below <span class="math inline">\(q_1 - 1.5 \times IQR\)</span> (low outlier) or above <span class="math inline">\(q_3 +1.5 \times IQR\)</span> (high outlier).</li>
+</ul></li>
+</ul>
+<p><img src="r/files/images/boxplot-outliers.png" class="img-fluid"></p>
+<p><em>Example: Create boxplot based on the following data and extract the outliers. Then calculate the lower and upper fences for determining outliers.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">61</span>, <span class="dv">73</span>, <span class="dv">77</span>, <span class="dv">80</span>, <span class="dv">83</span>, <span class="dv">86</span>, <span class="dv">87</span>, <span class="dv">90</span>, <span class="dv">90</span>, <span class="dv">90</span>, <span class="dv">100</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create boxplot and extract outlier</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(x, <span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(x, <span class="at">horizontal =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate lower and upper fences</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">quantile</span>(x, <span class="fl">0.25</span>) <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="fu">IQR</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 55</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">quantile</span>(x, <span class="fl">0.75</span>) <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="fu">IQR</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 111</code></pre>
+</div>
+</div>
+</section>
+<section id="scatterplots" class="level6">
+<h6 class="anchored" data-anchor-id="scatterplots">Scatterplots</h6>
+<ul>
+<li><p>Now that we have explored each variable individually or incorporated categorical explanatory variables for numeric responses, we want to explore the pairwise relationships between our variables.</p></li>
+<li><p>This is done via <strong>scatterplots</strong>, where we are looking for the visual dependence.</p></li>
+<li><p>To create scatterplots, use <code>geom_point()</code>.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create scatterplot</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> table,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> depth)) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Then we can quantify the linear dependence by calculating the sample correlation as an estimator of the population correlation. Recall:</li>
+</ul>
+<p><span class="math display">\[\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]\]</span></p>
+<p><span class="math display">\[\rho_{XY} = \text{Corr}(X,Y) = \frac{\text{Cov}(X,Y)}{\sqrt{V(X) V(Y)}}\]</span></p>
+<p><span class="math display">\[
+r = \frac{1}{n - 1} \frac{\sum_{i = 1}^n (x_i - \bar{x})(y_i - \bar{y})}{s_x \, s_y}
+\]</span> <em>Example: Calculate the correlation for the variables in the above scatterplot.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate correlation</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(diamonds<span class="sc">$</span>table, diamonds<span class="sc">$</span>depth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.2957785</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="testing-distributions" class="level5">
+<h5 class="anchored" data-anchor-id="testing-distributions">Testing distributions</h5>
+<section id="q-q-plots" class="level6">
+<h6 class="anchored" data-anchor-id="q-q-plots">q-q plots</h6>
+<ul>
+<li>Once we have made histogram and have a decent idea of the shape of a distribution, we could use our sample order statistics to test potential models that they originated from.</li>
+</ul>
+<p><em>Example: See if the following data came from a gamma distribution.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; generated from x &lt;- rgamma(n = 37, shape = 5, rate = 1)</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3.158</span>,<span class="fl">2.475</span>,<span class="fl">3.894</span>,<span class="fl">4.157</span>,<span class="fl">4.844</span>,<span class="fl">1.141</span>,<span class="fl">2.344</span>,<span class="fl">3.873</span>,<span class="fl">2.89</span>,<span class="fl">9.029</span>,<span class="fl">3.593</span>,<span class="fl">4.452</span>,<span class="fl">4.239</span>,<span class="fl">5.922</span>,<span class="fl">4.486</span>,<span class="fl">7.015</span>,<span class="fl">7.53</span>,<span class="fl">3.585</span>,<span class="fl">2.95</span>,<span class="fl">3.244</span>,<span class="fl">6.101</span>,<span class="fl">4.171</span>,<span class="fl">3.463</span>,<span class="fl">9.789</span>,<span class="fl">4.248</span>,<span class="fl">5.132</span>,<span class="fl">2.181</span>,<span class="fl">8.296</span>,<span class="fl">2.632</span>,<span class="fl">8.239</span>,<span class="fl">5.09</span>,<span class="fl">4.742</span>,<span class="fl">5.817</span>,<span class="fl">8.546</span>,<span class="fl">7.317</span>,<span class="fl">8.745</span>,<span class="fl">3.555</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co"># check shape</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create qqplot</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; order data</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>x_ordered <span class="ot">&lt;-</span> <span class="fu">sort</span>(x)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; calculate theoretical percentiles</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>theoretical_percentiles <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="at">p =</span> <span class="fu">ppoints</span>(<span class="fu">length</span>(x), <span class="at">a =</span> <span class="dv">0</span>), <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">rate =</span> <span class="fl">0.5</span>)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># qqplot</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(<span class="at">x =</span> x_ordered, <span class="at">y =</span> theoretical_percentiles)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Note that this follows a straight line, which means gamma is a good fit. Except it isn’t on the <span class="math inline">\(y = x\)</span> line, which means we need better estimates of the parameters.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recalculate theoretical percentiles with correct values and plot</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>theoretical_percentiles <span class="ot">&lt;-</span> <span class="fu">qgamma</span>(<span class="at">p =</span> <span class="fu">ppoints</span>(<span class="fu">length</span>(x), <span class="at">a =</span> <span class="dv">0</span>), <span class="at">shape =</span> <span class="dv">5</span>, <span class="at">rate =</span> <span class="dv">1</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(<span class="at">x =</span> x_ordered, <span class="at">y =</span> theoretical_percentiles)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="empirical-rule" class="level6">
+<h6 class="anchored" data-anchor-id="empirical-rule">Empirical rule</h6>
+<ul>
+<li>We can also test for the normal distribution by computing interval probabilities and seeing if they match up to the <strong>empirical rule</strong>. Using sample information:</li>
+</ul>
+<ol type="1">
+<li><p><span class="math inline">\(\approx\)</span> 68% of data is in <span class="math inline">\((\bar{x} - s, \bar{x} + s)\)</span>.</p></li>
+<li><p><span class="math inline">\(\approx\)</span> 95% of data is in <span class="math inline">\((\bar{x} - 2s, \bar{x} + 2s)\)</span>.</p></li>
+<li><p><span class="math inline">\(\approx\)</span> 99.7% of data is in <span class="math inline">\((\bar{x} - 3s, \bar{x} + 3s)\)</span>.</p></li>
+</ol>
+<ul>
+<li>If so, this suggests a normal model may be appropriate if the shape also is roughly bell-shaped.</li>
+</ul>
+<p><img src="r/files/images/empirical-rule.png" class="img-fluid"></p>
+<ul>
+<li><p>Another way to identify outliers (based on mean and standard deviation)</p>
+<ul>
+<li><strong>Three-sigma rule</strong>: Based on the empirical rule, nearly all data lies within three standard deviations of the mean. Thus, points that lie outside of this interval can be considered outliers.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="working-with-data" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-data">Working with data</h3>
+<p>FILE: <a href="https://github.com/coltongearhart/math321/blob/main/r/working-with-data.html">working-with-data.html</a></p>
+<section id="overview" class="level4">
+<h4 class="anchored" data-anchor-id="overview">Overview</h4>
+<p>The goal of these notes is to demonstrate common data manipulation tasks using packages from the <strong>tidyverse</strong>, with a focus on <strong>dplyr</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-analysis-1" class="level4">
+<h4 class="anchored" data-anchor-id="data-analysis-1">Data analysis 1</h4>
+<p>We will be working with hypothetical student grade data <code>data-grades.csv</code>, which contains information on two test scores from students of multiple sections for a single professor, and enrollment data <code>data-majors.csv</code>, which has the students major.</p>
+<p>To read in the data, first download it from Canvas and then change the path in the <code>read_csv()</code> statement above to where you have saved the data relative to the location of the your homework file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"r/files/data/data-grades.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 65 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): ID, Student
+dbl (2): Test_1, Test_2
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>data_majors <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"r/files/data/data-majors.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 65 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): ID, Major
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preview data</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 65
+Columns: 4
+$ ID      &lt;chr&gt; "1381", "2027", "6077", "6869", "4171", "3054", "8639", "2970"…
+$ Student &lt;chr&gt; "LZ-1", "KO-1", "DD-1", "IG-2", "VS-1", "BF-1", "VU-1", "XZ-1"…
+$ Test_1  &lt;dbl&gt; 20, 30, 28, 14, 28, 20, 14, 19, 18, 23, 25, 30, 30, 25, 28, 16…
+$ Test_2  &lt;dbl&gt; 55, 40, 68, 42, 50, 49, 69, 55, 46, 46, 47, 55, 43, 59, 55, 64…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_majors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 65
+Columns: 2
+$ ID    &lt;chr&gt; "9810", "9718", "9685", "9618", "9520", "9310", "9203", "9149", …
+$ Major &lt;chr&gt; "Physics", "Physics", "Chemisty", "Chemisty", "Physics", "Physic…</code></pre>
+</div>
+</div>
+<p>Now we will go through steps to clean, organize and analyze these the test scores.</p>
+<section id="data-manipulations" class="level5">
+<h5 class="anchored" data-anchor-id="data-manipulations">Data manipulations</h5>
+<p>The goal is to have a single dataset with the following columns:</p>
+<ul>
+<li><code>ID</code></li>
+<li><code>Student</code>: just two initials</li>
+<li><code>Major</code></li>
+<li><code>Class</code>: 1 or 2</li>
+<li><code>Test_1</code>: % out of 100</li>
+<li><code>Test_2</code>: % out of 100</li>
+</ul>
+<ol type="1">
+<li>For the grades data, we need to split the current student column into two variables, one of their initials and one for the class they are in. Use <code>tidyr::separate_wider_delim()</code> to do so.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># separate Student into initials and class</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>data_grades <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_wider_delim</span>(<span class="at">cols =</span> Student, <span class="at">delim =</span> <span class="st">"-"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Student"</span>, <span class="st">"Class"</span>))</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_grades)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  ID    Student Class Test_1 Test_2
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 1381  LZ      1         20     55
+2 2027  KO      1         30     40
+3 6077  DD      1         28     68
+4 6869  IG      2         14     42
+5 4171  VS      1         28     50
+6 3054  BF      1         20     49</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Convert the test scores to percentages (Test 1 is out of 30 points and Test 2 is out of 70 points). Use <code>mutate()</code> to do transformations.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert test grades to %</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; Test 1 = points out of 30</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; Test 2 = points out of 70</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>data_grades <span class="ot">&lt;-</span> data_grades <span class="sc">%&gt;%</span> </span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Test_1 =</span> <span class="fu">round</span>(Test_1 <span class="sc">/</span> <span class="dv">30</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Test_2 =</span> <span class="fu">round</span>(Test_2 <span class="sc">/</span> <span class="dv">70</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_grades)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  ID    Student Class Test_1 Test_2
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 1381  LZ      1       66.7   78.6
+2 2027  KO      1      100     57.1
+3 6077  DD      1       93.3   97.1
+4 6869  IG      2       46.7   60  
+5 4171  VS      1       93.3   71.4
+6 3054  BF      1       66.7   70  </code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Combine grades data and majors data and then sort alphabetically by student initials within each class. Use <code>arrange()</code> to sort the data.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># combine grades data and majors data</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># then sort by name within class</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>data_grades <span class="ot">&lt;-</span> data_grades <span class="sc">%&gt;%</span> </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> data_majors,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">join_by</span>(ID)) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Class, Student)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_grades)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  ID    Student Class Test_1 Test_2 Major   
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   
+1 3054  BF      1       66.7   70   Physics 
+2 8236  CD      1       40     94.3 Chemisty
+3 6077  DD      1       93.3   97.1 Chemisty
+4 7035  EJ      1       83.3   84.3 Chemisty
+5 7267  EU      1       86.7   68.6 Physics 
+6 5228  EZ      1       63.3   85.7 Chemisty</code></pre>
+</div>
+</div>
+</section>
+<section id="visualize-data" class="level5">
+<h5 class="anchored" data-anchor-id="visualize-data">Visualize data</h5>
+<p>Now that the data is cleaned and organized, lets visualize the Test 1 scores to start with.</p>
+<p>Create two polished plots to visualize Test 1 scores, at least one of which should include a class comparison or major comparison.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create histogram of test 1 grades</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Test_1),</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> data_grades) <span class="sc">+</span> </span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">8</span>,</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">col =</span> <span class="st">"black"</span>,</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span> </span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Test 1 %"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create boxplots by class</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Test_1,</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> Class),</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> data_grades) <span class="sc">+</span> </span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span> </span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Test 1 Grades"</span>) <span class="sc">+</span> </span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-28-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create boxplots by major</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Test_1,</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> Major),</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> data_grades) <span class="sc">+</span> </span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightgreen"</span>) <span class="sc">+</span> </span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Test 1 Grades"</span>) <span class="sc">+</span> </span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture-3_files/figure-html/unnamed-chunk-28-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="summarize-data" class="level5">
+<h5 class="anchored" data-anchor-id="summarize-data">Summarize data</h5>
+<p>Now that we have an idea of the distributions for Test 1, let’s summarize them, specifically we want to create an overall summary and a summary by class.</p>
+<ol type="1">
+<li>Create a test 1 dataset that contains only the Class, Student initials and Test 1 score. Use <code>select()</code> to select specific columns.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create test 1 dataset</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>data_test1 <span class="ot">&lt;-</span> data_grades <span class="sc">%&gt;%</span> </span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Student, Class, Test_1)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_test1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Student Class Test_1
+  &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;
+1 BF      1       66.7
+2 CD      1       40  
+3 DD      1       93.3
+4 EJ      1       83.3
+5 EU      1       86.7
+6 EZ      1       63.3</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Create an object named <code>data_summary_overall</code> that summarizes Test 1 scores with the sample size, average and standard deviation. Then add an indicator column and rearrange the columns. Use <code>summarize()</code> to aggregate the data.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  aggregate and organize data</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>data_summary_overall <span class="ot">&lt;-</span> data_test1 <span class="sc">%&gt;%</span> </span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Test_1), <span class="dv">1</span>),</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(Test_1), <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Class =</span> <span class="st">"Overall"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>data_summary_overall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  Class       n   avg    sd
+  &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Overall    65  67.4  20.3</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Create another object called <code>data_summary_section</code> that performs the same summary functions the previous step, except by Class. To do this, add <code>.by =</code> argument to aggregate data within another variable.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize data by class</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>data_summary_section <span class="ot">&lt;-</span> data_test1 <span class="sc">%&gt;%</span> </span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.by =</span> Class,</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Test_1), <span class="dv">1</span>),</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(Test_1), <span class="dv">1</span>))</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>data_summary_section</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  Class     n   avg    sd
+  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 1        39  69.8  18.4
+2 2        26  63.8  22.6</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Combine the overall summary with the class summary rowwise using <code>bind_rows()</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># combine overall summary with class summary</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>data_summary <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_summary_overall,</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>                          data_summary_section)</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>data_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  Class       n   avg    sd
+  &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Overall    65  67.4  20.3
+2 1          39  69.8  18.4
+3 2          26  63.8  22.6</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="data-analysis-2" class="level4">
+<h4 class="anchored" data-anchor-id="data-analysis-2">Data analysis 2</h4>
+<p>Now we will work with the <code>shuffled-playlist-clean.csv</code> data, which contains information about songs in a Spotify playlist. Lets read in and preview the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>data_music <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"r/files/data/shuffled-playlist-clean.csv"</span>)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="co"># preview data</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_music)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 artist                 X.Deluxe.        genre
+1 Streetlight Manifesto      Everything Goes Numb          ska
+2                 Adele                        25          pop
+3            Pink Floyd The Dark Side of the Moon classic rock
+4      Childish Gambino        "Awaken, My Love!"      hip hop
+5            Ed Sheeran                  (Deluxe)          pop
+6        Kendrick Lamar       To Pimp A Butterfly      hip hop
+                              name danceability energy loudness speechiness
+1             A Moment of Violence        0.609 0.9180   -5.998      0.0894
+2           Water Under the Bridge        0.596 0.8380   -6.520      0.0704
+3                      Speak to Me        0.592 0.0196  -33.350      0.0358
+4                         Baby Boy        0.529 0.4030   -7.103      0.0349
+5                   Nancy Mulligan        0.680 0.8520   -4.350      0.0349
+6 You Ain't Gotta Lie (Momma Said)        0.501 0.6460   -5.422      0.2310
+  acousticness instrumentalness liveness valence   tempo
+1       0.0087         0.00e+00   0.2940  0.5410  89.975
+2       0.0189         1.54e-05   0.1080  0.4790  94.982
+3       0.3620         8.54e-01   0.1080  0.0322 119.504
+4       0.1230         4.96e-01   0.0647  0.7230 199.928
+5       0.1170         0.00e+00   0.0866  0.8520 101.993
+6       0.4820         1.43e-05   0.2740  0.6480  94.746</code></pre>
+</div>
+</div>
+<p>Now we will ask several questions about the music dataset that can be answered by working with the data.</p>
+<section id="summarize-data-1" class="level5">
+<h5 class="anchored" data-anchor-id="summarize-data-1">Summarize data</h5>
+<p>For each of the following questions, use pipes <code>%&gt;%</code> (or a series of pipes) to display a mini-dataframe that answers the question (there is no need to save the results into an object).</p>
+<ol type="1">
+<li>What song has the highest <code>valence</code> score? Display only the categorical information about the song (i.e.&nbsp;artist, album, genre, name) and its respective valence score. <em>HINT: use a <code>select()</code> statement in conjunction with <code>where()</code> to display only the character variables.</em></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine song with highest valence score</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; filter to row with max value and then display only necessary info</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(valence <span class="sc">==</span> <span class="fu">max</span>(valence)) <span class="sc">%&gt;%</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.character), valence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       artist              X.Deluxe.        genre                      name
+1 The Beatles Let It Be (Remastered) classic rock For You Blue - Remastered
+  valence
+1   0.958</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>What is the average energy for hip hop songs?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine average energy for hip hop songs</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; filter to genre of interest and then calculate summary</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(genre <span class="sc">==</span> <span class="st">"hip hop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_energy =</span> <span class="fu">mean</span>(energy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  avg_energy
+1  0.6566667</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>What percentage of songs in the data are by the artist Dessa?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine percentage of songs that are by the artist Dessa</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">proportion =</span> <span class="fu">mean</span>(artist <span class="sc">==</span> <span class="st">"Dessa"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  proportion
+1 0.06179775</code></pre>
+</div>
+</div>
+</section>
+<section id="grouped-and-specific-summaries" class="level5">
+<h5 class="anchored" data-anchor-id="grouped-and-specific-summaries">Grouped and specific summaries</h5>
+<ol type="1">
+<li>Calculate the average <code>energy</code>, <code>tempo</code> and <code>loudness</code> for each <code>genre</code>. First do this by having a separate <code>mean(&lt; variable &gt;)</code> statement for each.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize a few music measures by genre</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span> </span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.by =</span> genre,</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_energy =</span> <span class="fu">mean</span>(energy),</span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_tempo =</span> <span class="fu">mean</span>(tempo),</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_loudness =</span> <span class="fu">mean</span>(loudness))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         genre avg_energy avg_tempo avg_loudness
+1          ska  0.8864103  132.4416    -5.472897
+2          pop  0.5964750  116.5934    -5.963550
+3 classic rock  0.5327784  130.3288   -10.819353
+4      hip hop  0.6566667  121.2545    -7.638500</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Now repeat the calculation using <code>across()</code>, which allows us to apply the same function to a set of variables. This is much less cumbersome than typing each mean statement out like before.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use summarize() to aggregate data with across() to specify the list of variables</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span> </span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.by =</span> genre,</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">across</span>(<span class="fu">c</span>(energy, tempo, loudness), mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         genre    energy    tempo   loudness
+1          ska 0.8864103 132.4416  -5.472897
+2          pop 0.5964750 116.5934  -5.963550
+3 classic rock 0.5327784 130.3288 -10.819353
+4      hip hop 0.6566667 121.2545  -7.638500</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Use the same technique as above to calculate the mean of all numeric variable by <code>genre</code>. <em>HINT: Use <code>across()</code> in conjunction with <code>where()</code>.</em></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use where() function to specify which columns to summarize</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span> </span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.by =</span> genre,</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         genre danceability    energy   loudness speechiness acousticness
+1          ska    0.5079231 0.8864103  -5.472897  0.08975641   0.04448036
+2          pop    0.5995500 0.5964750  -5.963550  0.06233000   0.29199075
+3 classic rock    0.4990784 0.5327784 -10.819353  0.05376667   0.30427843
+4      hip hop    0.5907917 0.6566667  -7.638500  0.17566667   0.20510001
+  instrumentalness  liveness   valence    tempo
+1     0.0005529697 0.2082308 0.6734103 132.4416
+2     0.0002870968 0.1485525 0.4636750 116.5934
+3     0.1844926584 0.3240745 0.5117824 130.3288
+4     0.0285232308 0.2477062 0.4617292 121.2545</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Determine which pop song is the most danceable (highest danceability). Display only the categorical information about the song and its respective danceability score. <em>HINT: Think about the series of pipes that we need to do.</em></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the most danceable pop song and only display the needed info</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; use filter() to subset the dataframe by row multiple times (highest dance within only pop)</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span> </span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(genre <span class="sc">==</span> <span class="st">"pop"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(danceability <span class="sc">==</span> <span class="fu">max</span>(danceability)) <span class="sc">%&gt;%</span> </span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.character), danceability)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      artist X.Deluxe. genre            name danceability
+1 Ed Sheeran  (Deluxe)   pop What Do I Know?        0.838</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Use the same strategy as 5 to determine which which Adele song has the lowest energy.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find minimum energy within Adele songs</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span> </span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(artist <span class="sc">==</span> <span class="st">"Adele"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(energy <span class="sc">==</span> <span class="fu">min</span>(energy)) <span class="sc">%&gt;%</span> </span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.character), energy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  artist X.Deluxe. genre              name energy
+1  Adele        25   pop Million Years Ago  0.273</code></pre>
+</div>
+</div>
+<ol start="6" type="1">
+<li>CHALLENGE: Find the artists with the lowest average acousticness for each genre.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the artists with the lowest average acousticness for each genre</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>data_music <span class="sc">%&gt;%</span> </span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.by =</span> <span class="fu">c</span>(genre, artist),</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_acousticness =</span> <span class="fu">mean</span>(acousticness)) <span class="sc">%&gt;%</span> </span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="at">.by  =</span> genre,</span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>         avg_acousticness <span class="sc">==</span> <span class="fu">min</span>(avg_acousticness))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         genre         artist avg_acousticness
+1 classic rock         Eagles       0.21793778
+2      hip hop       Doomtree       0.04253855
+3          ska Less Than Jake       0.03212957
+4          pop   Taylor Swift       0.11372077</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="in-class-activity" class="level2">
+<h2 class="anchored" data-anchor-id="in-class-activity">In-Class Activity</h2>
+<p>Upload your completed (to the best of your ability) the completed starter file for the notes ‘working-with-data’.</p>
+</section>
+<section id="homework" class="level2">
+<h2 class="anchored" data-anchor-id="homework">Homework</h2>
+<p>FILES: Excel <a href="https://github.com/coltongearhart/math321/blob/main/excel/files/high-school-data.xlsx">high-school-data.xlsx</a>, R <a href="https://github.com/coltongearhart/math321/blob/main/r/files/data/high-school-data.csv">high-school-data.csv</a>, <a href="https://github.com/coltongearhart/math321/blob/main/assessments/homework-3.tex">homework-3.tex</a>, and <a href="https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty">style-assessments.sty</a></p>
+<p>Instructors can contact me for solutions :)</p>
+<embed src="assessments/homework-3.pdf" type="application/pdf" width="100%" height="1000px">
+
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a 2="" href="./lecture-2.html" class="pagination-link  aria-label=" lecture="" --="" order="" statistics"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 2 – Order Statistics</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./lecture-4.html" class="pagination-link" aria-label="Lecture 4 -- Point Estimation">
+        <span class="nav-page-text">Lecture 4 – Point Estimation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

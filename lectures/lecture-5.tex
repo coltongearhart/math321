@@ -1,0 +1,298 @@
+\documentclass{article}
+\usepackage{style-lectures}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+
+
+% NOTES on what didn't cover
+% CLT
+% theory lecture 4-2
+% -> page 4, limit of cdf to that of normal
+% -> almost sure convergence stronger CLT (page 6)
+% -> proof of CLT using convergence of mgfs (theory lecture 4-2 page 4)
+
+% theory lecture 4-3
+% delta method and extensions of it (and second order delta method)
+
+
+% Chebyshev's inequality for interval probabilites
+
+
+
+\begin{document}
+
+\lecture{5}{The Central Limit Theorem}{5}{Distributions of Functions of Random Variables}{5.6 and 5.7}
+
+
+\bu{The Central Limit Theorem (CLT)}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item The sample mean is one statistic whose large-sample behavior is quite important. In particular, we want to investigate its limiting distribution. This is summarized in one of the most important in statistics, the central limit theorem (CLT).
+    \item In MATH 320, we introduced the CLT and thought about it as a sum of random variables.
+    \item \textbf{Central Limit Theorem}: Let $\vecn{X}{n}$ be independent random variables, all of which have the same probability distribution and thus the same mean $\mu$ and variance $\sigma^2$. If $n$ is large, the sum
+    \[S = X_1 + X_2 + \cdots + X_n\]
+    \item[] will be \ul{approximately normal} with mean $n\mu$ and variance $n\sigma^2$.\bigskip
+    \item Written succinctly: If $X_i \followsp{iid}{$f(x)$}$ with mean $\mu$ and variance $\sigma^2$, then
+    \[S = \sum_{i=1}^n X_i \followsp{approx}{Normal}(n \mu, n \sigma^2) \quad \text{if $n$ is large}\]
+     \item We used it to solve problems like this for example:
+     \item[] Suppose the number of claims filed on for a particular policy follow a Poisson distribution with a mean of 2 claims per year and the company has a portfolio of 500 active policies this year, which are assumed to be independent.
+    \item[] Find the distribution of the total number of filed claims for the entire portfolio.\vspace{30pt}
+\end{itemize}\bigskip
+
+\newpage
+
+CLT - Different perspective\bigskip
+\begin{itemize}
+    \item Now we will think about the CLT from a convergence (in distribution) point of view.
+    \item Build up to CLT / convergence in distribution.
+    \item[] Let $X_i \followsp{iid}{Normal}(\mu, \sigma^2)$ and let $\displaystyle \bar{X}_n = \frac{1}{n} \sum_{i = 1}^n X_i$.
+    \begin{enumerate}
+        \item For a fixed $n$:\vspace{20pt}
+        \item As $n \to \infty$:
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.35]{{"test-2/sample-mean-dists"}.png}
+        \end{figure}    
+        \item[] The variance decreases until all probability is a single point.
+        \item Suppose we ``center the distribution'' with $\bar{X}_n - \mu$:\vspace{60pt}
+        \item[] Even with the location adjustment, the variance of $\bar{X}_n$ disappears when the sample size $n$ increases (without bound).
+        \item We want to stop (or slow down) the ``decay'' of the variance, or we can think about this as spreading out the probability, so that when $n \to \infty$, $\bar{X}_n$ (and $\bar{X}_n - \mu$) does not converge to a constant, but rather distribution that still has some variation.
+        \item[] To do this, we multiply the quantity of interest by a factor of $n$:\vspace{60pt}
+        \item[] Now this result doesn't converge to a constant because the variance doesn't depend on $n$ and remains ``in tact'' when $n \to \infty$.
+        \item Then, we standardize the variance (adjusting the scale) by dividing by $\sigma$:\vspace{35pt}
+        \item Lastly, it turns out that regardless of the distribution of $X_i$ (so we are dropping the normal assumption), this result is always true!\vspace{35pt}
+        \item[] This is the CLT.
+    \end{enumerate}\bigskip
+    \item Convergence in distribution
+    \begin{itemize}
+        \item Definition: A sequence of random variables, $Y_1, Y_2, \dots,$ \textbf{converges in distribution} to a random variable $Y$ if
+        \[\lim_{n \to \infty} F_{Y_n}(y) = F_Y(y)\hspace{50pt}\]
+        \item[] at all points $y$ where $F_Y(y)$ is continuous (notation: $Y_n \overset{d}{\to} Y$).\bigskip
+        \item Although we talk of a sequence of random variables converging in distribution, it is really \textbf{the cdfs that converge, not the random variable (or statistic)}.
+        \item[] So for the CLT, we technically have:
+        \[\lim_{n \to \infty} \hspace{20pt} F_{Y_n}(y) \hspace{20pt} = \hspace{20pt} F_Y(y)\]
+    \end{itemize}\bigskip
+\end{itemize}\bigskip
+
+Restating CLT\bigskip
+\begin{itemize}
+    \item \textbf{Theoretical result}
+    \item[] \textbf{Central Limit Theorem}: Let $X_i \followsp{iid}{$f(x)$}$ with $E(X) = \mu$ and $V(X) = \sigma^2 > 0$. Then the distribution of
+    \[W = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \follow{Normal}(0,1) \quad \text{as } n \to \infty\]\bigskip
+    \item \textbf{In practice}
+    \item[] This means for \textbf{any} random variable $X$ with $E(X) = \mu$ and $V(X) = \sigma^2 > 0$, as $n$ gets larger the distribution of $\displaystyle W = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}}$ can be more closely approximated by the standard normal distribution.\newpage
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/clt"}.png}
+    \end{figure}
+    \item Using this practical result
+    \begin{itemize}
+        \item Needed theorem: If $Z \follow{N}(0,1)$, and $\mu$ and $\sigma > 0$ are constants, then 
+        \[X = \sigma Z + \mu \follow{N}(\mu, \sigma^2)\]
+        \item[] Proof: \vspace{40pt}
+        \item Results\bigskip
+        \begin{enumerate}[(a)]
+            \item[] \vspace{40pt}
+            \item$\displaystyle \frac{\sigma}{\sqrt{n}} W + \mu = \bar{X}$ can be approximated by \\ $\displaystyle \frac{\sigma}{\sqrt{n}} Z + \mu \follow{Normal}(\mu, \frac{\sigma^2}{n})$ for ``large'' $n$.
+            \item[] \vspace{50pt}
+            \item $n \bar{X} = X_1 + \ldots + X_n = S$ can be approximated by \\ $(\sigma \sqrt{n}) Z + n \mu \follow{Normal}(n \mu, n \sigma^2)$ for ``large'' $n$.
+        \end{enumerate}\bigskip        
+    \end{itemize}
+    \item How large must $n$ be?
+    \begin{itemize}
+        \item Although CLT gives us a useful general approximation, we have no automatic way of knowing how good the approximation is in general. In fact, the goodness of the approximation is a function of the original distribution, and so much be checked case by case.
+        \item The more the distribution of $X$ (population distribution) is ``like'' a normal distribution (symmetric, unimodal, continuous, etc.), the smaller the $n$ needed for $\bar{X}$ to be approximated well by a normal distribution.
+        \item \textbf{The rule $n \ge 30$ is a lie!!} But for ``school'' purposes, we can just use this rule of thumb as our check.
+        \item With the current availability of cheap, plentiful computing power, the importance of approximation like the CLT is somewhat lessened. However, despite its limitation, it is still a marvelous result.
+    \end{itemize}
+\end{itemize}\bigskip
+
+Examples\bigskip
+\begin{enumerate}
+    \item Let $\bar{X}$ be the mean of a random sample of size 36 from $\text{Exp}\, (\lambda = 1/3)$. Approximate $P(2.5 \le \bar{X} \le 4)$.\vspace{120pt}
+    \item Let $\vecn{X}{20}$ denote a random sample of size 20 from continuous $\text{Uniform}\, (2,8)$. If $S = X_1 + \ldots + X_{20}$, approximate $P(S < 95)$.\vspace{120pt}
+\end{enumerate}\bigskip
+
+\newpage
+
+$t$, $Z$, and the CLT\bigskip
+\begin{itemize}
+    \item Previously, we learned the following
+    \begin{enumerate}
+        \item If $\vecn{X}{n}$ are a random sample for a $N(\mu, \sigma^2)$, we know that the quantity
+        \[\frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \hspace{50pt}\]
+        \item (Building on 1.) However, if $\sigma$ is unknown, we substitute $S$ then 
+        \[\frac{\bar{X} - \mu}{S / \sqrt{n}}\hspace{50pt}\]
+        \item (Building on 2.) As $n \to \infty$, $t_{n-1} \to Z$
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.3]{{"test-3/t-dists"}.png}
+        \end{figure}
+        \item If $\vecn{X}{n}$ are \textbf{not normal} random variables, when the sample size is large
+        \[\frac{\bar{X} - \mu}{S / \sqrt{n}} \hspace{50pt}\]
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\newpage
+
+\bu{Approximations for discrete distributions}\bigskip
+
+Continuity correction\bigskip
+\begin{itemize}
+    \item Motivation: Now we are going to use the CLT as an approximation tool when sampling from \textbf{discrete distributions}.
+    \item[] Specifically, we will discuss a way to improve our approximations to account for the discrepancy created from using a continuous distribution / probability methods (integral to calculate area under curve) on originally discrete distributions.
+    \item This is called the (half unit) \textbf{continuity correction} and is demonstrated below.\bigskip        
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.3]{{"test-3/continuity-correction"}.png}
+    \end{figure}
+    \item Estimate the following probabilities using the continuity correction:
+    \begin{enumerate}[(a)]
+        \item $P(1 \le X \le 4) \approx$\bigskip
+        \item $P(X = 2) \approx$\bigskip
+        \item $P(1 \le X < 4) =$\bigskip
+        \item $P(X > 2.5) =$\bigskip
+    \end{enumerate}\bigskip
+    \item In general, if $X$ is the original discrete random variable of interest, $S$ is the corresponding normal random variable based on the CLT, and $a,b$ are some integers ($a \le b$), then we can summarize the adjustments for the \textbf{continuity correction} with:
+    \begin{align*}
+        P(X = a) &= P(a - 0.5 \le S \le a + 0.5)\\\\
+        P(a \le X \le b) &= P(a - 0.5 \le S \le b + 0.5)\\
+    \end{align*}
+    \item[] Just need to take care to decide if we are want to include or exclude $a$ or $b$ (so can rewrite strict inequalities $< \,\, >$ as inclusive $\le \,\, \ge$ and then use rule).
+\end{itemize}\bigskip
+
+\newpage
+
+Normal approximation to the binomial distribution\bigskip
+\begin{itemize}
+    \item The most common scenario when applying the normal approximation is to the binomial distribution.
+    \item Recall if $X \follow{Binomial}(n,p)$\vspace{30pt}
+    \item This means for ``large $n$'', $X =$
+    \item[] ``Rule of thumb'' is that $n$ is sufficiently large if $np \ge 5$ and $n(1 - p) \ge 5$. \\We will discuss reasoning behind this after some examples.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/normal-binomial-good"}.png}
+    \end{figure}
+    \item Examples$\rightarrow$ Good use of the normal approximation
+    \begin{enumerate}
+        \item Suppose that a multiple choice exam has 40 questions, each with 5 possible answers. A student feels that he has a probability of 0.55 of getting any particular question correct, with independence from one question to another.
+        \item[] Approximate the probability of the student getting at least 25 correct.\vspace{50pt}
+        \begin{enumerate}
+            \item With continuity correction:\vspace{30pt}
+            \item Without continuity correction:\vspace{30pt}
+            \item Exact answer using binomial distribution:\vspace{30pt}
+        \end{enumerate}
+    \end{enumerate}
+    \item Bad example: Suppose we change the scenario in example 1 so that there are only 20 questions and the probability of getting any particular question correct is now 0.10.
+    \item[] Compare the approximate answer and exact answer for $P(X \ge 3)$.\vspace{100pt}
+    \item Why is the approximation bad??
+    \begin{itemize}
+        \item Lets take a look at the histogram and overlaid normal pdf for a similar scenario:
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.4]{{"test-3/normal-binomial-bad"}.png}
+    \end{figure}
+        \item This illustrates the mismatch between the skewed probability histogram for and the symmetric pdf of the normal distribution. In order to do a good job of approximating the binomial distribution, the normal curve must have the bulk of its own distribution between legitimate outcomes for the Binomial distribution $[0,n]$.
+        \item How do we apply / check this: Based on the empirical rule, the central 95\% of any normal distribution lies within two standard deviations of its mean.\vspace{120pt}%source of derivation: https://math.oxford.emory.edu/site/math117/normalApproxToBinomial/
+        \item Thus, as long as we ensure that \blankul{5cm}, the normal approximation to the a binomial distribution will be good.
+        \item[] Contextually, this condition means that we must expect (expected value) the number of success ($np$) and failures ($nq$) to be at least 5.   
+    \end{itemize}
+    \item This relationship between a large sample binomial and normal is important for confidence intervals and hypothesis tests of population proportions which we will cover next.
+\end{itemize}\bigskip
+
+Normal approximation to the Poisson distribution\bigskip
+\begin{itemize}
+    \item A Poisson distribution with large enough mean can also be approximated with the use of a normal distribution.
+    \item[] Let $X \follow{Poisson}(\lambda)$, with $E(X) = V(X) = \lambda$, where $\lambda = 1, 2, \ldots$ (in general, we just need $\lambda > 0$, but for demonstration lets assume $\lambda$ is a positive integer).
+    \item We can rewrite $X$ as a sum of Poisson random variables:\vspace{40pt}
+    \item This means for ``large $n$'', $X =$
+    \item[] ``Rule of thumb'' is that $n$ is sufficiently large if $\lambda \ge 10$ (doesn't need to be an integer).
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/poisson-normal"}.png}
+    \end{figure}
+    \item Example
+    \item[] Let $X$ equal the number of alpha particles emitted by barium-133 per second and counted by a Geiger counter. Assume that $X \follow{Poisson}(\lambda = 49)$.
+    \item[] Approximate $P(45 \le X < 60)$.\vspace{80pt}
+\end{itemize}\bigskip
+
+\newpage
+
+Summary of normal approximation to the binomial and Poisson distributions\bigskip
+\begin{itemize}
+    \item Suppose $n$ is large and $a = 0, 1, \ldots, n$
+    \begin{enumerate}[(a)]
+        \item CLT:
+        \item[] If $X \follow{Binomial}(n,p) \Longrightarrow X \approx S \follow{Normal}(\mu = np, \sigma = \sqrt{npq})$
+        \item[] If $X \follow{Poisson}(\lambda) \Longrightarrow X \approx S \follow{Normal}(\mu = \lambda, \sigma = \sqrt{\lambda})$
+        \item Continuity correction:
+        \item[] $P(X \le a) \approx \text{Normalcdf(lower} = 0, \text{upper} = a + 0.5)$ 
+        \item[] $P(X < a) \approx \text{Normalcdf(lower} = 0, \text{upper} = a - 0.5)$ 
+    \end{enumerate}\bigskip
+    \item Final note: In practice, if you have technology / software, just compute discrete probabilities exactly. However, it is important to learn how to apply the central limit theorem.
+\end{itemize}\bigskip
+
+\bu{Central interval probabilities}\bigskip
+
+Empirical rule\bigskip
+\begin{itemize}
+    \item Motivation: Because the normal distribution can be used in so many scenarios due to the CLT, there are common generalizations that are made about \textbf{central interval} probabilities for distributions that are approximately bell-shaped.
+    \item First, lets calculate these exactly for the standard normal curve. These will of course apply to any normal distribution $X$ with mean $\mu$ and standard deviation $\sigma$ because we can standardize to get $Z$.
+    \begin{enumerate}
+        \item $P(-1 \le Z \le 1) = $
+        \item $P(\lvert Z \rvert \le 2) = $
+        \item $P(\lvert Z \rvert \le 3) = $
+    \end{enumerate}
+    \item Not all data is exactly normally distributed of course, but because of the CLT many distributions can be approximated by a normal distribution. So we can use the exact probabilities above to make generalizations about these distributions that have a similar shape.
+    \item The \textbf{empirical rule} states that for approximately normal distribution:
+    \begin{enumerate}
+        \item Approximately \blankul{2cm} of data falls within \blankul{1cm} standard deviation of the mean.
+        \item Approximately \blankul{2cm} of data falls within \blankul{1cm} standard deviations of the mean.
+        \item Approximately \blankul{3cm} (nearly all) of data falls within \blankul{1cm} standard deviations of the mean.
+    \end{enumerate} 
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/empirical-rule-example"}.png}
+    \end{figure}
+    \item Example:  Suppose that the scores on an achievement test are known to have, approximately, a normal distribution with mean $\mu = 64$ and standard deviation $\sigma = 10$.
+    \begin{enumerate}[(a)]
+        \item Find the scores probability scores are between 54 and 74.\vspace{30pt}
+        \item Find which two values lies the central 95\%?\vspace{30pt}
+        \item Find the percent of scores above 94.\vspace{30pt}
+    \end{enumerate}
+    \item Thus, knowledge of the mean and the standard deviation gives us a fairly good picture of the frequency distribution of scores when the bell-shape is present (or assumed). 
+\end{itemize}\bigskip
+
+
+\end{document}

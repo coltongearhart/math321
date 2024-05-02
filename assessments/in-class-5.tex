@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: In-Class 5}
+\end{center}
+
+\bigskip\bigskip
+
+% problem types summary
+% 1) CLT for X-bar based on some continuous pdf
+% 2) CLT for X-bar based on summary stats
+% 3) CLT for X-bar based on continuous uniform
+% 4) CLT for S = n X-bar for discrete rv, then sum of normals prob
+% 5) Normal approximation to binomial with continuity correction
+
+\begin{enumerate}
+
+    \item Let $\vecn{X}{75}$ be a random sample of size 75 from a random variable $X$ with pdf 
+    \[f(x) = \frac{3}{x^4}, \quad 1< x < \infty\]%Lazar HW 2, AQ 8
+    \begin{enumerate}
+        \item Given $\mu = E(X) = 3/2$, compute $\sigma^2 = V(X)$.\vspace{100pt}
+        \item Using answer from (a), approximate $P(\bar{X} > 13/8)$.\vspace{100pt}
+    \end{enumerate}
+    
+    \item A soft-drink vending machine is set so that the amount of drink dispensed is a random variable with a mean of 200 millimeters and a standard deviation of 15 millimeters.
+    \item[] Find the approximate probability that the average (mean) amount dispensed in a random sample of size 36 is at least 204 millimeters.\vspace{100pt}%Lazar problem 5.6 2
+    
+    \item In an analysis of healthcare data, ages have been rounded to the nearest multiple of five years. The difference between the true age and the rounded age is assumed to be uniformly distributed on the interval from -2.5 years to 2.5 years. The healthcare data are based on a random sample of 48 people.
+    \item[] Find the approximate probability that the mean of the rounded ages is within 0.25 years of the mean of the true ages.\vspace{100pt}\newpage%Actex 8-65
+    
+    \item A company has a pet policy that divides its policyholders into two classes as follows (assume all policies are independent):\\%Lazar problem 5.6 4 (different context and numbers, and broken down)
+    \begin{center}
+    \begin{tabular}{c c c c}
+        \hline
+        Class & Prob of Claim & Benefit & Number in class\\
+        \hline
+        A & 0.01 & 500 & 1000\\
+        \hline
+        B & 0.03 & 200 & 500\\
+        \hline
+    \end{tabular}
+    \end{center}\smallskip
+    \begin{enumerate}
+        \item Find the mean and variance for the random variables of the amount paid for a claim \textit{on a single policy} by the insurance company for each class.\vspace{140pt}%Original addition
+        \item Find the distributions for the total amount paid in claims for \textit{all of the policies} for each class.\vspace{140pt}%Original addition
+        \item The insurance company wants to collect a premium that equals the $90^{th}$ percentile of the distribution of the total claims (for both classes combined). Find what this premium be.\vspace{140pt}% final question here is what lazars original was
+    \end{enumerate}
+    
+    \item Suppose you are in a competition for shooting 50 free throws, and you have an 80\% chance of making each free throw (assuming independence of shots). Approximate the probability of making less than 40 shots using the continuity correction.\vspace{100pt}%Original addition
+        
+\end{enumerate}
+
+\end{document}

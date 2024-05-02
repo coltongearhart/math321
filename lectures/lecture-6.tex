@@ -1,0 +1,569 @@
+\documentclass{article}
+\usepackage{style-lectures}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+
+
+
+% ***** currently below is just notes I made along the way
+% I did not go through the book / drew's notes AND THEORY notes to see what I didn't cover..... need a break
+
+
+% t crit vs Z crit
+%  -> I kinda thought that once you get to n = 30, they were about the same. but t_29 for 0.025 = 2.05ish and z is 1.96...... So maybe need to use drew's logic and the main decision is if know variance (Z), if not (T)??? But then book (math stats with apps) says with 30 (especially points it out with two samples), then can use z. so confusing....
+% !!!!! BUT math stats with apps using the reasoning that s2 is a really accurate estimator for sigma2 when n is large, THAT'S WHY we can switch to Z cause we essentially have  the value..... SO it is NOT about the crit values, it's about estimating sigma2 well and then using z as if had assumption (s2 is consistent and unbiased for sigma2, so makes sense; mention this when presenting next, might help them make sense of it) --> see simulation in R content file for this section
+% -------> BUT COUNTER POINT, green highlight in math stats with apps says it is about the crit values.. IDK, simply IDK
+% some highlights in the end of 8.2 (two sample means tests) that address all these scenarios well, when do redo make sure to check against these
+
+% replicating TI-84
+% -> two sample t int -> pooled variances works exactly as it should
+% ----> not sure how non-pooled works, gets a decimal df, so it has to be using some sort of approximation to get the t df, then it is doing what expected with the non-pooled st error
+% ---> so maybe this is why my simulation didn't work, it's because I haven't correctly adjusted the DF for the non-pooled variance t crit value; YES!!! it uses the welch's approx to get the new df, this is what R does too if use t.test(var.equal = FALSE)
+
+% MAKE SURE HW 9 and in class 9 ALIGN with new CI reorganization and thought decision tree for the variables that affect the scenarios
+
+% NOTES on what didn't cover
+
+% math stats with apps section 8.9, confidence intervals for sigma^2
+% -> would be good additional knowledge for me (not for them)
+
+% ask drew, CIs for means of means (CI for aggregated data)
+
+% large sample dependent test for matched pairs ever use Z?
+
+% independent sample means with unknown variances, but known ratio d
+% -> actually super easy (exercise 7.2-8), should probs cover this next time
+% welch's approximation for df -> small sample non common variance for difference of means
+
+% dependent sample proportion intervals?
+
+% pooled variance for two means interval
+% HOW more precise??? see r simulation in 'Content'
+% -> can also write in terms of Sum of squares easily: shown here -> https://stats.libretexts.org/Bookshelves/Applied_Statistics/Book%3A_An_Introduction_to_Psychological_Statistics_(Foster_et_al.)/10%3A__Independent_Samples/10.05%3A_Standard_Error_and_Pooled_Variance
+% need to confirm what standard error would be in not pooling on TI-84, think just the same as the large sample with unknown variances
+
+
+% NOTES on what didn't cover - Sample size
+
+% CORRECTION for NOTES....... (idea came from stat inference problem (not sure if in text, as in they don't cover this type of calculation) 7.4-15, if know the variances, then don't need to assume common (like I did in the notes?); needs more thought, although probably simple?????
+
+
+
+\begin{document}
+
+\lecture{6}{Confidence Intervals}{7}{Interval Estimation}{7.1 - 7.4}
+
+
+\bu{Introduction}\bigskip
+
+Estimating parameters\bigskip
+\begin{itemize}
+    \item Point estimates
+    \begin{itemize}
+        \item Using a point estimator $\hat{\theta}$ to estimate a parameter $\theta$.
+        \item It is our single best guess.
+        \item Usually the point estimates do not equal the parameter because of sampling variability.
+    \end{itemize}
+    \item Interval estimates
+    \begin{itemize}
+        \item Give a range for what we think the population parameter is.
+        \item Takes into account sampling variability.
+    \end{itemize}
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/ci-sketch"}.png}
+    \end{figure}
+\end{itemize}
+
+\bu{Constructing confidence intervals}\bigskip
+
+Interval estimators / confidence intervals\bigskip
+\begin{itemize}
+    \item Definition: An \textbf{interval estimator} or \textbf{confidence interval} is a rule specifying the method for using the sample data to calculate two numbers that form the endpoints of the interval.
+    \[[L(\mathbf{X}), U(\mathbf{X})]\]
+    \item[] Once $\mathbf{X} = \mathbf{x}$ is observed, the \textbf{interval estimate} is then $L(\mathbf{x})$ and $U(\mathbf{x})$ and the inference $L(\mathbf{x}) \le \theta \le U(\mathbf{x})$ is made.\bigskip
+    \item Ideally, the resulting interval will have two properties:
+    \begin{enumerate}
+        \item It will contain the target parameter $\theta$.
+        \item It will be relatively narrow.
+    \end{enumerate}
+    \item Notes about properties:
+    \begin{itemize}
+        \item The endpoints $L(\mathbf{X})$ and $U(\mathbf{X})$ (called the \textbf{lower and upper confidence limits}) of the interval are functions of the sample, which means they will vary randomly from sample to sample.
+        \item[] Thus, the length and location of the interval are random quantities.\vspace{25pt}
+        \item Because of this, we cannot be certain that the (fixed) target parameter $\theta$ will fall between the endpoints of any single interval calculated from a single sample.
+        \item[] This being the case, our objective is to find an interval estimator capable of generating narrow intervals that have a high probability of enclosing $\theta$.
+    \end{itemize}\bigskip
+    \item The probability that a (random) confidence interval will enclose $\theta$ (a fixed quantity) is called the \textbf{confidence coefficient}:
+    \[P\big(L(\mathbf{X}) \le \theta \le U(\mathbf{X})\big) = 1 - \alpha\]
+    \item[] where $\alpha$ is called the \textbf{significance level}.
+    \item[] Thus $[L(\mathbf{X}), U(\mathbf{X})]$ is called a $\boldsymbol{100 (1 - \alpha)\%}$ \textbf{confidence interval for }$\boldsymbol{\theta}$.  
+\end{itemize}\bigskip
+
+Constructing confidence intervals\bigskip
+\begin{itemize}
+    \item All of the confidence intervals we will build start from this general setup and use properties of normal distributions or the central limit theorem to get the final interval of interest.
+    \item Setup: Let $\hat{\theta}$ be an unbiased point estimator for parameter $\theta$ and $\sigma_{\hat{\theta}}$ be the standard deviation of the sampling distribution of $\hat{\theta}$ (this is often called the \textbf{standard error} of $\hat{\theta}$).
+    \item[] Based on the scenario, if $\hat{\theta}$ is normally distributed, the quantity 
+    \[Z = \frac{\hat{\theta} - \theta}{\sigma_{\hat{\theta}}} \follow{Normal}(0,1)\]
+    \item Then to find a confidence interval for $\theta$ that possesses a confidence coefficient equal to $1 - \alpha$, we just need to select two values in the tails of this distribution, $-z_{\alpha / 2}$ and $z_{\alpha / 2}$ (these are called \textbf{critical values}), such that $P(-z_{\alpha / 2} \le Z \le z_{\alpha / 2}) = 1 - \alpha$.
+    \item[] Then because we seek an interval estimator for $\theta$, we just have to \\substitute in $\frac{\hat{\theta} - \theta}{\sigma_{\hat{\theta}}}$ for $Z$ and rearrange to isolate $\theta$ in the middle.
+    \begin{figure}[H]
+        \hspace{300pt}\includegraphics[scale=0.5]{{"test-3/z-critical-values"}.png}
+    \end{figure}\vspace{90pt}
+    \item Thus, we can summarize any (two-sided) confidence interval with
+    \[\text{CI} = \text{Point Estimate} \pm \text{Margin of Error}\]
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/ci-general"}.png}
+    \end{figure}
+    \begin{itemize}
+        \item Point Estimate (PE) is the best guess; at the center of the interval.
+        \item Margin of Error (MOE) = Critical Value (CV) $\times$ Standard Error (SE).
+        \item[] SE (standard deviation of the statistic) measures sampling error.
+        \item[] \% Confident is determined by confidence level set and incorporated via the critical value (CV).
+    \end{itemize}\bigskip
+    \item Recall the two goals of confidence intervals: (1) capture the parameter of interest and \\ (2) be precise (smaller MOE = narrower interval).
+    \begin{itemize}
+        \item The location (center) of the interval is determined by the \blankul{1cm}
+        \item The precision (MOE) is determined by the \blankul{1cm} (via the standard error) AND by the \blankul{3cm} (via the confidence level).
+    \end{itemize}\bigskip
+    \item All else equal, here is how the researcher can affect the precision of intervals:
+    \begin{itemize}
+        \item Larger sample size $n$ $\rightarrow$ \blankul{2cm} interval
+        \item More confident $\rightarrow$ \blankul{2cm} interval
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.5]{{"test-3/confidence-vs-precision"}.png}
+        \end{figure}
+    \end{itemize}
+\end{itemize}\bigskip
+
+\newpage
+
+Interpreting confidence intervals\bigskip
+\begin{itemize}
+    \item Interpretation
+    \begin{itemize}
+        \item General Structure
+        \item[] I am \ul{\% confident} that the true/population \ul{parameter + context} is between \\ \ul{lower bound} and \ul{upper bound}.
+        \item Example: Suppose 95\% CI = [24, 30]
+        \item[] I am 95\% confident that the true (population) mean of all Indiana ACT test scores is between 24 and 30.
+        \item When interpreting CIs: Make sure to mention what $\theta$ represents in context and keep in mind that the interval is giving us the range of plausible values for $\theta$.
+    \end{itemize}\bigskip
+    \item Confidence coefficient
+    \begin{itemize}
+        \item ``95\% confident'': This tells us that in repeated sampling, approximately 95\% of all intervals of the form $\hat{\theta} \pm 1.96 \, \sigma_{\hat{\theta}}$ include $\theta$.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.55]{{"test-3/confidence"}.png}
+        \end{figure}
+        \item Be careful with using ``confidence'' and ``probability'' interchangeably.
+        \item[] AFTER collecting data:\hspace{100pt} BEFORE collecting data:\vspace{40pt}
+        \item For a particular sample, this interval either does or does not contain the parameter $\theta$, but we never know.
+        \item However, we are ``95\% confident'' that the interval contains the parameter because the procedure that generated it yields intervals that do capture the true parameter in approximately 95\% of the time that the procedure is used.
+    \end{itemize}
+\end{itemize}\bigskip
+
+\newpage
+
+\bu{Confidence intervals for proportions}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item Often we want to estimate population proportions or the difference in proportions. For example
+    \begin{itemize}
+        \item Proportion of voters in favor of an issue, proportion of students that graduate college, proportion of the population in a certain interval of values (success / fail perspective on a numeric variable), etc.
+        \item Difference in polling position for two candidates, difference in graduation rates for students involved in clubs vs not, etc.
+    \end{itemize}
+    \item We can compute confidence intervals for one proportion or the difference in two proportions.
+\end{itemize}\bigskip
+
+Confidence intervals for one proportion\bigskip
+\begin{itemize}
+    \item Setup: If we observe $n$ independent Bernoulli trials, each with success probability $p$, then \vspace{20pt}
+    \item[] Thus $X$ represents the number of successes in the $n$ trials.
+    \item Now we are interested in the parameter $\theta = $
+    \item[] The unbiased estimator is the sample proportion \blankul{3cm}
+    \item Main result to form the interval (just need to meet conditions):
+    \item[] Conditions:\bigskip
+    \item[] 1) \ul{Normal approximation to the binomial} \hspace{60pt} 2) \ul{CLT for Bernoulli mean}\vspace{100pt}
+    \item Thus we can construct the approximate $100 (1 - \alpha)\%$ confidence interval for $p$ with\vspace{50pt}
+    \item[] Note that the unknown parameter $p$ appears in both endpoints of the interval, so we do the obvious thing and substitute $\hat{p}$ into the standard error $\sigma_{\hat{p}}$.
+    \item Example: Let $p$ equal the proportion of triathletes who suffered an overuse injury during the past year. Out of 330 triathletes who responded to a survey, 167 indicated that they suffered such an injury during the past year.
+    \begin{enumerate}[(a)]
+        \item Use these data to give a point estimate of $p$ and to find an approximate 90\% confidence interval for $p$.\vspace{100pt}
+        \item Do you think that the 330 triathletes who responded to the survey may be considered a random sample from the population of triathletes?
+        \item[] This is an example of \blankul{6cm} (aka voluntary response bias). There is a whole branch of statistics related to surveys and how to collect data while minimizing bias in the sample.
+     \end{enumerate}
+\end{itemize}\bigskip
+
+Confidence intervals for difference of two proportions\bigskip
+\begin{itemize}
+    \item Setup: Same setup as for one proportion, now just two samples:\vspace{50pt}
+    \item Now we are interested in the parameter $\theta = $
+    \item[] The unbiased estimator is difference in sample proportions \blankul{4cm}
+    \item Just need to check the conditions first before constructing the desired interval.
+    \item Forming the interval $\rightarrow$ Conditions:\bigskip
+    \item[] Result:\vspace{50pt}
+    \item Thus we can construct the $100 (1 - \alpha)\%$ confidence interval for $p_1 - p_2$ with\vspace{50pt}
+    \item[] Again, we will estimate the standard error using the respective sample proportions.
+    \item Example: Two detergents were independently tested for their ability to remove stains of a certain type. An inspector judged the first detergent to be successful on 83 out of 100 independent trials and the second one to be successful on 42 out of 79 independent trials.
+    \item[] Find a 98\% confidence interval for the difference in the probability in removing stains of the two detergents and state the conclusion.\vspace{130pt}
+\end{itemize}\bigskip
+
+Calculator session\bigskip
+\begin{figure}[H]
+    \center\includegraphics[scale=0.5]{{"test-3/cis-calc-proportions"}.png}
+\end{figure}
+
+\newpage
+
+\bu{Confidence intervals for means}\bigskip
+
+Confidence intervals for means\bigskip
+\begin{itemize}
+    \item Now we are interested in the parameter $\theta = $
+    \item[] All we have to do is use the unbiased estimator for \blankul{2cm} and the correct standard error $\sigma_{\hat{\theta}}$, then apply those to the final confidence interval shown at the beginning.
+    \item Variables that affect the formation of our confidence intervals:
+    \begin{itemize}
+        \item Sample size (large or small)
+        \item Population distribution $X$ (normal or not normal)
+        \item Population variance $\sigma^2$ (known or unknown)
+    \end{itemize}
+    \item We will simplify the scenarios and just think about large or small samples, and add notes about when the intervals are approximate or exact.
+\end{itemize}\bigskip
+
+Large sample confidence intervals\bigskip
+\begin{itemize}
+    \item Suppose $\vecn{X}{n}$ are a random sample with \textbf{``large''} $\boldsymbol{n}$ from some  distribution $X$ with unknown variance $\sigma^2$.\vspace{130pt}
+    \item How large must $n$ be / goodness of the approximation:
+    \item[] Because of the unknowns (distribution and variance), we have approximately \\$100(1 - \alpha)\%$ confidence intervals. As more assumptions are introduced, confidence coefficients for the intervals become more exact (i.e. closer to $100(1 - \alpha)\%$ level).
+    \begin{enumerate}
+        \item (Least best scenario) If $X$ is badly skewed or has outliers, then prefer to have even larger sample sizes like $n \ge 50$, and even that may not produce good results.
+        \item (Most likely in practice) If starting from Normal or like Normal (unimodal, symmetric, and continuous), then need $n \ge 30$ for the CLT to work with the unknown $\sigma^2$.
+        \item (Best case scenario) If assume Normal and known variance $\sigma^2$, then this procedure even works for $n << 30$.
+    \end{enumerate}
+    \item Examples:
+    \begin{enumerate}
+        \item Example: Let $X$ equal the life of a a 60-watt light bulb marketed by a certain manufacturer with $X \follow{Normal}(\mu, \sigma^2 = 1296)$. Suppose a random sample of size 27 from this distribution yields $\bar{x} = 1478$.
+        \item[] Construct 90\% and 95\% confidence intervals for $E(X) = \mu$.\vspace{130pt}        
+        \item Lake Macatawa, an inlet lake on the east side of Lake Michigan, is divided into an east basin and a west basin. To measure the effect on the lake of salting city streets in the winter, students took 32 random samples of water from the west basin and measured the amount of sodium in parts per million in order to make a statistical inference about the unknown mean $\mu$. They obtained the following data:
+        \begin{figure}[H]
+        \begin{minipage}{0.45\textwidth}
+            \center\includegraphics[scale=0.45]{{"test-3/example-data-lake"}.png}
+        \end{minipage}
+        \begin{minipage}{0.4\textwidth}
+            \center\includegraphics[scale=0.5]{{"test-3/example-hist-lake"}.png}
+        \end{minipage}
+        \end{figure}
+        \item[] Construct a 95\% confidence interval for $\mu$ the mean amount of sodium in the west basin.\vspace{80pt}
+        \item Example: Let $X$ be the amount of orange juice (in grams per day) consumed by an American. Suppose $V(X) = \sigma^2 = 96$. To estimate $\mu$, an orange growers' association took a random sample of $n = 576$ and found $\bar{x} = 133$.
+        \item[] Construct a 98\% confidence interval for $\mu$.\vspace{100pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Small sample confidence intervals\bigskip
+\begin{itemize}
+    \item Suppose $\vecn{X}{n}$ are a random sample with \textbf{``small''} $\boldsymbol{n}$ from $\textbf{Normal}(\mu, \sigma^2)$, \\ with \textbf{unknown variance} $\boldsymbol{\sigma^2}$.\vspace{110pt}
+    \item Effect of converting to a $t$-interval
+    \begin{itemize}
+        \item All else equal, $t$-intervals are wider than the corresponding $Z$-intervals because we are approximating $\sigma$ with $s$ (estimating another parameter in addition to $\mu$).
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.4]{{"test-3/t-critical-values"}.png}
+        \end{figure}\bigskip
+        \item However, the length of $t$-intervals are very much dependent on the value of the observed sample standard deviation $s$.
+        \item[] If the observed $s$ is smaller than $\sigma$, we can get a narrower using a $t$-interval compared to a $Z$-interval. But on average, $\bar{x} \, \pm \,  z_{\alpha / 2} \, (\sigma / \sqrt{n})$ is the shorter of the two confidence intervals.
+        \item When $n$ gets larger ($n \ge 30$), then $t_{n - 1} \approx Z$, which is why we can just use the $Z$ critical values and the approximate $Z$-interval.
+    \end{itemize}\bigskip
+    \item What if data is not Normal?
+    \begin{itemize}
+        \item Generally, this procedure works well when underlying distribution is symmetric, unimodal, and continuous and is still quite good (i.e. it is robust) for many non-normal distributions.
+        \item However it is not good (i.e. dangerous to use) if the distribution is highly skewed. If this is the case, safer to use certain nonparametric methods for finding a confidence interval for the median of the distribution (we will not cover this).
+    \end{itemize}\newpage
+    \item Examples:
+    \begin{enumerate}
+        \item Let $X$ equal the amount of butterfat in pounds produced by a typical cow during a 305-day milk production period between her first and second calves. Assume that the distribution of $X \follow{Normal}(\mu, \sigma^2)$. To estimate $\mu$, a farmer measured the butterfat production for $n = 20$ cows and obtained the following data:
+        \begin{figure}[H]
+        \begin{minipage}{0.45\textwidth}
+            \includegraphics[scale=0.45]{{"test-3/example-data-cow"}.png}
+        \end{minipage}
+        \begin{minipage}{0.4\textwidth}
+            \center\includegraphics[scale=0.5]{{"test-3/example-hist-cow"}.png}
+        \end{minipage}
+        \end{figure}
+        \item[] Construct a 97\% confidence interval for $\mu$.\vspace{80pt}
+        \item In nuclear physics, detectors are often used to measure the energy of a particle. To calibrate a detector, particles of known energy are directed into it. The values of signals from 12 different detectors, for the same energy, are shown below.
+        \begin{figure}[H]
+        \begin{minipage}{0.45\textwidth}
+            \includegraphics[scale=0.4]{{"test-3/example-data-nuclear"}.png}
+        \end{minipage}
+        \begin{minipage}{0.3\textwidth}
+            \center\includegraphics[scale=0.4]{{"test-3/example-hist-nuclear"}.png}
+        \end{minipage}
+        \end{figure}
+        \item[] Construct a 95\% confidence interval for $\mu$.\vspace{60pt}
+        \item Continuing example: Suppose the data looked like this (still $n = 12$):
+        \begin{figure}[H]
+            \includegraphics[scale=0.4]{{"test-3/example-hist-nuclear-skewed"}.png}
+        \end{figure}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Calculator session\bigskip
+\begin{figure}[H]
+    \center\includegraphics[scale=0.4]{{"test-3/cis-calc-means"}.png}
+\end{figure}
+
+One-sided confidence intervals\bigskip
+\begin{itemize}
+    \item Can also create one-sided confidence intervals if interested in the probability $\theta$ is larger or smaller than a certain number.
+    \item By the same arguments as shown above, we can determine that $\boldsymbol{100(1 - \alpha)\%}$ \textbf{one-sided confidence interval} are given by
+    \item[] \ul{Lower bound} \hspace{200pt} \ul{Upper bound}\vspace{60pt}
+    \item Suppose that we compute both a $100(1 - \alpha)\%$ lower bound and a $100(1 - \alpha)\%$ upper bound for $\theta$. We then decide to use both of these bounds to form a CI for $\theta$.
+    \item[] What will be the confidence coefficient of this interval?\vspace{50pt}
+    \item For one mean $\theta  =\mu$, we will use the same criteria discussed above to determine $Z$ vs $t$ (knowing if exact vs approximate), then just use either the lower or upper bound interval if interested in a one-sided CI.
+    \item Example: Using the Lake Macatawa data ($n = 32$ with unknown distribution and unknown variance), construct a 95\% lower CI for $\mu$ and a 95\% upper CI for $\mu$.
+    \item[] Then combine to form a two-sided interval and compare to the 95\% two-sided interval found earlier.
+    \item[] \ul{Lower bound} \hspace{100pt} \ul{Upper bound} \hspace{100pt} \ul{Combined}\vspace{120pt}
+\end{itemize}\newpage
+
+\bu{Confidence intervals for the difference of two means}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item Often we want to compare means of two different populations. For example, compare: average heights of male vs females for a species, average GPA of students in different school districts, mean response for two different treatments in an experiment, etc.
+    \item We can compute confidence intervals for difference in means.
+\end{itemize}\bigskip
+
+Confidence intervals for difference in means\bigskip
+\begin{itemize}
+    \item Now we are interested in the parameter $\theta = $
+    \item[] The unbiased estimator is \blankul{2cm}
+    \item[] Again, we just need to us the correct standard error \blankul{2cm}
+    \item Variables that affect the formation of our confidence intervals:
+    \begin{itemize}
+        \item Independent or dependent samples
+        \item Sample sizes $n_1$ and $n_2$ (large or small)
+        \item Population distributions $X_1$ and $X_2$ (normal or not normal)
+        \item Population variances $\sigma^2_1$ and $\sigma^2_2$ (known or unknown and ratio of variances)
+    \end{itemize}
+    \item Similar logic (large vs small sample) can be used for two samples with regards to the form of the interval once we decide on independent vs dependent samples.
+\end{itemize}\bigskip
+
+Independent, large sample confidence intervals\bigskip
+\begin{itemize}
+    \item Suppose we have \textbf{independent, large} random samples from some distributions $X_1$ and $X_2$ with sizes $n_1$ and $n_2$, respectively.\vspace{140pt}
+    \item Again, we need larger sample sizes with more unknowns in order to still have good approximations. Additionally, if we are starting from Normal or the variances are assumed known, then the approximations are better (or exact). 
+    \item Examples:
+    \begin{enumerate}
+        \item A ecological study was conducted to compare rates of growth of trees at two sites by measuring leaf lengths of trees planted the previous year. It is known that the lengths of these leaves are normally distributed regardless of the conditions in which they grow and the variance of the lengths is $\sigma^2_1 = 1.69 \text{ cm}^2$ at site 1 and $\sigma^2_1 = 2 \text{ cm}^2$ at site 2. Two independent random samples of leaf lengths from the two sites are observed as below:
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.5]{{"test-3/example-data-leaf"}.png}
+        \end{figure}
+        \item[] Construct an 80\% CI for $\mu_1 - \mu_2$ where $\mu_1, \mu_2$ are the mean leaf lengths of sites 1 and sites 2, respectively.\vspace{70pt}
+        \begin{itemize}
+            \item When interpreting confidence intervals for the difference in parameters, there are three scenarios for intervals:
+            \item[] \textul{Below zero} \hspace{50pt} \textul{Contains zero} \hspace{50pt} \textul{Above zero} \vspace{70pt}
+            \item For example, suppose interval is $[-1, 3]$. This contains zero and we would conclude there is no difference in $\theta_1$ and $\theta_2$; however, keep in mind that 3 is also a ``believable'' value for the difference.
+        \end{itemize}
+        \item A comparison of the durability of two types of automobile tires was obtained by road testing samples of $n_1 = n_2 = 100$ tires of each type. The number of miles until wear-out was recorded, where wear-out was defined as the number of miles until the amount of remaining tread reached a pre-specified small value. The measurements for the two types of tires were obtained independently, and the following means and variances were computed (in miles):
+        \[\bar{x}_1 = 26,400, \hspace{10pt} s^2_1 = 1,440,000 \hspace{20pt} \text{and} \hspace{20pt} \bar{x}_2 = 25,100, \hspace{10pt} s^2_2 = 1,960,000\]
+        \item[] Construct a 90\% CI for $\mu_1 - \mu_2$.\vspace{80pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Independent, small sample confidence intervals\bigskip
+\begin{itemize}
+    \item Suppose we have \textbf{independent, small} random samples from $X_1 \follow{\textbf{Normal}}(\mu_1, \sigma^2_1)$ and $X_2 \follow{\textbf{Normal}}(\mu_2, \sigma^2_2)$ with $n_1$ and $n_2$, and with \textbf{unknown common variance} $\boldsymbol{\sigma^2_1 = \sigma^2_2  = \sigma^2}$.\vspace{150pt}
+    \begin{itemize}
+        \item The standard error for this comes from the usual unbiased estimator of the common variance $\sigma^2$, which is obtained by pooling the sample data to obtain the pooled estimator $S^2_p$. This is just a weighted average of $S^2_1$ and $S^2_2$ with larger weight given to the sample variance associated with the larger sample size. 
+        \item Proof:
+        \item[] From above, we know 
+        \[Z = \frac{(\bar{X_1} - \bar{X_2}) - (\mu_1 - \mu_2)}{\sqrt{\frac{\sigma^2}{n_1} + \frac{\sigma^2}{n_2}}} \follow{Normal}(0, 1)\]
+        \item[] and from earlier theorems
+        \[\frac{(n_1 -1)}{\sigma^2} S^2_1 \follow{\chisq}_{n_1 - 1} \hspace{20pt} \text{and} \hspace{20pt} \frac{(n_2 - 1)}{\sigma^2} S^2_2 \follow{\chisq}_{n_2 - 1}\]
+        \item[] Thus,
+        \[U = \frac{(n_1 -1)}{\sigma^2} S^2_1 + \frac{(n_2 - 1)}{\sigma^2} S^2_2 \hspace{10pt}\sim\]
+        \item[] Combining all of this, we can form the following\vspace{150pt}
+        \item Example: Suppose that scores on a standardized test in mathematics taken by students from large and small high schools are $N(\mu_1, \sigma^2)$ and $N(\mu_2, \sigma^2)$, respectively, where $\sigma^2$ is unknown. If a random sample of $n_1 = 9$ students from large high schools and a random sample from $n_2 = 15$ small high school yielded
+        \[\bar{x}_1 = 81.31, \hspace{10pt} s^2_1 = 60.76 \hspace{20pt} \text{and} \hspace{20pt} \bar{x}_2 = 78.61, \hspace{10pt} s^2_2 = 48.24\]
+        \item[] Construct a 95\% CI for $\mu_1 - \mu_2$.\vspace{80pt}
+    \end{itemize}\bigskip
+    \item If we don't assume a common variance, we can still do the above procedure if the sample variances are close enough.
+    \item[] As a rule of thumb, if the ratio of $S_1^2 / S_2^2$ is between 0.5 and 2 (i.e., if one variance is no more than double the other), then we can use the pooled formula.
+    \item Now we have all the assumptions from above scenario, (independent, small samples, both Normal with unknown variances), except we \textbf{cannot assume a common variance} AND they are drastically different. There are two cases
+    \begin{enumerate}
+        \item We \textbf{do know the ratio of variances} $\boldsymbol{\sigma^2_1 / \sigma^2_2  = d}$.
+        \item[] Can still construct a $100 (1 - \alpha)\%$ confidence interval for $\mu_1 - \mu_2$ using a modified $s_p$ (will not cover this one).
+        \item We \textbf{do not know the ratio of the variances} and yet suspect that the unknown $\sigma^2_1$ and $\sigma^2_2$ \textbf{differ by a a lot}.
+        \item[] Can still construct a $100(1 - \alpha)\%$ confidence interval for $\mu_1 - \mu_2$ using a similar interval to one with large samples and unknown variances, except we use $t$-critical values (due to the unknown variances) with adjusted degrees of freedom to provide a larger MOE (will not cover this one either).
+    \end{enumerate}        
+\end{itemize}\bigskip
+
+Dependent samples confidence intervals\bigskip
+\begin{itemize}
+    \item All of the previous intervals required independent samples as one of the assumptions. This is often not the case in practice.
+    \item Independent vs dependent samples
+    \begin{itemize}
+        \item Independent: Groups are unrelated, no connection, no relationship
+        \item[] This is often not the case in practice, sometimes by design.
+        \item Dependent:  Groups have some relationship between one another, can link the two; PAIRS
+        \item[] 
+    \end{itemize}
+    \item If samples are dependent, they can be dependent in one of two ways.
+    \item[] The interval that we construct is that same for both, but nonetheless it is important to know the structure of our data and how it was obtained.
+    \begin{itemize}
+        \item \textbf{Paired}: Two values from the SAME subject.
+        \item \textbf{Matched}: Two values from DIFFERENT subjects connected in some way.
+        \item Examples) Determine if the following samples are independent or dependent (and matched or paired).
+        \begin{enumerate}
+            \item Comparing the blood pressure of MATH 321 students before the final exam and after completing the final exam.
+            \item Are brothers or sisters smarter? A researcher studied ACT scores of 8 brother and sister pairs.
+            \item A study is conducted to see what effect a new drug has on dexterity. A random sample of 30 students is chosen. They are given a series of tasks to perform and a score reflecting their performance. A dose of the drug is given to the 30 students and they again perform similar tasks and are scored again.
+            \item Looking to see if there is a difference in the price of the same Video Game Consoles at Target or Walmart.
+            \item Seeing if the height of Faculty is shorter than the undergraduate population.
+        \end{enumerate}
+    \end{itemize}
+    \item Independent vs dependent strategy
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.4]{{"test-3/ind-vs-dep-strat"}.png}
+    \end{figure}
+    \item If $X_1$ and $X_2$ may be \textbf{dependent random variables}, then we cannot use the $t$-statistics and confidence intervals that we just developed, because they were based on the assumption of independence.\bigskip
+    \item \textbf{Matched-pair (dependent) $\boldsymbol{t}$-interval for $\boldsymbol{\mu_1 - \mu_2}$}
+    \item[] Suppose we have \textbf{dependent} random samples from of size $n$ from $X_1$ and $X_2$ (which can think of as ordered pairs $(X_{1,i}, X_{2,i})$).
+    \item[] Let $D = X_{1} - X_{2}$. This can be thought of as a random sample from $D \follow{Normal}(\mu_D, \sigma^2_D)$, where $\mu_D $ and $\sigma^2_D$ are the mean and variance of the difference in each pair.
+    \item[] Then we can construct a $100 (1 - \alpha)\%$ for $D$ in the same way as the as we did for one mean:\vspace{100pt} 
+    \item Example: To compare the wearing of two types of automobile tires, A and B, a tire of type A and of type B are randomly mounted on the wheels of each of 8 automobiles. The automobiles are operated for a certain number of miles, and the amount of wear recorded for each tire below. Assuming the difference in wears of the tires are normally distributed, construct a 95\% CI and a 95\% lower-bounded CI for the difference in the mean wear of the two type of tires.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.35]{{"test-3/example-data-tires"}.png}
+    \end{figure}
+    \vspace{60pt}
+\end{itemize}
+
+\bu{Finding the minimum sample size}\bigskip
+
+Motivation\bigskip
+\begin{itemize}
+    \item In statistical consulting, the first question frequently asked is, ``How large should the sample size be to estimate a mean?''
+    \item[] Determining the sample size is an important step when planning a study because of the following considerations:
+    \begin{itemize}
+        \item If $n$ is too large, it is a waste of resources (studies are expensive, time and \$\$\$).
+        \item If $n$ is too small, they are less confident in the results (i.e. too imprecise); no real insight is gained.
+    \end{itemize}
+    \item In the context of estimation, researchers want to figure out how large their sample needs to be to yield a confidence interval with a predetermined width.
+    \item[] In doing so, they are controlling the precision!
+\end{itemize}\bigskip
+
+Margin of error (MOE) revisited\bigskip
+\begin{itemize}
+    \item Recall: MOE is what you add and subtract from your point estimate to get your upper bound (UB) and lower bound (LB) of your confidence interval.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.4]{{"test-3/ci-general"}.png}
+    \end{figure}
+    \item If you are given an interval, your margin of error is the following:
+    \[MOE = \frac{UB - LB}{2} = \frac{Width}{2} \hspace{20pt} \rightarrow \hspace{20pt} Width = 2 \times MOE\] 	  
+    \item This is what we are controlling in the process of selecting the minimum sample size!
+    \item[] For example, suppose a mathematics department wishes to evaluate a new method of teaching calculus with a computer. At the end of the course, the evaluation will be made on the basis of standard test, in which they would like to estimate $\mu$, the mean score for students in the new class.
+    \item[] In planning this course, they wish to determine how many students should take the course in order to be fairly confident that $\bar{x} \pm 1$ contains the unknown test mean $\mu$.
+    \item More formal definition: The \textbf{error in estimation} $\boldsymbol{\epsilon}$ is the distance between an estimator and its target parameter. That is \vspace{20pt}
+    \item[] Typically, we are given a \textbf{maximum error in estimation}, which means we want the margin of error to be no more than $\epsilon$ (or ``within'' $\epsilon$), less than is okay.
+\end{itemize}\bigskip
+
+Finding minimum sample size\bigskip
+\begin{itemize}
+    \item The process for finding the minimum sample size for a given a maximum error in estimation $\epsilon$ is the same regardless of what type of interval we are using.
+    \item[] Just start with the formula for Margin of Error and rearrange to solve for $n$.\bigskip
+    \item Here are the derivations / calculations for some of the different intervals that we have discussed. For each situation, we want the $100 (1 - \alpha)\%$ confidence interval for $\theta$, $\hat{\theta} \pm z_{\alpha / 2} \sigma_{\hat{\theta}}$, to be no longer than that given by $\hat{\theta} \pm \epsilon$.
+    \item One proportion\vspace{60pt}
+    \begin{itemize}
+        \item Again, we do not know the value $p$ obviously and we cannot substitute $\hat{p}$ like before because we haven't collected data yet. So we have two options for specifying $p = p^*$:
+        \begin{enumerate}
+            \item Set $p^*$ based on previous research or experience.
+            \item If no prior information is available, set $p^* = 0.5$.
+            \item[] This results in the largest $n$ for a specific MOE, so it is a safe  (conservative) estimate. So to achieve a maximum error of estimate of at most $\epsilon$, use the following:
+            \begin{figure}[H]
+                \includegraphics[scale=0.6]{{"test-3/sample-size-p"}.png}
+            \end{figure}
+        \end{enumerate}
+        \item Example: The unemployment rate in a certain country has been about 8\%. This rate has changed by small amount and economists wish to update their estimate of the unemployment rate p in order to make decisions about national policy. Find the sample size needed to achieve a maximum error of the estimate of
+        \begin{enumerate}
+            \item $\epsilon = 0.001$ for a 95\% CI for $p$\vspace{40pt}
+            \item $\epsilon = 0.01$ for a 99\% CI for $p$\vspace{40pt}
+            \item $\epsilon = 0.01$ for a 95\% CI for $p$\vspace{40pt}
+            \item $\epsilon = 0.01$ for a 95\% CI for $p$, except assume now assume that we have no prior information about $p$.\vspace{40pt}
+        \end{enumerate}
+    \end{itemize}
+    \item One mean\vspace{60pt}
+    \begin{itemize}
+        \item Researchers have to make an assumption about the value of $\sigma$ in order to do sample size calculations, which can be tricky. And resulting estimates for minimum sample sizes can change drastically based on how much variability is in the process they are studying. So there are a few options:
+        \begin{itemize}
+            \item Assume a value for $\sigma^2$.
+            \item Use the best approximation available such as an estimate $s$ obtained from a previous sample.
+            \item Use an upper bound on $\sigma^2$ if available.
+            \item Use knowledge of the range of the measurements in the population.
+        \end{itemize}\newpage
+        \item Examples
+        \begin{enumerate}
+            \item (Continuing the math department example) Given past experience it is believed scores on such a common final are normally distributed with standard deviation of 15. Using $\bar{x}$ as an estimate, find the sample size needed to achieve a maximum error of the estimate of
+            \begin{enumerate}
+                \item $\epsilon = 1$ for a 95\% CI for $\mu$\vspace{40pt}
+                \item $\epsilon = 2$ for a 95\% CI for $\mu$\vspace{40pt}
+                \item $\epsilon = 2$ for a 90\% CI for $\mu$\vspace{40pt}
+                \item $\epsilon = 2$ for a 90\% CI for $\mu$, except with $\sigma = 22.5$\vspace{40pt}
+            \end{enumerate}
+            \item Continuing math example: Suppose test grades typically range between 60 and 95. Based on the empirical rule, 95\% of data is between 2$\sigma$ of the population mean $\mu$. We can use this fact to get an approximate sample size, for say $\epsilon = 1$.\vspace{100pt}
+        \end{enumerate}
+    \end{itemize}\bigskip
+    \item Two means\bigskip
+    \begin{itemize}
+        \item If we make two simplifying assumptions, then we can get sample size estimates for this scenario as well (else it becomes like solving a system).
+        \item[] Equal sample sizes: $n_1 = n_2 = n$ and equal variances $\sigma^2_1 = \sigma^2_2 = \sigma^2$.\vspace{100pt}\newpage
+        \item Example: An experimenter wishes to compare the effectiveness of two methods of training. The selected participants are to be divided into two groups of equal size, the first receiving training method 1 and the second receiving training method 2. After training, each participant will a task and have their time recorded.
+        \item[] The goal is to estimate the mean difference in times within 1 minute with 95\% confidence, assume $\sigma^2_1 = \sigma^2_2 = 2$.\vspace{60pt}
+        \item[] Note we could use the range strategy to get an estimate of common $\sigma$ if we did not have the assumption it equaled 2.
+    \end{itemize}\bigskip
+    \item Observations: When estimating $\mu$ with $\bar{x}$, all else equal:
+    \item[] Larger margin of error $\epsilon$ $\rightarrow$ \blankul{2cm} sample size $n$
+    \item[] More confident (smaller $\alpha$) $\epsilon$ $\rightarrow$ \blankul{2cm} sample size $n$
+    \item[] Larger variance $\sigma^2$ $\rightarrow$ \blankul{2cm} sample size $n$
+\end{itemize}
+
+
+
+\end{document}

@@ -1,0 +1,109 @@
+---
+title: "HW 1 -- R STARTER"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    df-print: kable
+execute: 
+  warning: false
+  message: false
+---
+
+## Simulation 1 
+
+### a) Population distribution
+
+Let $X \sim \text{Gamma}(\alpha = 4, \beta = 1/2)$.
+
+```{r}
+
+
+```
+
+### b and c) Generate random samples and calculate statistic
+
+Let $Y = \text{median}\{X_1, \ldots, X_{30}\}$.
+
+```{r}
+
+
+```
+
+### d) Plot simulated sampling distribution of $Y = \text{median}\{X_1, \ldots, X_{30}\}$
+
+```{r}
+
+
+```
+
+Sampling distribution seems to be centered at the population median.
+
+### e) Calculate the mean and standard deviation of the simulated sampling distribution
+
+Calculate $\hat{\mu}_Y$ and $\hat{\sigma}_Y$.
+
+- We don't know the theoretical expected value and variance of the statistic, so can't compare the simulated results to anything.
+
+```{r}
+
+
+```
+
+### f) Estimate the probability the sample statistic is within two standard deviations of its mean
+
+Calculate $P(\hat{\mu}_Y - 2 \hat{\sigma}_Y < Y < \hat{\mu}_Y + 2 \hat{\sigma}_Y)$.
+
+```{r}
+
+
+```
+
+## Simulation 2
+
+### a) Population distribution
+
+Let $X \sim \text{??}(??)$.
+
+```{r}
+
+
+```
+
+### b and c) Generate random samples and calculate statistic
+
+Let $Y = \text{??}\{X_1, \ldots, X_{30}\}$.
+
+```{r}
+
+
+```
+
+### d) Plot simulated sampling distribution of $Y = \text{max}\{X_1, \ldots, X_{30}\}$
+
+```{r}
+
+
+
+```
+
+### e) Calculate the mean and standard deviation of the simulated sampling distribution
+
+Calculate $\hat{\mu}_Y$ and $\hat{\sigma}_Y$.
+
+```{r}
+
+
+
+```
+
+### f) Estimate the probability the sample statistic is within two standard deviations of its mean
+
+Calculate $P(\hat{\mu}_Y - 2 \hat{\sigma}_Y < Y < \hat{\mu}_Y + 2 \hat{\sigma}_Y)$.
+
+```{r}
+
+
+
+```

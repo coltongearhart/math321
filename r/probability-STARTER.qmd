@@ -1,0 +1,322 @@
+---
+title: "R Notes 1 -- Probability STARTER"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    df-print: kable
+execute: 
+  warning: false
+  message: false
+---
+
+## Main notes
+
+### Overview 
+
+This document will investigate probability calculations based on some of the discrete and continuous distributions we learned in class. We will calculate them manually to learn more about basic calculations and function writing in R and then use R distribution functions. Additionally we will make some basic plots.
+
+### Binomial distribution 
+
+First we will calculate binomial probabilities manually using the pdf.
+
+If $X \sim \text{Binomial}(n,p)$, then $f(x) = {n \choose x}\, p^x\, (1 - p)^{n - x}$. If using this for calculations in R, we need to use the `choose()` function to do the combination, and then could write `choose(n,x) * p^x * (1-p)^(n-x)`.
+
+To practice this, let $X \sim \text{Binomial}(n = 10, p = 0.3)$.
+
+It is good programming practice to not hard-code anything, use variables (especially when repeating calculations).
+
+```{r}
+
+# initialize parameters
+
+
+```
+
+Now we can calculate several different probabilities the same way we do by hand:
+
+$$P(X \in A) = \sum_{x \in A} f(x)$$
+
+We just need to calculate find $f(x)$ for all of the $x$ values of interest and then add with `sum()`. Remember that we are working with a discrete random variable. So we need to be careful with $>$ and $<$ vs $\ge$ and $\le$.
+
+We can also use the complement rule as needed:
+
+$$P(X \in A) = 1 - \sum_{x \notin A} f(x)$$
+
+```{r}
+
+# P(X = 2)
+
+
+# P(X >= 2) = 1 - P(X <= 1)
+
+
+# P(X < 5)
+
+
+```
+
+If you notice you are doing the same thing over and over, we can write a function to make it easier to reuse.
+
+```{r}
+
+# write function for the binomial pdf
+
+
+```
+
+Then we can use this to find probabilities the same way.
+
+Note that when using the function arguments are used by position they are specified in if they are not named. So better practice is to name the arguments to be safe.
+
+```{r}
+
+# find P(X < 5) using your function
+
+
+```
+
+R has lots of built in functions for distributions. This is the recommended way to do all the calculations.
+
+For all of the distributions there are 4 common functions:
+
+  - `d<dist>()` gives the density $f(x)$ value.
+  
+  - `p<dist>()` gives the cdf probability $F(x) = P(X \le x)$.
+  
+  - `q<dist>()` gives the percentile value, the $x$ such that $P(X \le x) = p$.
+  
+  - `r<dist>()` generates a random value from the distribution.
+
+So for the binomial distribution, to calculate probabilities using the pdf, we need to use `dbinom()`. Because this is a discrete distribution, this will return $f(x) = P(X = x)$.
+
+```{r}
+
+# find P(X < 5) with R function for the pdf
+
+
+```
+
+To use the binomial cdf, which gives $F(x) = P(X \le x)$, use `pbinom()`.
+
+```{r}
+
+# find P(X < 5) with R function for the cdf
+
+```
+
+By default, `pbinom()` gives the left-tail probability. We can also specify the argument `lower.tail = FALSE` to return the right-tail probability (survival probability) $S(x) = P(X > x) = 1 - F(x) = $.
+
+Note that `lower.tail = TRUE` is the default value, which means that is what it is set to even if we don't specify it.
+
+```{r}
+
+# find P(X > 5) using pbinom() both ways (right tail and complement of cdf)
+
+
+```
+
+It is also really easy to visualize distributions in R by creating simple plots. To create a plot, we use the `plot()` function. This function can make many different plots depending on the arguments we specify. To make a discrete pmf plot, we want `type = "h"`.
+
+Now let $X \sim \text{Binomial}(n = 12, p = 0.4)$.
+
+```{r}
+
+# initialize parameters and range of random variable
+
+
+# now plot and add labels
+
+
+```
+
+To practice more calculations, we can manually find the expected value of the binomial distribution, which we know should equal $E(X) = np$.
+
+For any discrete random variable, $$E(X) = \sum x f(x)$$. This can easily be done with vector calculations.
+
+```{r}
+
+# calculate expected value (by definition)
+# -> check against binomial shortcut formula
+
+
+```
+
+### Geometric distribution 
+
+If $X \sim \text{Geometric}(p)$, then $f(x) = (1-p)^{x-1} p$.
+
+To practice this, let $X \sim \text{Geometric}(p = 0.3)$.
+
+Again we will initialize the parameter to reuse.
+
+```{r}
+
+# initialize parameter
+
+
+```
+
+Now we can calculate some probabilities manually using the pdf just like with the binomial distribution.
+
+```{r}
+
+# P(X = 3)
+
+
+```
+
+Keep in mind that our geometric random variable is counting the Number of trials to get the first success, which means the range is $\cal{X} = 1, 2, \ldots$ and is therefore unbounded. So to find a right-tailed probability manually, we need to use the complement.
+
+```{r}
+
+# P(X >= 4) = 1 - P(X <= 3)
+
+
+```
+
+Or we can write our own geometric pmf function for geometric to use.
+
+```{r}
+
+# write your own function
+
+
+# find P(X < 5) = P(X <= 4) using your function
+
+```
+
+Built in R functions are however the recommended way to calculate probabilities for distributions. We just have to make sure we are using them correctly.
+
+Just like with the binomial, we will use the `d<dist>()` to find the $f(x)$ probabilities of interest. For geometric, it is `dgeom()`.
+
+But first we need to look at the help documentation `?dgeom()` in the 'Details' section. Here we see that R is using the alternate form of the geometric distribution that is counting the number of *failures* until the first success ($f(y) = (1-p)^y p, \, y = 0,1,\ldots$). As a result,  we need to convert our $x$ values to $y = x - 1$ before using this function.
+
+```{r}
+
+# find P(X < 5) using R functions
+# -> transform x (number of trials) to y = x - 1 (number of failures) first
+
+
+```
+
+Then we can use the cdf function `pgeom()` to find $F(x) = P(X \le x) = P(Y \le x - 1)$.
+
+```{r}
+
+# P(X < 5) = P(Y < 4) = P(Y <= 3)
+
+```
+
+We can visualize the geometric pmf in the same way as the binomial. Because of the unbounded range, we can just define a "reasonable" range of $y = x - 1$ values.
+
+```{r}
+
+# let X ~ geometric(p = 0.5)
+# define the (reasonable) range of the random variable
+
+
+```
+
+### Exponential distribution 
+
+If $X \sim \text{Exponential}(\lambda)$, then $f(x) = \lambda e^{-\lambda x}$.
+
+To practice this, let $X \sim \text{Exponential}(\lambda = 0.75)$.
+
+For continuous distributions, the code is more or less the same. Just a few things we have to take into account because of the change in type of variable.
+
+For a continuous distribution like exponential, we have to integrate to find probabilities manually. R can do integrals with the `integral()` function, but much easier to use the specific distribution functions.
+
+For continuous distributions, the density function `d<dist>()` still returns $f(x)$, but now this value is just used to define the height of the density curve. So we do not want to use `dexp()` to find probabilities via the pdf.
+
+All probabilities should be found using distribution (cdf) function `p<dist>()`, which for exponential is `pexp()`. Thus returns $F(x) = P(X \le x)$ and the survival probability with $S(x) = 1 - F(x)$ with `lower.tail = FALSE`. The exponential functions use the rate parameterization of the distribution, so `rate = lambda`.
+
+We can calculate all of the following different kinds of probabilities using the cdf:
+
+  - Remember continuous variable, so $< >$ or $\le \ge$ doesn't matter: $P(X < x) = P(X \le x)$: 
+  
+  - Right-tailed probability, there are two ways to get this: $P(X \ge x) = S(x)$. 
+  
+  - Interval probability: $P(a \le X \le b) = F(b) - F(a)$.
+  
+```{r}
+
+# P(X < 3)
+
+# P(X >= 4)
+
+# P(2.5 < X < 7)
+
+```
+
+If visualizing a continuous distribution, we can use `seq()` to specify more $x$ values (with smaller "steps") and use `dexp()` to specify the `y = f(x)` values of the density curve.
+
+```{r}
+
+# visualize the distribution
+# -> specify reasonable range of the continuous random variable
+
+
+```
+
+### Poisson distribution 
+
+If $X \sim \text{Poisson}(\lambda)$, then $f(x) = \frac{\mathrm{e}^{-\lambda}  \lambda^x}{x!}$.
+
+(Would need `exp()` and `factorial()` functions to calculate this manually)
+
+To practice this, let $X \sim \text{Poisson}(\lambda = 5)$.
+
+Find the following probabilities using both `dpois()` and `ppois()` (answers should match).
+
+```{r}
+
+# P(X <= 7)
+
+
+# P(X > 4) = 1 - P(X <= 4)
+
+
+```
+
+Now we can visualize the Poisson pmf.
+
+```{r}
+
+# create a plot to visualize the pmf
+# define the (reasonable) range of the random variable
+
+
+```
+
+### Normal distribution 
+
+Let $X \sim \text{Normal}(\mu = 10, \sigma^2 = 4)$.
+
+Calculate the following probabilities.
+
+```{r}
+
+# P(X < 8)
+# -> pnorm() requires the sd, not the variance
+
+# P(X >= 9)
+
+
+# P(7 < X < 13)
+# -> interval probability -> F(x2) - F(x1)
+
+# P(Z > 1)
+# -> Z ~ Normal(mu = 1, sd = 1), so just change the arguments to match the new normal dist
+
+```
+
+Visualize the distribution with `dnorm()` to specify the $y = f(x)$ values of the density curve.
+
+```{r}
+
+# visualize the distribution
+
+```

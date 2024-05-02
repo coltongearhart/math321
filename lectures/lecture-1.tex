@@ -1,0 +1,459 @@
+\documentclass{article}
+\usepackage{style-lectures}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+\newcommand{\gam}[1]{\Gamma(#1)}		% shortcut for gamma function (variable)
+
+
+% terminology note: range vs codomain is explained well on this site: https://byjus.com/maths/difference-between-codomain-and-range/
+
+% NOTES on what didn't cover (5.5 basic concepts of random samples and sampling from normal)
+
+% drew 5.5 -> distribution of sums of normals
+% -> i mentioned this at the end of my 5.3 (multivariable), but could maybe have more examples thrown in there that drew has at the start of 5.5 (e.g. problem 5.5-1)
+
+% proof x-bar and s^2 are independent (theory lec 2 - probably written nice in handbook)
+% -> based on lots of algebra tricks and multivariate transformation (theorem is briefly stated in notes)
+
+% proof (n-1)S^2 / sigma^2 ~ chi-square (n-1)
+% -> in textbook (page 194) (uses, Zs, chi-squares and mgf)
+% -> induction proof in theory lec 2, page 4 (probably written nice in handbook)
+
+% alpha significance level notation for t probabilities (and z and chi-square)
+% -> mentioned elsewhere in drew also I believe (but 5.5 here)
+% -> saving for when I get to inference
+
+% two ways to derive the T dist pdf (maybe turn out to be very similar)
+% -> theory bivariate transformation way (lecture 2-2 page 2, of course haven't covered this yet) and the textbook CDF way (page 196)
+% -> theory way uses U and V cause familiar bivariate transform letters, but I am using Z if have a Z dist like textbook
+
+% derivation of F pdf (theory lecture 2-2 page 4) using bivariate transformation)
+
+% t and F relationships to other dists
+% -> t with df = 1 ~ cauchy (theory lecture 2-2 page 3)
+% --> never covered cauchy when introduced continuous distributions in 320
+% (theory lecture 2-4) function of F that turns to beta dist ->if X ~ F(r1,r2): (r1/r2) X / (1 + (r1/r2) X) ~ beta(r1/2, r2/2)
+% --> never covered beta either (although it may be on exam p syllabus and is in actex)
+% --> uniform is special case of beta --> beta(1,1) ~ unif(0,1) ==> if X ~ F(2,2) then X / (1 + X) ~ unif(0,1)
+% (theory lecture 2-5) ANOVA regression application of F dist
+% -> cochran's theorem which somehow plays into F* = MSR / MSE
+
+% lots of things from 5.2 in textbook
+% -> double exponential (laplace dist), think this is covered in theory too
+% -> beta dist
+% -> derivation of F from ratio of chi-squares using cdf technique from joint dist
+% drew application of F in testing population variances (talks about null hypothesis and what not)
+% -> alpha significance level probabilities and how it relates to F(r1,r2) and 1/F ~ F(r2,r1)
+% --> drew talks about this too, but it is confusing...
+
+\begin{document}
+
+\lecture{1}{Random Samples and Common Statistics}{5}{Distributions of Functions of Random Variables}{5.5}
+
+\bu{MATH 320 vs MATH 321}\bigskip
+
+Relationship between Probability and Statistics\bigskip
+\begin{itemize}
+    \item We studied \textbf{Probability} in MATH 320 and are going to study \textbf{Statistical Inference} in MATH 321.
+    \item[] So what is the difference between them?
+    \item In a probability problem, the properties of the population are assumed known, and we use these to infer properties of the sample.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.2]{{"test-2/probability-vs-statistics"}.pdf}
+    \end{figure}
+    \item Whereas statistics is concerned with learning (inferring) population properties from sample information (which is the opposite of probability).
+    \item In spite of this difference, statistical inference itself would not be possible without probability because it is based on probability calculations.
+    \item Example:
+    \begin{itemize}
+        \item Suppose we know 75\% of batteries last longer than 1500 hours. We want to know the chance that in a sample of 30 batteries at least 20 will last more than 1500 hours.
+        \begin{itemize}
+            \item What is known (in other words, fixed)?
+             \item[] This is \blankul{3cm} information\\\\\
+             $\Longrightarrow$ This a \blankul{3cm} question.
+            \item What is unknown (in other words, variable)?\\
+            \item We answer \blankul{3cm} question using the \blankul{5cm}.
+        \end{itemize}
+        \item The most important thing when solving probability questions is the \textbf{distribution}. If we know this, we can answer any questions in probability.
+        \item Suppose that in a sample of 30 batteries, only 20 are found to last more than 1500 hours. We want to know if that is enough evidence to conclude that the proportion of all batteries that last more than 1500 hours is less than 75\%.
+        \begin{itemize}
+            \item What is known (in other words, fixed)?
+             \item[] This is \blankul{3cm} information\\\\\
+             $\Longrightarrow$ This a \blankul{3cm} question.
+            \item What is unknown (in other words, variable)?\\
+            \item We answer \blankul{3cm} question using the \blankul{5cm}.
+        \end{itemize}
+        \item Whether in a probability or statistics context, we are always looking for the \textbf{distribution}.
+    \end{itemize}\bigskip
+    \item What we are going to study in MATH 321:
+        \begin{itemize}
+            \item Statistics (and their properties)
+            \item The distributions of statistics
+            \item Principles we would like statistics to have% TAKE OUT, not going to cover again
+            \item Statistical inference (confidence intervals and hypothesis tests)
+            \item Other applications, such as regression
+        \end{itemize}
+\end{itemize}\bigskip
+
+Example process\bigskip
+\begin{enumerate}
+    \item Collect data, $x = \{1510, 1700, 1400, \ldots\}$ 30 observations
+    \item Transform data to 0s and 1s (if $x > 1500 \rightarrow 1, \text{else } 0$)
+    \item Summarize with a statistic (which is a random variable)
+    \item Find distribution
+    \item Compute stuff (expected value, variance, probabilities, etc.)
+\end{enumerate}
+
+\newpage
+
+\bu{Basic concepts of random samples}\bigskip
+
+Random sample\bigskip
+\begin{itemize}
+    \item Motivation: Often, the data collected in an experiment consist of several observations on a variable of interest.
+    \item[] In this section, we present a model for data collection that is often used to describe this situation, a model referred to as \textbf{random sampling}. 
+    \item Definition: The random variables $\vecn{X}{n}$ are called a \textbf{random sample} of size $n$ from the population $f(x)$ if $\vecn{X}{n}$ are mutually independent random variables and the marginal pdf or pmf of each $X_i$ is the same function $f(x)$.
+    \item[] In other words, $\vecn{X}{n}$ are \textbf{independent and identically distributed (\textit{iid})} random variables with pdf or pmf $f(x)$.\vspace{30pt}
+    \item Lets build up to the model (joint pdf or pmf) that we will be working with from now on starting with what we learned in the multivariate setting:
+    \begin{enumerate}\setcounter{enumi}{-1}
+        \item Joint distribution\vspace{20pt}
+        \item Mutually independent random variables:\vspace{30pt}
+        \item Identically distributed:\vspace{30pt}
+        \item Parametric family:\vspace{45pt}
+    \end{enumerate}\bigskip
+    \item In a statistical setting, if we assume that the population we are observing is a member of a specific parametric family, but the true parameter value is unknown, then a random sample from this population has a joint pdf or pmf of the above form with the value of $\theta$ unknown.
+    \item[] By considering different possible values of $\theta$, we can study how a random sample would behave for different populations.
+    \item Example: $\vecn{X}{n}$ correspond to the times until failure (measured in years) for $n$ identical circuit boards that are put on test and used until they fail. Find the joint pdf of the random sample $\vecn{X}{n}$.\vspace{50pt}
+\end{itemize}\bigskip
+
+Scenario\bigskip
+\begin{itemize}
+    \item Suppose we collect information on 30 circuit boards, say $\vecn{x}{30}$.
+    \item[] When reporting this information, do we ever report the entire set of observations?
+    \item Instead, we report \blankul{4cm}.
+    \item[] In doing so, we are summarizing the information in a sample by determining a few key features of the sample values. This is usually done by computing \blankul{3cm} (functions of the sample).
+    \item These statistics define a form of \blankul{4cm}. There are advantages and consequences of this.
+    \item[] Whether or not statistics are ``good enough'' is a topic that will be left for grad school, but we will work with the most common ones that have good properties.
+\end{itemize}\bigskip
+
+\bu{Sums of random variables from random samples}\bigskip
+
+Statistics (estimators)\bigskip
+\begin{itemize}
+    \item Definition: Let $\vecn{X}{n}$ be a random sample of size $n$ from a population and let $T(\vecn{x}{n})$ be a real-valued or vector-valued functions whose domain includes the sample space of $(X_1, \dots, X_n)$.
+    \item[] Then the random variable or random vector $Y = T(\vecn{X}{n})$ is called a \textbf{statistic}. The probability distribution of a statistic $Y$ is called the \textbf{sampling distribution of} $\boldsymbol{Y}$.\bigskip
+    \item Breakdown of definition:
+    \begin{itemize}
+        \item Statistic $Y= T(\vecn{X}{n})$ is a function. All functions have a domain (set of inputs) and codomain (set of outputs).
+        \item[] The domain of $Y$ is the sample space of $\vecn{X}{n}$ and the codomain of $Y$ depends on the statistics.
+        \item Example: Roll 3 die $(X_1, X_2, X_3)$\vspace{50pt}
+        \item[] Some examples of statistics: Mean, variance, median, min, max, etc.
+        \item[] Usually we are interested in one of these at a time, but not always (e.g. $(\bar{X}, S^2 )$ is a two-dimensional statistic (a vector)).
+        \item The statistic $Y = T(\vecn{X}{n})$ is a \blankul{4cm} because it is a function of random variables.
+    \end{itemize}\bigskip
+    \item Miscellaneous notes:
+    \begin{itemize}
+        \item Statistics and \blankul{3cm} are exactly the same thing.
+        \item It's called a sampling distribution because it is derived from a random sample.
+	\item The definition of a statistic is very broad. The only restriction is that a statistic can not be a function of the \blankul{3cm} (because it is unknown).
+	\item It is not necessary that $\vecn{X}{n}$ be \textit{iid} to define a statistic. Even if they are dependent and/or not identically distributed, $Y = T(\vecn{X}{n})$ is still called a statistic, but is is much more difficult to deal with (of course beyond the scope of this class).
+    \end{itemize}\bigskip
+        \item Ultimately, we want to find the \blankul{3cm}, which is usually tractable (able to be found) because of its simple probability structure (\textit{iid}). But we will start with \blankul{4cm} of two common statistics.
+\end{itemize}\bigskip
+
+Sample mean and variance\bigskip
+\begin{itemize}
+    \item Definition: The \textbf{sample mean} is the arithmetic average of the values in a random sample. It is usually denoted by
+    \[\bar{X} = \frac{X_1 + \cdots + X_n}{n} = \frac{1}{n} \sum_{i = 1}^n X_i\]
+    \item Definition: The \textbf{sample variance} is the statistic defined by
+    \[S^2 = \frac{1}{n - 1} \sum_{i = 1}^n (X_i - \bar{X})^2\]
+    \item[] The \textbf{sample standard deviation} is the statistic defined by $S = \sqrt{S^2}$.\bigskip
+    \item Theorem: Let $\vecn{X}{n}$ be a random sample of size $n$ from a population (of any distribution) with mean $\mu$ and variance $\sigma^2 < \infty$. Then\bigskip
+    \begin{enumerate}[(a)]
+        \item \hspace{30pt} $E(\bar{X}) = \mu$ \hspace{30pt} (mean of sample means)
+        \item \hspace{30pt} $\displaystyle V(\bar{X}) = \frac{\sigma^2}{n}$ \hspace{30pt} (variance of sample means)
+        \item \hspace{30pt} $E(S^2) = \sigma^2$ \hspace{30pt} (mean of sample variance)
+    \end{enumerate}\bigskip
+    \item[] Some proofs (a) and (b):\vspace{200pt}
+    \item Notes:
+    \begin{itemize}
+        \item It can be shown why we use $n - 1$ in the definition of $S^2$ rather than just $n$ (i.e. it is necessary to be unbiased, which means the statistic's expected value is equal to the parameter it is estimating).\vspace{20pt}
+        \item The statistic $\bar{X}$ is an unbiased estimator of $\mu$, and $S^2$ is an unbiased estimator of $\sigma^2$. We discuss this more later.
+    \end{itemize}
+\end{itemize}\bigskip
+
+Sampling distribution of $\bar{X}$\bigskip
+\begin{itemize}
+    \item Now we would like to study the sampling distribution of $\bar{X}$.
+    \item[] Recall whenever finding the distribution of a sum of random variables, we want to use the mgf technique.
+    \item Theorem: Let $\vecn{X}{n}$ be a random sample from a population with mgf $M_X(t)$. Then the mgf of the sample mean is
+    \[M_{\bar{X}}(t) = [M_X(t / n)]^n\]
+    \item[] Note this theorem is a combo of previous theorems where we found the mgf of \textit{iid} $X_1 + \cdots + X_n$ and also now with all coefficients $a_i = 1/n$.
+    \item Examples:
+    \begin{enumerate}
+        \item Continuing circuit board failure time example: Find the distribution of $\bar{X}$ the mean time until failure (measured in years) for $n$ identical circuit boards that are put on test and used until they fail (recall $M_X(t) = \lambda / (\lambda - t)$).\vspace{80pt}
+        \item Suppose $X_i \followsp{iid}{Binomial}(p = 0.6, n = 10)$, for $i = 1, \ldots, 5$.
+        \item[] Find $E(\bar{X})$, $V(\bar{X})$, and the distribution of $\bar{X}$ (recall $M_X(t) = (q + p\e^t)^n$).\vspace{200pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\bu{Sampling from the normal distribution}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item This section deals with the properties of sample quantities drawn from a normal population -- still one of the most widely used statistical models.
+    \item In practice, often
+    \begin{enumerate}
+        \item We assume population has a normal distribution (e.g. heights, test scores, errors in measurements, etc.).
+        \item Then sample from population and form statistics in order to estimate the mean and variance of the population.
+    \end{enumerate}
+    \item Thus we wish to know the distribution of these statistics which will allow us to determine accuracy, form confidence intervals, hypothesis testing, etc.
+    \item[] Sampling from a normal population leads to many useful properties of sample statistics and also to many well-known sampling distribution. 
+\end{itemize}\bigskip
+
+Theorem\bigskip
+\begin{itemize}
+    \item Let $\vecn{X}{n}$ be a random sample of size $n$ from a $\text{Normal }(\mu, \sigma^2)$ distribution. Then
+    \begin{enumerate}[(a)]
+        \item $\bar{X}$ and $S^2$ are independent random variables.
+        \item $\bar{X}$ has a $\displaystyle \text{Normal }(\mu, \frac{\sigma^2}{n})$ distribution.
+        \item $\displaystyle \frac{(n-1)}{\sigma^2} S^2$ has a chi squared distribution with $n - 1$ degrees of freedom ($df$).
+    \end{enumerate}\bigskip
+    \item Notes / proofs:
+    \begin{enumerate}[(a)]
+        \item $\bar{X} \ind S^2$ $\rightarrow$ This is just a necessary fact when deriving (c), we will not prove this.\bigskip
+        \item $\displaystyle \bar{X} \follow{Normal}(\mu, \frac{\sigma^2}{n})$
+        \item[] We know this from prior theorems (parameters: mean and variance of sample means for normal), distribution (sum of normals = normal).\\
+        \begin{minipage}{0.45\textwidth}
+         Example: Let $\vecn{X}{n}$ be a random sample from $N(\mu = 50, \sigma^2 = 16)$. \\\\See the effect of $n$ in the distributions.\\\\ $P(49 < \bar{X}_{64} < 51) \approx 0.9545$ \\ $P(49 < X < 51) \approx 0.1974$.
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+            \begin{figure}[H]
+                \center\includegraphics[scale=0.35]{{"test-2/sample-mean-dists"}.png}
+            \end{figure}
+        \end{minipage}
+        \item $\displaystyle \frac{(n-1)}{\sigma^2} S^2 \follow{\chisq}(n - 1)$ $\rightarrow$ This is a new distribution, so lets learn about this before motivating the idea behind this part of the theorem.
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\bu{Chi-square distribution}\bigskip
+
+Definition\bigskip
+\begin{itemize}
+    \item The chi-square distribution is a special case of the gamma distribution that plays an important role in statistics.
+    \item If $X \follow{\chisq}$ with $r$ degrees of freedom (often written $\chisq_r$ or $\chisq(r)$), then
+    \begin{enumerate}[(i)]
+        \item Pdf:
+        \[f(x) = \frac{1}{\gam{\frac{r}{2}} 2^{r/2}} \, x^{\frac{r}{2} - 1} \, \e^{-\frac{x}{2}}, \quad\quad x \ge 0\]
+        \item Mean and variance: (scale gamma)
+        \[E(X) = \hspace{150pt} V(X) = \]
+        \item Mgf:
+        \[M_X(t) = \hspace{200pt}\]
+    \end{enumerate}
+    \item Notes about the chi-square distribution.
+    \begin{itemize}
+        \item Special case of gamma: Chi-square is more commonly represented as the \textbf{scale parameterization} of the gamma (not the version we used).
+        \item[] $\displaystyle \text{Scale } \theta = \frac{1}{\text{rate}} = \frac{1}{\beta}$
+        \item[] This changes the pdf, expected value, variance and mgf slightly.
+        \item Pdf: Just the (scale) gamma density function with $\alpha = r / 2, \;\; \theta = 2$.
+        \item Mean and variance: Just the mean and variance of (scale) gamma with the specific parameter values above.
+        \item Characteristics: Right-skewed density function. Unbounded support.
+        \item Probabilities: Just like the gamma distribution, probabilities need to be found using software. There is also a table of probabilities (just like a Z-table), because it is used in statistical tests.
+        \item Parameter: The degrees of freedom $r$ must be a positive integer when used in the gamma distribution.
+        \item[] Here is how it affects the shape (recall $\alpha$ is the shape parameter) of the density curve: Larger values of $r$ shifts the probability to the right.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.35]{{"test-2/chi-square-shapes"}.png}
+        \end{figure}
+    \end{itemize}
+\end{itemize}\bigskip
+
+Important facts about the chi-square random variables\bigskip
+\begin{enumerate}
+    \item If $Z \follow{Normal}(0, 1)$, then $Z^2 \follow{\chisq}(1)$.
+    \begin{itemize}
+        \item So the square of a standard normal random variable follows a chi squared distribution with 1 degree of freedom. 
+        \item We will not prove this, but this means we can start with a normal random variable $X$ with mean $\mu$ and standard deviation $\sigma$ and end up with a chi-square random variable:\vspace{30pt}
+    \end{itemize}
+    \item If $\vecn{X}{n}$ are mutually independent and $X_i \follow{\chisq}(r_i)$ for $i = 1, \ldots, n$, then \\ $Y = X_1 + \cdots + X_n \follow{\chisq}(r_1 + \cdots + r_n)$.
+    \begin{itemize}
+        \item The degrees of freedom are additive.
+        \item Proof:\vspace{110pt}
+        \item Result / extension of this: If $\vecn{X}{n}$ are mutually independent random variables with $X_i \follow{Normal}(\mu_i, \sigma_i)$ for $i = 1, \ldots, n$, then\vspace{70pt}
+        \item[] This is one way to think about what the parameter $r$ represents:
+        \item[] $r = $ the number of independent standard normals that we are adding together.
+    \end{itemize}
+\end{enumerate}\bigskip
+
+Return to theorem for $\bar{X}$ and $S^2$\bigskip
+\begin{itemize}
+    \item[(c)] $\displaystyle \frac{(n-1)}{\sigma^2} S^2 = \displaystyle \sum_{i = 1}^n \Big(\frac{X_i - \bar{X}}{\sigma}\Big)^2$ has a chi squared distribution with $n - 1$ degrees of freedom.
+    \item We will not prove this, but we can understand the pieces of the theorem (the coefficients in front of $S^2$ and the chi-square result). Recall $X_i \followsp{iid}{N}(\mu,\sigma^2)$:\vspace{20pt}
+        \item[] $\displaystyle S^2 = \frac{1}{n - 1} \sum_{i = 1}^n (X_i - \bar{X})^2$ \hspace{150pt} $\displaystyle \sum_{i = 1}^n \Big(\frac{X_i - \mu}{\sigma}\Big)^2 \follow{\chisq}(n)$\vspace{275pt}
+\end{itemize}\bigskip
+
+Example\bigskip
+\begin{itemize}
+    \item Let $\vecn{X}{4}$ be a random sample from of size 4 from a normal distribution \\ $N(\mu = 76, \sigma = 383)$ and
+    \[U = \sum_{i = 1}^4 \Big(\frac{X_i - 76}{383}\Big)^2 \hspace{70pt} \text{and} \hspace{70pt} W = \sum_{i = 1}^4 \Big(\frac{X_i - \bar{X}}{383}\Big)^2\]
+    \item[] Compute $P(0.7 < U < 7.8)$ and $P(0.7 < W < 7.8)$.
+\end{itemize}\bigskip
+
+\bu{Derived distributions: Student's $\boldsymbol{t}$ and Snedecor's $\boldsymbol{F}$}\bigskip
+
+Derivation of the $t$ distribution\bigskip
+\begin{itemize}
+    \item We are studying the properties of $\bar{X}$ in order to make inferences about $\mu$.
+    \item If $\vecn{X}{n}$ are a random sample for a $N(\mu, \sigma^2)$, we know that the quantity
+    \[\frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \follow{N}(0, 1)\]
+    \item If we knew the value of $\sigma$ and we measured $\bar{X}$, then we could use this as a basis for inference about $\mu$, since $\mu$ would then be the only unknown quantity.
+    \item[] However, most of the time $\sigma$ is unknown. So, Student (W. S. Gosset) looked at the distribution of 
+    \[\frac{\bar{X} - \mu}{\hspace{10pt} / \sqrt{n}}\]
+    \item[] as a quantity that could be used as a basis for inference about $\mu$ when $\sigma$ was unknown.
+    \item When deriving this, we have the form of the statistic, but don't know its pdf (distribution). So here is the logic to get this statistic into a form that we are then able to find the actual equation for the pdf.\vspace{300pt}
+    \item Thus, the distribution of interest can be found by solving the simplified problem of finding the distribution of \,$\displaystyle \frac{Z}{\sqrt{U / r}}$, \,where $Z \follow{Normal}(0, 1)$, $U \follow{\chisq}(r)$ and $Z \ind U$.
+    \item[] There are two ways to go from here, but we will not show this.
+\end{itemize}\bigskip
+
+Definition of the $t$ distribution\bigskip
+\begin{itemize}
+    \item Let $\vecn{X}{n}$ be a random sample form a $N(\mu, \sigma^2)$ distribution. If
+    \[T = \frac{\bar{X} - \mu}{S / \sqrt{n}} \hspace{20pt} \text{then} \hspace{20pt} T \follow{$t$}_{n-1}\]
+    \item[] Equivalently, a random variable $T$ has \textbf{Student's $\boldsymbol{t}$ distribution} with $r$ degrees of freedom, and we write $T \follow{$t$}_r$ if it has pdf
+\[f_T(t) = \frac{\gam{\frac{r + 1}{2}}}{\frac{1}{\sqrt{r \pi}} \gam{\frac{r}{2}}} \bigg(\frac{1}{(1 + t^2 / r)^{(r + 1) / 2}}\bigg), \quad\quad -\infty < t < \infty\]
+\end{itemize}
+
+Notes about the $t$ distribution\bigskip
+\begin{itemize}
+    \item Density curve, relationship to the standard normal distribution, and probabilities.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.3]{{"test-2/t-dists"}.png}
+    \end{figure}
+    \begin{itemize}
+        \item The $t$-distribution has the ``shape'' of a normal distribution (bell-shaped and symmetric about zero), but it has heavier tails. This means there is more probability in the further from the center (and less around the center, zero).
+        \item As the degrees of freedom $r$ increases, more probability shifts towards the center. Theoretically, as $r \rightarrow \infty$, $t$-distribution tends to the standard normal.
+        \item Example: Let $T \follow{t}_{10}$ and $Z \follow{N}(0,1)$. Compare the following probabilities ($t$ probabilities must be found using software or a $t$-table):
+        \begin{enumerate}[(a)]
+            \item Central interval probability: \hspace{10pt} $P(-1 < Z < 1)$ \hspace{10pt} and \hspace{10pt} $P(-1 < T < 1)$\vspace{30pt}
+            \item Tail probability:  \hspace{10pt} $P(Z > 2)$ \hspace{10pt} and \hspace{10pt} $P(T > 2)$.\vspace{20pt}
+        \end{enumerate}
+    \end{itemize}\bigskip
+    \item Mean and variance.
+    \begin{itemize}
+        \item If $T \follow{$t$}_r$, then
+	\begin{center}
+	\begin{tabular}{c c c c c}
+            $E(T)$ & $=$ & 0 & \hspace{10pt} if $r > 1$& \hspace{10pt} Only exists if 2 or more $df$\\\\
+            $V(T)$ & $=$ & $\displaystyle \frac{r}{r - 2}$ & \hspace{10pt} if $r > 2$ & \hspace{10pt} Only exists if 3 or more $df$
+        \end{tabular}
+        \end{center}
+    \end{itemize}\bigskip
+    \item Moments and mgf.
+    \begin{itemize}
+        \item In general, if there are $r$ degrees of freedom, then there are only $r - 1$ moments (recall first moment is $E(X)$ and $V(X)$ is the second central moment).
+        \item Student's $t$ distribution does not have an mgf.
+        \item Informal theorem for existence of mgf:
+        \item[] If the mgf exists, then all moments exist. But the opposite is not true\\ (i.e. all moments existing doesn't always mean that the mgf exists).\vspace{20pt}
+	\item[] If any moment doesn't exist, then the mgf doesn't exist.
+    \end{itemize}
+    \item Use in statistics.
+    \begin{itemize}
+        \item The $t$-distribution is very important in inferential statistics and is used in one sample tests and confidence intervals of populations means, as well as simple linear regression for testing a population slope.
+    \end{itemize}
+\end{itemize}\bigskip
+
+Derivation of the $F$ distribution\bigskip
+\begin{itemize}
+    \item Another important derived distribution is Snedecor's $F$, whose derivation is quite similar to that of Student's $t$.\bigskip
+    \item Setup: Let $\vecn{X}{n}$ be a random sample from a $N(\mu_X, \sigma^2_X)$ population, and let $\vecn{Y}{m}$ be a random sample from an independent $N(\mu_Y, \sigma^2_Y)$ population.
+    \item Goal: If we were interested in comparing the variability of the populations, one quantity of interest would be the ratio of population variances $\displaystyle \frac{\sigma^2_X}{\sigma^2_Y}$.
+    \item[] We can estimate this with\bigskip
+    \item The $F$ distribution allows us to compare these quantities by giving us a distribution of
+    \[\frac{S^2_X / S^2_Y}{\sigma^2_X / \sigma^2_Y}\]
+    \item Again we have the form of the statistic and need to rearrange until we have the form of some familiar distributions (and then the pdf can be found).\newpage
+    \item[] \hspace{10pt} \vspace{300pt}
+    \item The distribution of the above can be founded by solving the simplified problem of finding the distribution of \, $\displaystyle \frac{X_1 / r_1}{X_2 / r_2}$, \,where $X_1 \follow{\chisq}(r_1)$, $X_2 \follow{\chisq}(r_2)$ and $X_1 \ind X_2$. Again we will not show this.
+\end{itemize}\bigskip
+
+Definition of the $F$ distribution\bigskip
+\begin{itemize}
+    \item Let $\vecn{X}{n}$ be a random sample from a $N(\mu_X, \sigma^2_X)$ population, and let $\vecn{Y}{m}$ be a random sample from an independent $N(\mu_Y, \sigma^2_Y)$ population. If
+    \[W = \frac{S^2_X / S^2_Y}{\sigma^2_X / \sigma^2_Y} \hspace{20pt} \text{then} \hspace{20pt} W \follow{$F$}(n-1, m-1)\]
+    \item[] In general, if $W$ has an $F$ distribution with $r_1$ numerator degrees of freedom and \\ $r_2$ denominator degrees of freedom, then we write $W \follow{$F$}(r_1, r_2)$.
+\end{itemize}\bigskip
+
+\newpage
+
+Notes about the $F$ distribution\bigskip
+\begin{itemize}
+    \item Density curve (more probability gets centered around 1 as $df$ increase; \\range $0 < F < \infty$).
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.25]{{"test-2/F-dists"}.png}
+    \end{figure}
+    \item Pdf, mean, variance and mgf (which doesn't exist).
+    \begin{itemize}
+        \item We aren't going to worry about the pdf (it is more ugly than the $t$ pdf) or ever calculate means and variances for this distribution.
+    \end{itemize}
+    \item Probabilities.
+    \begin{itemize}
+        \item Again, we need software such as R to calculate these.
+        \item Example: Let $X_1 \follow{$F$}(8,4)$ and $X_2 \follow{$F$}(16,8)$. Find the following probabilities.
+        \item[] $P(X_1 > 5) = $\bigskip
+        \item[] $P(X_2 > 5) = $
+    \end{itemize}\bigskip
+    \item Relationship to other distributions.
+    \begin{itemize}
+        \item Theorem: 
+        \begin{enumerate}[(a)]
+            \item If $X \follow{$F$}(r_1,r_2)$ then $1/X \follow{$F$}(r_2,r_1)$.
+            \item[] The reciprocal of an $F$ variable is again an $F$ variable.\vspace{40pt}
+            \item If $X \follow{$t$}_r$ then $X^2 \follow{$F$}(1,r)$.
+            \item[] The square of a $t$ random variable is an $F$ variable with 1 and $r$ $df$.\vspace{40pt}
+        \end{enumerate}
+    \end{itemize}
+    \item Use in statistics.
+    \begin{itemize}
+        \item The $F$-distribution is also very important in inferential statistics and is used in ANOVA when comparing means of two populations and also has lots of applications in regression.
+    \end{itemize}
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,27 @@
+# Lecture 2 -- Order Statistics {.unnumbered}
+
+## Guided Notes
+
+FILES: BLANK [lecture-2.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-2.pdf), [lecture-2.tex](https://github.com/coltongearhart/math321/blob/main/lectures/lecture-2.tex), and [style-lectures.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-lectures.sty)
+
+<embed src="lectures/lecture-2-COMPLETED.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## In-Class Activity
+
+FILES: [in-class-2.tex](https://github.com/coltongearhart/math321/blob/main/assessments/in-class-2.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for keys :)
+
+<embed src="assessments/in-class-2.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## Excel Notes
+
+FILES: [qq-plots-STARTER.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/files/qq-plots-STARTER.xlsx) and [qq-plots-COMPLETED.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/files/qq-plots-COMPLETED.xlsx)
+
+## Homework
+
+FILES: [hw-2-STARTER.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/hw-2-STARTER.xlsx), [homework-2.tex](https://github.com/coltongearhart/math321/blob/main/assessments/homework-2.tex), and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+
+Instructors can contact me for solutions :)
+
+<embed src="assessments/homework-2.pdf" type="application/pdf" width="100%" height="1000px"></embed>

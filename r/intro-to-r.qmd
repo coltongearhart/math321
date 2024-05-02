@@ -1,0 +1,193 @@
+---
+title: "R Notes 0 -- Intro to R"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    df-print: kable
+execute: 
+  warning: false
+  message: false
+---
+
+### Overview 
+
+This document is built to get us started with working in R.
+
+### Basic operations 
+
+Can use R as a fancy calculator.
+
+```{r}
+
+# perform some calculations
+2 + 2
+5 * 3
+15 / 3
+10^3
+exp(10) # e^10
+
+```
+
+Good programming practice is to name objects intuitively so that your code is readable.
+
+```{r}
+
+# name object
+grade <- 85
+grade + 5
+
+```
+
+### Vectors 
+
+A vector is a long string of values held together.
+
+```{r}
+
+# make a vector of names and vector of corresponding grades
+grades <- c(85,80,92,98,77)
+grades
+students <- c("a","b","c","d","e")
+students
+
+```
+
+To check data types, use the `class()` or `str()` functions. To check what each function does, we can bring up the help page with `?<function name>`.
+
+```{r, eval = FALSE}
+
+# show help page
+?class
+?str
+
+```
+
+```{r}
+
+# check data types
+class(grades)
+str(grades)
+class(students)
+str(students)
+
+```
+
+When working with vectors, legal operations depend on the data types.
+
+```{r, error = TRUE}
+
+# perform operations on vectors
+grades + 5
+mean(grades)
+students + 5 # can't do addition with words
+paste("Student", students) # can append strings 
+
+```
+
+To subset vectors, use "square bracket indexing". We can get creative when indexing and also specify multiple indices using the `c()` function. Another quick trick for integer counting vector using `:` operator.
+
+```{r}
+
+# subset vectors in various ways
+students[1]
+students[-1] # print all except the first value
+grades[c(1,3,5)]
+grades[-c(2,4)]
+
+# use ":" operator to subset
+2:5
+students[2:5]
+
+```
+
+Boolean (aka logical) vectors are another data type. These are super useful for referencing items with characteristics we want to keep/remove.
+
+```{r}
+
+# create a boolean vector and use it to subset a vector based on a condition
+grades > 90 # evaluate whether value is greater than 90
+grades[grades > 90] # show only values that meet condition
+students[grades > 90]
+
+```
+
+### Functions 
+
+Functions take some object and do something with it.
+
+```{r}
+
+# example functions we have already used
+str(names)
+mean(grades)
+c(1,3,5)
+
+```
+
+Can also define our own functions and then use them like normal.
+
+```{r}
+
+# write a function to add half of missed points back to all grades and calculate the average after the curve
+curved_mean <- function(x){
+  mean(0.5 * x + 50)
+}
+
+# check how much the curve impacted the average grade
+curved_mean(grades) - mean(grades)
+
+```
+
+Nesting functions is very useful for "chaining" results together.
+
+```{r}
+
+# example of nesting functions
+x <- c(-1, 3, 1, 6, 4, 9, -3, -2)
+mean(abs(x))
+
+# -> this is equivalent to saving this first (inside) result, then using that as the argument for the next (outside) function
+y <- abs(x)
+mean(y)
+
+```
+
+### Data frames 
+
+We can think of data frames as a rectangular spreadsheet, row = observation and column = variable. These can be created easily with `data.frame()`.
+
+```{r}
+
+# create a dataframe by combining vectors of the same length
+data_grades <- data.frame(students, grades)
+data_grades
+
+# can specify the column names
+data_grades <- data.frame(Name = students, Before_Curve = grades)
+data_grades
+
+```
+
+To focus on a subset of a data frame, use square brackets defining `[rows,cols]`.
+
+```{r}
+
+# subset dataframe in various ways
+data_grades[1:3, ] # rows 1-3, all columns
+data_grades[ , 1] # all rows, column 1
+data_grades[-c(1,3), -1] # exclude rows 1-3, exclude column 1
+
+```
+
+We can also use dataframes that were read in from spreadsheets or R packages.
+
+```{r}
+
+# look at pre-loaded dataframe
+# -> notice that each column is a vector with its own data type
+data("iris")
+str(iris)
+
+```

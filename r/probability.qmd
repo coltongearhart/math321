@@ -1,0 +1,483 @@
+---
+title: "R Notes 1 -- Probability"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    df-print: kable
+execute: 
+  warning: false
+  message: false
+---
+
+## Main notes
+
+### Overview 
+
+This document will investigate probability calculations based on some of the discrete and continuous distributions we learned in class. We will calculate them manually to learn more about basic calculations and function writing in R and then use R distribution functions. Additionally we will make some basic plots.
+
+### Binomial distribution 
+
+First we will calculate binomial probabilities manually using the pdf.
+
+If $X \sim \text{Binomial}(n,p)$, then $f(x) = {n \choose x}\, p^x\, (1 - p)^{n - x}$. If using this for calculations in R, we need to use the `choose()` function to do the combination, and then could write `choose(n,x) * p^x * (1-p)^(n-x)`.
+
+To practice this, let $X \sim \text{Binomial}(n = 10, p = 0.3)$.
+
+It is good programming practice to not hard-code anything, use variables (especially when repeating calculations).
+
+```{r}
+
+# initialize parameters
+n <- 10
+p <- 0.3
+
+```
+
+Now we can calculate several different probabilities the same way we do by hand:
+
+$$P(X \in A) = \sum_{x \in A} f(x)$$
+
+We just need to calculate find $f(x)$ for all of the $x$ values of interest and then add with `sum()`. Remember that we are working with a discrete random variable. So we need to be careful with $>$ and $<$ vs $\ge$ and $\le$.
+
+We can also use the complement rule as needed:
+
+$$P(X \in A) = 1 - \sum_{x \notin A} f(x)$$
+
+```{r}
+
+# P(X = 2)
+x <- 2
+choose(n,x) * p^x * (1-p)^(n-x)
+
+# P(X >= 2) = 1 - P(X <= 1)
+x <- 2:n
+sum(choose(n,x) * p^x * (1-p)^(n-x))
+x <- 0:1
+1 - sum(choose(n,x) * p^x * (1-p)^(n-x))
+
+# P(X < 5)
+x <- 0:4
+sum(choose(n,x) * p^x * (1-p)^(n-x))
+
+```
+
+If you notice you are doing the same thing over and over, we can write a function to make it easier to reuse.
+
+```{r}
+
+# write function for the binomial pdf
+f_x_binom <- function(n,p,x) {
+  choose(n,x) * p^x * (1-p)^(n-x)
+}
+
+```
+
+Then we can use this to find probabilities the same way.
+
+Note that when using the function arguments are used by position they are specified in if they are not named. So better practice is to name the arguments to be safe.
+
+```{r}
+
+# find P(X < 5) using your function
+sum(f_x_binom(10, 0.3, 0:4))
+sum(f_x_binom(n = 10, p = 0.3, x = 0:4))
+
+```
+
+R has lots of built in functions for distributions. This is the recommended way to do all the calculations.
+
+For all of the distributions there are 4 common functions:
+
+  - `d<dist>()` gives the density $f(x)$ value.
+  
+  - `p<dist>()` gives the cdf probability $F(x) = P(X \le x)$.
+  
+  - `q<dist>()` gives the percentile value, the $x$ such that $P(X \le x) = p$.
+  
+  - `r<dist>()` generates a random value from the distribution.
+
+So for the binomial distribution, to calculate probabilities using the pdf, we need to use `dbinom()`. Because this is a discrete distribution, this will return $f(x) = P(X = x)$.
+
+```{r}
+
+# find P(X < 5) with R function for the pdf
+dbinom(x = 0:4, size = 10, prob = 0.3)
+sum(dbinom(x = 0:4, size = 10, prob = 0.3))
+
+```
+
+To use the binomial cdf, which gives $F(x) = P(X \le x)$, use `pbinom()`.
+
+```{r}
+
+# find P(X < 5) with R function for the cdf
+pbinom(q = 4, size = 10, prob = 0.3)
+
+```
+
+By default, `pbinom()` gives the left-tail probability. We can also specify the argument `lower.tail = FALSE` to return the right-tail probability (survival probability) $S(x) = P(X > x) = 1 - F(x) = $.
+
+Note that `lower.tail = TRUE` is the default value, which means that is what it is set to even if we don't specify it.
+
+```{r}
+
+# find P(X > 5) using pbinom() both ways (right tail and complement of cdf)
+pbinom(q = 5, size = 10, prob = 0.3, lower.tail = FALSE)
+1 - pbinom(q = 5, size = 10, prob = 0.3)
+
+```
+
+It is also really easy to visualize distributions in R by creating simple plots. To create a plot, we use the `plot()` function. This function can make many different plots depending on the arguments we specify. To make a discrete pmf plot, we want `type = "h"`.
+
+Now let $X \sim \text{Binomial}(n = 12, p = 0.4)$.
+
+```{r}
+
+# initialize parameters and range of random variable
+n <- 12
+p <- 0.4
+x <- 0:n
+
+# now plot and add labels
+plot(x = x, y = dbinom(x = x, size = n, prob = p), type = "h", xlab = "x", ylab = "f(x)", main = "Binomial(12,0.4) pmf")
+
+```
+
+To practice more calculations, we can manually find the expected value of the binomial distribution, which we know should equal $E(X) = np$.
+
+For any discrete random variable, $$E(X) = \sum x f(x)$$. This can easily be done with vector calculations.
+
+```{r}
+
+# calculate expected value (by definition)
+# -> check against binomial shortcut formula
+sum(x * dbinom(x = x, size = n, prob = p))
+n * p
+
+```
+
+### Geometric distribution 
+
+If $X \sim \text{Geometric}(p)$, then $f(x) = (1-p)^{x-1} p$.
+
+To practice this, let $X \sim \text{Geometric}(p = 0.3)$.
+
+Again we will initialize the parameter to reuse.
+
+```{r}
+
+# initialize parameter
+p <- 0.3
+
+```
+
+Now we can calculate some probabilities manually using the pdf just like with the binomial distribution.
+
+```{r}
+
+# P(X = 3)
+x <- 3
+(1-p)^(x-1) * p
+
+```
+
+Keep in mind that our geometric random variable is counting the Number of trials to get the first success, which means the range is $\cal{X} = 1, 2, \ldots$ and is therefore unbounded. So to find a right-tailed probability manually, we need to use the complement.
+
+```{r}
+
+# P(X >= 4) = 1 - P(X <= 3)
+x <- 1:3
+1 - sum((1-p)^(x-1) * p)
+
+```
+
+Or we can write our own geometric pmf function for geometric to use.
+
+```{r}
+
+# write your own function
+f_x_geo <- function(p,x) {
+  (1-p)^(x-1) * p
+}
+
+# find P(X < 5) = P(X <= 4) using your function
+sum(f_x_geo(p = 0.3, x = 1:4))
+
+```
+
+Built in R functions are however the recommended way to calculate probabilities for distributions. We just have to make sure we are using them correctly.
+
+Just like with the binomial, we will use the `d<dist>()` to find the $f(x)$ probabilities of interest. For geometric, it is `dgeom()`.
+
+But first we need to look at the help documentation `?dgeom()` in the 'Details' section. Here we see that R is using the alternate form of the geometric distribution that is counting the number of *failures* until the first success ($f(y) = (1-p)^y p, \, y = 0,1,\ldots$). As a result,  we need to convert our $x$ values to $y = x - 1$ before using this function.
+
+```{r}
+
+# find P(X < 5) using R functions
+# -> transform x (number of trials) to y = x - 1 (number of failures) first
+x <- 1:4
+y <- x - 1
+sum(dgeom(x = y, prob = 0.3))
+
+```
+
+Then we can use the cdf function `pgeom()` to find $F(x) = P(X \le x) = P(Y \le x - 1)$.
+
+```{r}
+
+# P(X < 5) = P(Y < 4) = P(Y <= 3)
+pgeom(q = 3, prob = 0.3)
+
+```
+
+We can visualize the geometric pmf in the same way as the binomial. Because of the unbounded range, we can just define a "reasonable" range of $y = x - 1$ values.
+
+```{r}
+
+# let X ~ geometric(p = 0.5)
+# define the (reasonable) range of the random variable
+x <- 1:15
+y <- x - 1
+plot(x = x, y = dgeom(x = y, prob = 0.5), type = "h", xlab = "x", ylab = "f(x)", main = "Geometric(0.5) pmf")
+
+```
+
+### Exponential distribution 
+
+If $X \sim \text{Exponential}(\lambda)$, then $f(x) = \lambda e^{-\lambda x}$.
+
+To practice this, let $X \sim \text{Exponential}(\lambda = 0.75)$.
+
+For continuous distributions, the code is more or less the same. Just a few things we have to take into account because of the change in type of variable.
+
+For a continuous distribution like exponential, we have to integrate to find probabilities manually. R can do integrals with the `integral()` function, but much easier to use the specific distribution functions.
+
+For continuous distributions, the density function `d<dist>()` still returns $f(x)$, but now this value is just used to define the height of the density curve. So we do not want to use `dexp()` to find probabilities via the pdf.
+
+All probabilities should be found using distribution (cdf) function `p<dist>()`, which for exponential is `pexp()`. Thus returns $F(x) = P(X \le x)$ and the survival probability with $S(x) = 1 - F(x)$ with `lower.tail = FALSE`. The exponential functions use the rate parameterization of the distribution, so `rate = lambda`.
+
+We can calculate all of the following different kinds of probabilities using the cdf:
+
+  - Remember continuous variable, so $< >$ or $\le \ge$ doesn't matter: $P(X < x) = P(X \le x)$: 
+  
+  - Right-tailed probability, there are two ways to get this: $P(X \ge x) = S(x)$. 
+  
+  - Interval probability: $P(a \le X \le b) = F(b) - F(a)$.
+  
+```{r}
+
+# P(X < 3)
+pexp(q = 3, rate = 0.75)
+
+# P(X >= 4)
+pexp(q = 4, rate = 0.75, lower.tail = FALSE)
+
+# P(2.5 < X < 7)
+pexp(q = 7, rate = 0.75) - pexp(q = 2.5, rate = 0.75)
+
+```
+
+If visualizing a continuous distribution, we can use `seq()` to specify more $x$ values (with smaller "steps") and use `dexp()` to specify the `y = f(x)` values of the density curve.
+
+```{r}
+
+# visualize the distribution
+# -> specify reasonable range of the continuous random variable
+x <- seq(from = 0, to = 5, by = 0.01)
+plot(x = x, y =  dexp(x, rate = 0.75), type = "l", xlab = "x", ylab = "f(x)", main = "Exponential(0.75) pdf")
+
+```
+
+### Poisson distribution 
+
+If $X \sim \text{Poisson}(\lambda)$, then $f(x) = \frac{\mathrm{e}^{-\lambda}  \lambda^x}{x!}$.
+
+(Would need `exp()` and `factorial()` functions to calculate this manually)
+
+To practice this, let $X \sim \text{Poisson}(\lambda = 5)$.
+
+Find the following probabilities using both `dpois()` and `ppois()` (answers should match).
+
+```{r}
+
+# P(X <= 7)
+sum(dpois(x = 0:7, lambda = 5))
+ppois(q = 7, lambda = 5)
+
+# P(X > 4) = 1 - P(X <= 4)
+1 - sum(dpois(x = 0:4, lambda = 5))
+1 - ppois(q = 4, lambda = 5)
+ppois(q = 4, lambda = 5, lower.tail = FALSE)
+
+```
+
+Now we can visualize the Poisson pmf.
+
+```{r}
+
+# create a plot to visualize the pmf
+# define the (reasonable) range of the random variable
+x <- 0:20
+plot(x = x, y = dpois(x = x, lambda = 5), type = "h", xlab = "x", ylab = "f(x)", main = "Poisson(5) pmf")
+
+```
+
+### Normal distribution 
+
+Let $X \sim \text{Normal}(\mu = 10, \sigma^2 = 4)$.
+
+Calculate the following probabilities.
+
+```{r}
+
+# P(X < 8)
+# -> pnorm() requires the sd, not the variance
+pnorm(q = 8, mean = 10, sd = 2)
+
+# P(X >= 9)
+pnorm(q = 9, mean = 10, sd = 2, lower.tail = FALSE)
+1 - pnorm(q = 9, mean = 10, sd = 2, lower.tail = TRUE)
+
+
+# P(7 < X < 13)
+# -> interval probability -> F(x2) - F(x1)
+pnorm(q = 13, mean = 10, sd = 2) - pnorm(q = 7, mean = 10, sd = 2)
+
+# P(Z > 1)
+# -> Z ~ Normal(mu = 1, sd = 1), so just change the arguments to match the new normal dist
+pnorm(q = 1, mean = 0, sd = 1)
+
+```
+
+Visualize the distribution with `dnorm()` to specify the $y = f(x)$ values of the density curve.
+
+```{r}
+
+# visualize the distribution
+x <- seq(from = 3, to = 17, by = 0.01)
+plot(x = x, y =  dnorm(x, mean = 10, sd = 2), type = "l", xlab = "x", ylab = "f(x)", main = "Normal(10,2) pdf")
+
+```
+
+## Extra notes
+
+Here are some brief notes on the a few of the distributions that we covered in class that were not covered above.
+
+NOTE that need to pay attention to the parameterization that R uses, slightly different than what we used in class.
+
+### Hypergeometric distribution 
+
+Let $X \sim \text{Hypergeometric}(N = 90, M = 9, K = 16)$.
+
+- pmf: $f(x) = {M \choose x} {{N-M} \choose {k-x}} / {N \choose k}$
+
+- Our parameters: $N$ = population size, $M$ = number of objects of interest, $K$ = sample size
+
+- In R, $m = $ number of objects of interest (= our $M$), $n$ = number of objects not of interest = $N - M$, $k$ = sample size (= our $K$).
+
+Calculate probabilities using `dhyper()` and `phyper()`.
+
+```{r}
+
+# P(X <= 4)
+# -> X is still counting the number of objects of interest selected
+sum(dhyper(x = 0:4, m = 9, n = 90 - 9, k = 16))
+phyper(q = 4, m = 9, n = 81, k = 16)
+
+# P(X > 2) = 1 - P(X <= 2)
+1 - sum(dhyper(x = 0:2, m = 9, n = 81, k = 16))
+1 - phyper(q = 2, m = 9, n = 81, k = 16)
+phyper(q = 2, m = 9, n = 81, k = 16, lower.tail = FALSE)
+
+```
+
+Visualize the distribution.
+
+```{r}
+
+# visualize the distribution
+# define the range of the random variable
+x <- 0:9
+plot(x = x, y = dhyper(x = x, m = 15, n = 35, k = 9), type = "h", xlab = "x", ylab = "f(x)", main = "Hypergeometric(50,15,9) pmf")
+
+```
+
+### Negative binomial distribution 
+
+Let $X \sim \text{Negative Binomial}(r = 3, p = 0.3)$.
+
+- pmf: $f(x) = {{x-1} \choose {r-1}} p^r (1-p)^{x-r}$
+
+- In R, (just like with the geometric distribution) negative binomial is counting the number of failures $\Longrightarrow Y = X - r$.
+
+Calculate the following probabilities using `dnbinom()` and `pnbinom()`.
+
+```{r}
+
+# P(X <= 11)
+# -> range of x starts at r, which = 3
+# -> size = r
+# -> need to convert to y = number of failures (range is 0,1,2,...)
+r <- 3
+x <- r:11
+y <- x - r
+sum(dnbinom(x = y, size = r, prob = 0.3))
+pnbinom(q = max(y), size = r, prob = 0.3) # cutoff is the highest x - r = max(y)
+
+# P(X > 6) = 1 - P(X <= 6)
+x <- r:6
+y <- x - r
+1 - sum(dnbinom(x = y, size = r, prob = 0.3))
+1 - pnbinom(q = max(y), size = r, prob = 0.3)
+pnbinom(q = max(y), size = r, prob = 0.3, lower.tail = FALSE)
+
+```
+
+Visualize the distribution
+
+```{r}
+
+x <- r:30
+y <- x - r
+
+# going to plot our version of the NB
+# -> so get probabilities according to Y, but match with the corresponding Xs
+plot(x = x, y = dnbinom(x = y, size = r, prob = 0.2), type = "h", xlab = "x", ylab = "f(x)", main = "Negative Binomial(3,0.2) pmf")
+
+```
+
+### Gamma distribution 
+
+Let $X \sim \text{Gamma}(\alpha = 3.5, \beta = 0.75)$.
+
+- In R, `shape` = \alpha$ and `rate` = $\beta$.
+
+- Our $\beta$ (just like in the exponential distribution) is a rate parameter, not a scale parameter = 1 / rate (so don't specify `scale = `).
+
+Calculate the following probabilities using `pgamma()` (remember we couldn't find gamma probabilities by hand unless $\alpha$ = whole number (but would require lots of integration by parts)).
+
+```{r}
+
+# P(X < 5)
+pgamma(q = 5, shape = 3.5, rate = 0.75)
+
+# P(X >= 4)
+pgamma(q = 4, shape = 3.5, rate = 0.75, lower.tail = FALSE)
+1 - pgamma(q = 4, shape = 3.5, rate = 0.75)
+
+# P(2.5 < X < 7)
+pgamma(q = 7, shape = 3.5, rate = 0.75) -  pgamma(q = 2.5, shape = 3.5, rate = 0.75)
+
+```
+
+Visualize the distribution.
+
+```{r}
+
+# visualize the distribution
+x <- seq(from = 0, to = 20, by = 0.01)
+plot(x = x, y =  dgamma(x, shape = 3.5, rate = 0.75), type = "l", xlab = "x", ylab = "f(x)", main = "Gamma(3.5,0.75) pdf")
+
+```

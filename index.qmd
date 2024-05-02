@@ -8,9 +8,9 @@
 
 ## Course Pack
 
-FILES: BLANK [notes-all.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/notes-all.pdf), [notes-all.tex](https://github.com/coltongearhart/math321/blob/main/lectures/notes-all.tex), [notes-completed.tex](https://github.com/coltongearhart/math321/blob/main/lectures/notes-completed.tex), and [style-notes.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-notes.sty)
+FILES: BLANK [lectures-all.pdf](https://github.com/coltongearhart/math321/blob/main/lectures/lectures-all.pdf), [lectures-all.tex](https://github.com/coltongearhart/math321/blob/main/lectures/lectures-all.tex), [lectures-completed.tex](https://github.com/coltongearhart/math321/blob/main/lectures/lectures-completed.tex), and [style-lectures.sty](https://github.com/coltongearhart/math321/blob/main/lectures/style-lectures.sty)
 
-<embed src="lectures/notes-completed.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+<embed src="lectures/lectures-completed.pdf" type="application/pdf" width="100%" height="1000px"></embed>
 
 ## Assessments
 
@@ -31,5 +31,5 @@ This book was created using [Quarto](https://quarto.org/) and published with Git
 ::: callout-tip
 ## Github repository for code
 
-You can find the code to reproduce this project at [coltongearhart/math125](https://github.com/coltongearhart/math125).
+You can find the code to reproduce this project at [coltongearhart/math321](https://github.com/coltongearhart/math321).
 :::

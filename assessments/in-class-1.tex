@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: In-Class 1}
+\end{center}
+
+\bigskip\bigskip
+
+% problem types summary
+% 1) joint pdf of poisson random sample, and then sample mean exp value, var and dist
+% 2) chi-square probs from sum of zs
+% 3) percentiles in R
+% 4) finding t and z probabilities
+
+\begin{enumerate}
+   
+   \item Suppose $X_i \followsp{iid}{Poisson}(\lambda = 5)$, for $i = 1, \ldots, 30$.% Original question
+    \begin{enumerate}
+        \item Find the joint pmf $f(\vecn{x}{30})$.\vspace{80pt}
+        \item Let $\displaystyle \bar{X} = \frac{1}{30} \sum_{i = 1}^{30} X_i$. Find $E(\bar{X})$ and $V(\bar{X})$.\vspace{60pt}
+        \item Find the distribution of $\bar{X}$.\vspace{60pt}
+    \end{enumerate}\bigskip
+
+    \item Let $\vecn{Z}{9}$ be independent. Also assume $Z_i \follow{Normal}(0,1)$ for $i = 1, \ldots, 9$.%Lazar HW 2 AQ 5 (setup and variations on part a only)
+    \begin{enumerate}
+        \item If $Y_1 = Z_1^2 + \ldots +Z_9^2$ find $P(Y_1 < 15)$.\vspace{40pt}
+        \item If $Y_2 = Z_3^2 + \ldots +Z_9^2$ find $P(2 < Y_2 < 13)$.\vspace{40pt}
+        \item If $Y_3 = Z_3^2 + \ldots +Z_5^2$ find $P(Y_3 > 12)$.\vspace{40pt}
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate} % Original question
+        \item Suppose $X \follow{Normal}(\mu = 100, \sigma = 25)$. Find the $90^{th}$ percentile of $X$ (i.e. find $x_{0.9}$ such that $P(X < x_{0.9}) = 0.90$).
+        \item[] \textit{HINT: Use Z-table ``backwards'' or invNorm() on graphing calculator.}\vspace{60pt}
+        \item Now use qnorm() in R to find the $90^{th}$ percentile of $X$. Answer should match part (a).\vspace{60pt}
+        \item Suppose $Y \follow{\chisq}(15)$. Find the $30^{th}$ percentile of $Y$.\vspace{60pt}
+        \item Suppose $T \follow{t}(10)$. Find the \textit{upper} $25^{th}$ percentile of $T$.\vspace{60pt}
+    \end{enumerate}\bigskip
+    
+    \item Let $\vecn{X}{20}$ be a random sample from $\text{Normal}(\mu = 30, \sigma^2 = 100)$ and let $\bar{X}$ be the sample mean and $S$ be the sample standard deviation.
+    \begin{enumerate}
+        \item Find $\displaystyle P(-2 < \frac{\bar{X} - 30}{S / \sqrt{20}} < 2)$.\vspace{60pt}
+        \item Find $\displaystyle P(-2 < \frac{\bar{X} - 30}{10 / \sqrt{20}} < 2)$.\vspace{60pt}
+    \end{enumerate}\bigskip
+
+\end{enumerate}
+
+\end{document}

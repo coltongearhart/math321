@@ -1,0 +1,603 @@
+\documentclass{article}
+\usepackage{style-lectures}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\convp}[2]{#1 \overset{p} \to #2}		% shortcut for Xn converges to X in probability (with arrow notation)
+
+
+% NOTES on what didn't cover
+
+% Convergence concepts: consistency vs unbiasedness
+% -> !!! these are the focus, not too much into convergence, just what is needed to understand consistency
+% -> skipping discussion of unbiased and consistency for sample mean, s2 and s example. 
+% -> in theory typed up notes, two sections in the convergence docs that discuss this. Then also tie in asymptotic discussion in the point estimation chapter
+
+% drew 5.8, "squeeze theroem" idea when proving WLLN (not sure if this makes more sense that what I already have done
+
+% continuous mapping theorem (theory lecture 4, page 7)
+% Jensens inequality (theory lecture 4, page 7)
+% both of these ideas are used to show S is consistent for sigma^2, but biased
+
+% theory lecture 4-2
+% anything almost sure convergence
+% -> includes SLLN
+% convergence in distribution (i included definition, and that's it), max of uniform example
+% -> comparison of strength between three types of convergence (theory lecture 4-2, page 3)
+% -> theorem relating conv in p vs d to constant (page 3)
+
+
+% slutsky's theorem (theory lecture 4-2 page 6 and 7)
+% use in proving t as standardized x -bar from normal goes to Z in distribution
+
+% theory lecture 4-3
+% when to use which type of convergence
+
+% proof of chebyshev -> just mentioned in proof of WLLN
+% Drew discrete proof of chebyshev
+% -> proves with epsilon = k sigma and then changes k = epsilon / sigma to get to my version of WLLN
+
+% getting to |X - mu| < sigma version of the chebyshev
+% -> I approached like WLLN and just starting with absolute value, but theory 1 lecture 14 page 1 has it starting from the P(g(X) \ge t) \le E()/t^2 and then simplifying right to get 1 / t^2, same idea, just different starting point (so i skipped right to end pretty much
+
+
+
+
+
+% super fancy resource maybe worth looking into wayyy later: https://cswr.nrhstat.org/intro.html
+% -> computational statistics (found it by searching for numerical optimization of likelihood function)
+
+
+% ***** currently below is just notes about what didn't cover in drew and in textbook (stat inference), but NOT THEORY notes..... need a break
+
+
+% MME
+% -> central moment MMEs (like written in handbook) ** probs add and use books wording that can be done in an equivalent way with central moments
+% ->  rewriting population variance (second central moment) to second sample moment - first sample moment^2 (shown in drew section 6.1 page 3)
+% -> although I showed it in the HW gamma question, so maybe move this to the notes
+
+% unresolved inquiries
+% -> why are they not unique?
+% -> how do they approximate distributions?
+
+% MLE
+% unresolved inquiries
+% -> Notice that, by its construction, the range of the MLE coincides with the range of the parameter \hl{(then how can we get a MLE outside of the range??)}.
+
+% multiple MLEs
+% -> second derivative test have to check hessian matrix, drew shows this slightly for normal(mu, sigma^2)
+% -> stat inference shows it all in example 7.2.12 (page 322) and notes that we should find better ways to verify global max other than the second derivative test because the calc becomes unreasonable
+
+% restricted range MLE
+% -> commentary ('Restricted Range' slide in presentation) and all theory / examples (lecture 6-2)
+
+
+\begin{document}
+
+\lecture{4}{Point Estimation}{6}{Point Estimation}{5.8 and 6.4}
+
+
+\bu{Introduction}\bigskip
+
+The process, where we have been\bigskip
+\begin{itemize}
+    \item Suppose we were given a dataset and went through the EDA where we created lots of summary statistics, histograms, box plots, etc. By this point, we would have a good ``feel'' for the data.
+    \item If we were focusing on determining (to the best of our ability) the population distribution that a variable came from, we would have used the shape of the sample distribution to guide our selection of a few potential models to test with q--q plots. 
+    \item[] Usually we are not trying to see if the data come from a particular distribution, but rather from a parametric family of distributions (such as the normal, uniform, or exponential, etc.). We are usually forced into this situation because we don't know the parameters.
+    \item Suppose we find a good model, what next? Typically, the next step may be to estimate the parameters, which is what this section is all about.
+    \item[] This section / topic can be divided into two parts:
+    \begin{enumerate}
+        \item Evaluating estimators.
+        \item Methods of finding estimators.
+    \end{enumerate}
+    \item In general, these two activities are intertwined. Often the methods of evaluating estimators will suggest new ones. We will focus mainly on finding estimators. 
+\end{itemize}\bigskip
+
+Point estimation\bigskip
+\begin{itemize}
+    \item Rationale
+    \begin{itemize}
+        \item The rational behind point estimation is quite simple. When sampling from a population described by a pdf or pmf $f(x \mid \theta)$, knowledge of $\theta$ yields knowledge of the entire distribution.
+    \item[] Hence, it is natural to seek a method of finding a good estimator of the point $\theta$. For example, if we assume that the population is normally distributed and we know $\mu$ and $\sigma^2$, then we know everything about the distribution.
+    \item It may also be the case that some function of $\theta$, say $\tau(\theta)$, is of interest. The second method described in this section can be used to obtain estimation of $\tau(\theta)$.
+    \end{itemize}\bigskip
+    
+    \newpage
+
+    \item Point estimator
+    \begin{itemize}
+        \item Definition: A \textbf{point estimator} is any function $W(\vecn{X}{n})$ of a sample;\\ that is, any statistic is a point estimator.\bigskip
+        \item Notes about definition:
+        \begin{itemize}
+            \item Makes no mention of any correspondence between the estimator and the parameter to be estimated.
+            \item[] If this were a part of the definition, it would restrict the available set of estimators.
+            \item[] So, any statistic $\rightarrow$ We could use the sample \blankul{2.5cm} as a point estimator for the population \blankul{2cm}, but it would be a bad estimator because we get no insight about \blankul{2cm}
+            \item Also, there is no mention in the definition of the range of the statistic $W(\vecn{X}{n})$.
+            \item[] While, in principle, the range of the statistic should coincide with that of the parameter, this is not always the case. For example, if we need $\mu > 0$ but get $\bar{x} = - 5$ based on the observed data, this is bad...
+        \end{itemize}
+        \item So, at this point, we want to be careful not to eliminate any candidates from consideration.
+    \end{itemize}\bigskip
+    \item Estimator vs Estimate
+    \begin{itemize}
+        \item An \textbf{estimator} is a function of the sample; so it is a \blankul{4cm} (i.e. because it is a function of $iid$ random variables $\vecn{X}{n}$).
+        \item An \textbf{estimate} is the \blankul{4cm} of an estimator that is obtained when the sample is actually taken; so it is just a number (because it is a function of the realized values $\vecn{x}{n}$).
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+\bu{Evaluating estimators}\bigskip
+
+Introduction\bigskip
+\begin{itemize}
+    \item There are two ways that we will evaluate estimators. In other words, there are two criteria we apply to determine how ``good'' an estimator is.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.3]{{"test-2/concept-precision-and-accuracy"}.png}
+    \end{figure}
+    \item Some estimators will be good at one aspect and poor in another, so there is often a tradeoff between accuracy and precision.
+    \item Now we will formalize the theoretical ideas of accuracy and precision.
+\end{itemize}\bigskip
+
+Unbiasedness\bigskip
+\begin{itemize}
+    \item This criteria deals with the location of the sampling distribution of a statistic.
+    \item Definition: Let $\vecn{X}{n}$ be a random sample from $X$ and let $\theta$ be a parameter of the pdf (or pmf).
+    \item[] If $W(\vecn{X}{n})$ is some function of $\vecn{X}{n}$ and $E[W(\vecn{X}{n})] = \theta$, then $W(\vecn{X}{n})$ is an \textbf{unbiased estimator} of $\theta$. Otherwise it is said to be \textbf{biased}.
+    \item Specific examples
+    \begin{itemize}
+        \item If $\mu = E(X) = \theta$ is a parameter of the pdf (or pmf) of $X$, then $E(\bar{X}) = \mu = \theta$ and thus $\bar{X}$ is always an unbiased estimator of $\mu$.
+        \item[] Ex) For $X \follow{Poisson}(\lambda)$:
+        \item If $\sigma^2 = V(X) = \theta$ is a parameter of the pdf (or pmf) of $X$, then $E(S^2) = \sigma^2 = \theta$ and thus the sample variance $S^2$ is always an unbiased estimator of $\sigma^2$.
+        \item[] Ex) If $X \follow{Normal}(\mu, \sigma^2)$:\vspace{30pt}
+    \end{itemize}
+\end{itemize}\bigskip
+
+Consistency\bigskip
+\begin{itemize}
+    \item This criteria deals with the variance of the sampling distribution of a statistic. Before we can formalize this, we need to learn another concept called convergence in probability and some associated theorems.
+\end{itemize}\bigskip
+
+Convergence in probability idea\bigskip
+\begin{itemize}
+    \item The idea
+    \begin{itemize}
+        \item When studying the mean $\bar{X}$ of a random sample of size $n$ from a distribution with mean $\mu$ and variance $\sigma^2 > 0$, we saw that is a random variable with the following properties
+    \[E(\bar{X}) = \mu \hspace{20pt} \text{and} \hspace{20pt} V(\bar{X}) =\frac{\sigma^2}{n}\]
+        \item Thus, as the sample size $n$ increases, the variance of $\bar{X}$ decreases.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.4]{{"test-2/sample-mean-dists"}.png}
+        \end{figure}
+        \item We can see that as $n$ increases, the probability becomes concentrated in a small interval centered at $\mu$.
+        \item[] That is, as $n$ increases, $\bar{X}$ tends to converge to $\mu$, or $(\bar{X} - \mu)$ tends to converge to 0 in a probability sense.
+    \end{itemize}\newpage
+    \item Convergence in statistics
+    \begin{itemize}
+        \item Convergence in statistics is very different from that in mathematics.
+        \item In mathematics, a sequence of \textbf{constants} $a_1, a_2, \ldots$ converges to a constant:
+        \[\lim_{n \to \infty} a_n = a \hspace{40pt} \text{ex.} \lim_{n \to \infty} \frac{1}{n} = 0\]
+        \item But in statistics, a sequence of \textbf{random variables} $X_1, X_2, \ldots$ converges to a random variable:
+        \[\lim_{n \to \infty} X_n = X\]
+        \item[] (Note: it can also converge to a constant, depending on the situation.)
+        \item Three types of convergence in statistics:
+        \begin{enumerate}
+            \item Convergence in probability.
+            \item Almost sure convergence.
+            \item Convergence in distribution.
+        \end{enumerate}\bigskip
+        \item[] We will focus on number one, mention number three and ignore number two.
+    \end{itemize}
+\end{itemize}\bigskip
+
+Convergence in probability definition\bigskip
+\begin{itemize}
+    \item This type of convergence is one of the weaker types and, hence, is usually quite easy to verify.
+    \item Definition: A sequence of random variables, $Y_1, Y_2, \dots$, \textbf{converges in probability} to a random variable $Y$ if, for every $\epsilon > 0$,
+    \[\lim_{n \to \infty} P(\lvert Y_n - Y \rvert \ge \epsilon) = 0 \hspace{20pt} \text{or, equivalently,} \hspace{20pt} \lim_{n \to \infty} P(\lvert Y_n - Y \rvert < \epsilon) = 1\]
+\end{itemize}\bigskip
+
+Breakdown of definition
+\begin{itemize}
+    \item Notation
+    \begin{itemize}
+        \item $Y_1, Y_2, \ldots$ represent statistics that depend on the subscript (i.e. functions of a random sample). More specifically, $Y_n$ is a statistic defined with the original $iid$ variables $\vecn{X}{n}$.
+        \item So $Y_n = T(\vecn{X}{n})$.
+        \item[] For example, if $Y_n$ is the sample mean, then 
+        \[Y_n = \bar{X}_n = \frac{1}{n} \sum_{i = 1}^n X_i\]
+        \item So the distribution of $Y_n$ changes as the subscript changes and it converges to some limiting distribution as $n$ becomes large.
+    \end{itemize}\bigskip\newpage
+    \item Understanding $\displaystyle \lim_{n \to \infty} P(\lvert Y_n - Y \rvert < \epsilon)$
+    \begin{itemize}
+        \item For a given (fixed) $n$, is $P(\lvert Y_n - Y \rvert < \epsilon)$ is just a regular probability; so it is just a constant.
+        \item So $P(\lvert Y_n - Y \rvert < \epsilon) = a_n$ and consequently
+        \[\lim_{n \to \infty} P(\lvert Y_n - Y \rvert < \epsilon) = \lim_{n \to \infty} a_n\]
+        \begin{itemize}
+            \item This is the convergence that we are familiar with in mathematics (more specifically in real analysis).
+            \item Rigorously, $\displaystyle \lim_{n \to \infty}$ can only be used with a sequence of constants and cannot be used with a sequence of random variables.
+            \item[] It doesn't make sense to find the limit of a random variable (we can't find the pattern if each number is random and has a pattern of its own).
+            \item But probability is a constant number that we can find a limit of. Thus, using $\displaystyle \lim_{n \to \infty} P(\lvert Y_n - Y \rvert < \epsilon)$ notation makes sense.
+        \end{itemize}
+        \item So, because $Y_n$ is a random variable, we cannot find its limit directly, but we can find its limit in probability or distribution.
+    \end{itemize}\bigskip
+    \item Interpretations
+    \begin{itemize}
+        \item The event $\lvert Y_n - Y \rvert$ is the difference between $Y_n$ and $Y$.
+        \item $P(\lvert Y_n - Y \rvert < \epsilon)$ is the probability that the difference between $Y_n$ and $Y$ is smaller than $\epsilon$.
+        \item[] In definition, ``for every $\epsilon > 0$'' means that we can pick any really tiny number (e.g. $\frac{1}{100000000}$).
+        \item Putting it all together: $\displaystyle \lim_{n \to \infty} P(\lvert Y_n - Y \rvert < \epsilon) = 1$
+        \item[] Even though we choose a really tiny $\epsilon$, the probability that the difference between $Y_n$ and $Y$ is less than the small number converges to one as $n$ goes to $\infty$.
+        \item In other words, the probability that there is no difference between $Y_n$ and $Y$ goes to one as $n$ approaches $\infty$.\vspace{40pt}
+        \item[] Thus, we can conclude that $Y_n$ converges to $Y$ \textbf{in probability.}
+    \end{itemize}
+    \item Correct notation (note that we need the ``in probability'' part in all of these):
+    \begin{itemize}
+        \item $\convp{Y_n}{Y}$.
+        \item $Y_n \to Y$ in probability.
+        \item $\lim_{n \to \infty} Y_n = Y$ in probability.
+    \end{itemize}
+\end{itemize}\bigskip
+
+(Weak) Law of Large Numbers (WLLN)\bigskip
+\begin{itemize}
+    \item Theorem
+    \begin{itemize}
+        \item Frequently, statisticians are concerned with situations in which the limiting random variable is a constant and the random variables in the sequence are sample means (of some sort). The most famous result of this type is the following.
+        \item \textbf{WLLN} Theorem: Let $X_1 ,X_2, \ldots$ be $iid$ random variable with $E(X_i) = \mu$ and \\ $V(X_i) = \sigma^2 < \infty$. Define $\displaystyle \bar{X}_n = \frac{1}{n} \sum_{i = 1}^n X_i$. Then for every $\epsilon > 0$,
+        \[\lim_{n \to \infty} P(\lvert \bar{X}_n - \mu \rvert < \epsilon) = 1 \hspace{40pt} \lim_{n \to \infty} P(\lvert \bar{X}_n - \mu \rvert \hspace{15pt} \epsilon) = \] 
+        \item[] that is, $\bar{X}_n$ converges in probability to $\mu$ (notation: $\convp{\bar{X}}{\mu})$.\bigskip
+    \end{itemize}
+    \item Notes about WLLN
+    \begin{itemize}
+        \item Comparison
+        \begin{itemize}
+            \item Convergence in probability definition: $\displaystyle \lim_{n \to \infty} P(\lvert Y_n - Y \rvert \ge \epsilon) = 0$\vspace{20pt}
+        \end{itemize}\bigskip
+        \item Summary of theorem:
+        \begin{itemize}
+            \item The Weak Law of Large Numbers (WLLN) quite elegantly states that, under general conditions, the sample mean approaches the population mean as $n \to \infty$.
+            \item[] This is because the probability associated with the distribution of $\bar{X}$ becomes concentrated in an arbitrarily small interval centered at $\mu$ as $n$ increases. 
+            \item Needed conditions: $iid$ random variables and the first and second moments (i.e. the mean and a finite variance). And do not need any distributional assumption.
+        \end{itemize}\bigskip
+        \item Consistency
+        \begin{itemize}
+            \item The property summarized by the WLLN, that is a sequence of the ``same'' sample quantity approaches a constant as $n \to \infty$, is known as \textbf{consistency}.
+            \item Showing consistency is the same as showing convergence in probability.
+            \item[] Thus, it can be said that $\bar{X}_n$ is a consistent estimator of $\mu$.\hl{}
+        \end{itemize}\bigskip\newpage
+        \item WLLN for transformations of $X$ (extension of theorem).
+        \begin{itemize}
+            \item Additionally, it can be used for statistic of the form $\displaystyle \bar{X}_n = \frac{1}{n} \sum_{i=1}^n g(X_i)$, where $g(X)$ is non negative transformation that still has a mean and a finite variance.
+            \item So, now instead of converging to $\mu$, $\bar{X}_n$ converges to $E[g(X)]$ (in probability).
+        \end{itemize}\bigskip
+    \end{itemize}
+    \item Proof of WLLN
+    \begin{itemize}
+        \item Want to show: $\displaystyle \lim_{n \to \infty} P(\lvert \bar{X}_n - \mu \rvert \ge \epsilon) = 0$\vspace{200pt}
+    \end{itemize}
+    \item Application of WLLN
+    \begin{itemize}
+        \item Example: Suppose we are planning a poll to figure out which is better, R or Excel. Let
+        \[
+        X_i =
+            \left\{
+            \begin{array}{ll}
+                 1 & \text{if R}\\
+                 0 & \text{if Excel}
+            \end{array}
+            \right.
+        \]
+        \item[] and $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$.
+        \begin{enumerate}
+            \item If $n = 400$, find a lower bound on $P(\lvert \bar{X}_{400} - p \rvert < 0.05)$.\vspace{40pt}
+            \item If $n = 400$ and $p = 7/10$, find a lower bound on $P(\lvert \bar{X}_{400} - 0.70 \rvert < 0.05)$.\vspace{40pt}
+            \item If $n = 500$ and $p = 7/10$, find a lower bound on $P(\lvert \bar{X}_{500} - 0.70 \rvert < 0.05)$.\vspace{40pt}
+        \end{enumerate}
+    \end{itemize}\bigskip
+\end{itemize}\bigskip
+    
+Summary of consistency and unbiasedness\bigskip
+\begin{itemize}
+    \item Comparison of unbiasedness vs consistency.
+    \begin{itemize}
+        \item Unbiasedness $\rightarrow$ This tells us the mean of a statistic, regardless of $n$. So we can drop the inference on $n$. To be unbiased, the expected value of the statistic must equal the parameter of interest.\vspace{20pt}
+        \item Consistency $\rightarrow$ This is all about the limit of the random variable as $n \to \infty$. If a statistic is consistent, then as $n \to \infty$, there is no variation in what the statistic converges to; the entire distribution converges to a constant.\vspace{20pt}
+    \end{itemize}
+    \item Examples of the difference (shown through counter examples):
+    \begin{enumerate}
+        \item Let $Y_n \follow{N}(\mu, \sigma^2)$.\vspace{60pt}
+        \item[] So it still has some variation, whereas a constant has no variation (it is always the same).
+        \item[] $E(Y_n) = \mu$ \blankul{5cm} $\displaystyle \convp{Y_n}{Y}$.\bigskip
+        \item Now let $Y_n \follow{N}(\mu + \frac{1}{n}, \frac{\sigma^2}{n})$\vspace{60pt}
+        \item[] So, the mean of the distribution converges to $\mu$ and the variance disappears.
+        \item[] $\convp{Y_n}{\mu}$ \blankul{5cm} $E(Y_n) = \mu$.
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\newpage
+
+Return to methods of finding estimators\bigskip
+\begin{itemize}
+    \item Now that we have covered how to evaluate estimators, we can look at how to find estimators.
+    \item In many cases, there will be an obvious or a natural candidate for a point estimator of a particular parameter. For example:
+    \begin{itemize}
+        \item Population mean $\mu$ $\rightarrow$
+        \item If $X \follow{Uniform}(0, \theta)$ $\rightarrow$
+        \item If $X \follow{Gamma}(\text{shape } \alpha, \text{rate } \beta)$ $\rightarrow$
+    \end{itemize}
+    \item For more complicated models, intuition may not work and can often have bad results (e.g. gamma($\alpha, \beta$), there is no obvious estimators for the shape and scale parameters).
+    \item Therefore, it is useful to have some techniques (more methodical ways of estimating parameters) that will at least give us some reasonable candidates for consideration.
+    \item[] These still must be evaluated before their worth is established. Ideally, point estimators will provide insight and information about the unknown parameter $\theta$.
+    \item Now we will go into two methods for finding estimators.
+\end{itemize}\bigskip
+
+\bu{Method of moments}\bigskip
+
+Method of Moments (MME)\bigskip
+\begin{itemize}
+    \item The method of moments is a very simple procedure for finding an estimator for one or more population parameters.
+    \item Types of moments:
+    \begin{itemize}
+        \item $\boldsymbol{k^\text{th}}$ \textbf{(population) moment} of the distribution (about the origin)
+        \[\mu'_k = E(X^k)\]
+        \item The corresponding \textbf{sample moment} is the average
+        \[m'_k = \frac{1}{n} \sum_{i = 1}^n {X^k_i}\]
+    \end{itemize}
+    \item The method of moments logic
+    \begin{itemize}
+        \item Based on the intuitively appealing idea that sample moments should provide good estimates of the corresponding population moments.
+        \item Population moments $\vecn{\mu'}{k}$ are usually functions of the population parameters, so we can equate corresponding population and sample moments and solve for the desired estimators.
+    \end{itemize}\newpage
+    \item Official statement of \textbf{Method of Moments}:
+    \item[] Choose as estimates those values of the parameters that are solutions of the equations $\mu'_k = m'_k$, for $k = 1, 2 \ldots, t$, where $t$ is the number of parameters to be estimated.\bigskip
+    \item Steps to find MME:
+    \begin{enumerate}
+        \item Write $E(X^k)$ as a function of the parameters of interest.
+        \item[] Note: Might have to do some integration or summation to get $E(X^k)$.
+        \item[] Example: If $X \follow{Normal}(\mu, 1)$ $\rightarrow$\bigskip
+        \item Then estimate the parameter of interest by equating the population moment with the sample moment and solving for the parameter.
+        \item[] Example continued: \bigskip
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Examples\bigskip
+\begin{enumerate}
+    \item Let $\vecn{X}{n}$ be a random sample from $\text{Uniform}(0, \theta)$, where $\theta$ is unknown. Use the method of moments to estimate the parameter $\theta$.\vspace{60pt}
+    \item Let $\vecn{X}{n} \followsp{iid}{Exp}(\lambda)$. Find the method of moments estimator for $\lambda$.\vspace{60pt}
+    \item Let $\vecn{X}{n} \followsp{iid}{Uniform}(-\theta, \theta)$. Find the MME for $\theta$. Recall $E(X) = \frac{a + b}{2}$ and $V(X) = \frac{(b - a)^2}{12}$ if $X \follow{Uniform}(a, b)$.\vspace{130pt}
+    \item Let $\vecn{X}{n} \followsp{iid}{Normal}(\mu, \sigma^2)$. Find the MMEs for $\mu$ and $\sigma^2$.
+    \item[] Note: There are two unknown parameters. So we will have to setup and solve a system of equations.\vspace{160pt}
+\end{enumerate}\bigskip
+
+Summary of method of moments\bigskip
+\begin{itemize}
+    \item Pros
+    \begin{itemize}
+        \item Simple to find and fairly intuitive (simply matching the properties of a sample to that of the population distribution).
+        \item Nonparametric method.
+        \item[] So it works without the distributional information about the population (think back to the normal MME example, those results for estimators of $E(X)$ and $V(X)$ are true for regardless of what we start with.
+        \item[] Example: Suppose $X_i \followsp{iid}{Gamma}(\alpha, \beta)$, then $\bar{X}$ is an estimator for $\alpha / \beta$ and $v$ is an estimator for $\alpha / \beta^2$.
+        \item[] This means that we don't have to assume the population distribution, which is a useful property when the population distribution information is unclear.
+        \item Consistent estimators most of the time.
+        \item[] Sample moments are consistent estimators of the corresponding population moments (can show with the (Weak) Law of Large Numbers).
+    \end{itemize}
+    \item Cons
+    \begin{itemize}
+        \item Nonparametric method.
+        \item[] Because of this, MME information is only based on the data and doesn't give us any information about that relationship with the parameter of interest.
+        \item Often biased (so the center of the distribution of the estimator doesn't line up with $\theta$).
+        \item May be inefficient (i.e. large variance of the distribution of $\hat{\theta}$).
+    \end{itemize}
+\end{itemize}\bigskip
+
+\newpage
+
+\bu{Maximum likelihood estimation}\bigskip
+
+Context\bigskip
+\begin{itemize}
+    \item We just saw one way to get estimators, but noted that there are some disadvantages of that method. One reason for this is that it is a very general method because it is non-parametric. So how can we improve upon it?
+    \item Parametric statistics: Assume the distribution of $X$ and estimate the parameters that determine the distribution.
+    \item[] Example: Know $X \follow{Normal}$, estimate $\mu$ and $\sigma^2$.
+    \item The method of maximum likelihood is, by far, the most popular technique for deriving estimators.
+\end{itemize}\bigskip
+
+Motivating (conceptual) example\bigskip\
+\begin{itemize}
+    \item Suppose that we are confronted with a box that contains three balls. We know that each of the balls may be red or white, but we do not know the total number of either color. However, we are allowed to randomly sample two of the balls without replacement.
+    \item If our random sample yields two red balls, what would be a good estimate of the total number of red balls in the box?\vspace{120pt}
+\end{itemize}\bigskip
+
+Likelihood function\bigskip
+\begin{itemize}
+    \item \textbf{Parameter space} definition: Given pdf (or pmf) $f(x \mid \theta_1, \ldots, \theta_k)$ the set of all possible values for $\theta_1, \ldots, \theta_k$ is known as the parameter space.
+    \item[] We denote the parameter space with $\Theta$ (capital ``theta'').
+    \item Examples:
+    \item[] If $X \follow{Normal}(\mu, \sigma^2)$ $\rightarrow$ $\Theta = $
+    \item[] If $X \follow{Poisson}(\lambda)$ $\rightarrow$ $\Theta = $\bigskip
+    \item Review: Joint pdf of $\vecn{X}{n}$ (if $X_i$'s are continuous, $iid$ random variables) is given by\vspace{20pt}
+    \item[] Pdf $f(x_i)$ is a function of $X_i$ given the parameters $\boldsymbol{\theta}$: $f(X_i \mid \boldsymbol{\theta})$.\bigskip
+    \item \textbf{Likelihood function} definition: Let $f(\mathbf{x} \mid \boldsymbol{\theta})$ denote the joint pdf or pmf of the sample $\boldsymbol{X} = (\vecn{X}{n})$. Then, given that $\mathbf{X} = \mathbf{x}$ is observed, the function of $\theta$ defined by 
+    \[L(\boldsymbol{\theta} \mid \mathbf{x}) = f(\mathbf{x} \mid \boldsymbol{\theta})\]
+    \item[] is called the likelihood function.\bigskip
+    \item Notes about the likelihood function
+    \begin{itemize}
+        \item The only distinction between the likelihood function and the joint pdf or pmf is which variable is considered fixed and which is varying.
+        \item[] In other words, the likelihood function is the same thing as the joint density of the data, but from a different point of view (i.e. different information is known).
+        \begin{itemize}
+            \item For the joint density of the data, $\theta$ is fixed, while $\boldsymbol{X}$ can vary.
+            \item[] This is used to answer probability questions: we know the \blankul{2.5cm} and want to figure out the \blankul{2cm}.
+            \item For the likelihood function, $\mathbf{X}$ is fixed, while $\theta$ can vary.
+            \item[] This is used to answer statistics questions: we have data and want to figure out the most likely \blankul{4cm}.
+        \end{itemize}    
+        \item Because both $\mathbf{x}$ and $\theta$ are in the formula, this gives us information about the \textbf{relationship} between the data and the parameter.
+    \end{itemize}
+    \item We can find the likelihood function with \vspace{20pt}
+    \item Comparing likelihood functions (this is what exactly we did with the colored balls example!)
+    \begin{itemize}
+        \item If $\mathbf{X}$ is a discrete random vector, then $L(\theta \mid \mathbf{x}) = P_{\theta}(\mathbf{X} = \mathbf{x})$. If we compare the likelihood at two parameter points and find that
+        \[P_{\theta_1}(\mathbf{X} = \mathbf{x}) = L(\theta_1 \mid \boldsymbol{x}) > L(\theta_2 \mid \mathbf{x}) = P_{\theta_2}(\boldsymbol{X} = \boldsymbol{x})\]\smallskip
+        \item[] then we interpret this as follows:
+        \item The sample $\mathbf{x}$ we actually observed is more likely to have occurred if $\theta = \theta_1$ than if $\theta = \theta_2$ (with the same data).
+        \item[] This can be interpreted as saying that $\theta_1$ is a more plausible value for the true value of $\theta$ than $\theta_2$.
+    \end{itemize}
+\end{itemize}\bigskip\newpage
+
+Maximum likelihood estimation (MLE) definition and concept\bigskip
+\begin{itemize}
+    \item Definition: For each sample point $\mathbf{x}$, let $\hat{\theta}(\boldsymbol{x})$ be a parameter value at which $L(\theta \mid \mathbf{x})$ attains its maximum as a function of $\theta$, with $\mathbf{x}$ held fixed. A \textbf{maximum likelihood estimator (MLE)} of the parameter $\theta$ based on a sample $\mathbf{X}$ is $\hat{\theta}(\mathbf{X})$.\bigskip
+    \item Notes about the definition
+    \begin{itemize}
+        \item  Intuitively, the MLE is a reasonable choice for an estimator. The MLE is the parameter point for which the observed sample is most likely.
+	\item In general, the MLE is a good point estimator, possessing some of the optimality properties such as consistency.
+    \end{itemize}
+    \item MLE conceptualized
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.35]{{"test-2/mle-concept"}.png}
+    \end{figure}
+    \begin{itemize}
+        \item The likelihood function is the product of the density curve heights at the observed $x$s.
+	\item So for this example, \blankul{1cm} is a more plausible value for $\mu$.
+    \end{itemize}
+\end{itemize}\bigskip
+
+How to find an MLE\bigskip
+\begin{itemize}
+    \item Example: Let $\vecn{X}{n} \followsp{iid}{Exp}(\lambda)$. Find the maximum likelihood estimator for $\lambda$. How do we do this?
+    \item Start with the likelihood function:\vspace{30pt}
+    \item Then it's an optimization problem: To find the maximum of a function, we use calculus and derivatives.
+    \item[] If the likelihood function is differentiable, we can solve for the points at which the first derivatives equals zero: 
+    \[L'(\theta \mid \mathbf{x}) = \frac{d}{d \theta} \, L(\theta \mid \mathbf{x}) = 0\]
+    \item Log likelihood
+    \begin{itemize}
+        \item It is easier to work with the natural logarithm of $L(\theta \mid \mathbf{x})$ than it is to work with $L(\theta \mid \mathbf{x})$ directly. This is known as the \textbf{log likelihood}:
+	\[\ell(\theta \mid \mathbf{x}) = \ln [L(\theta \mid \mathbf{x})]\hspace{80pt}\]
+	\item This transformation is valid since the natural log is a strictly increasing function on $(0, \infty)$ (so it's a one-to-one function), which means it's equivalent to maximize the natural log of the likelihood function.
+    \end{itemize}
+    \item[] Continuing example:\vspace{120pt}
+    \item[] At this point, the solution $\hat{\theta}$ is only a \textbf{possible candidate} for the MLE of $(\theta)$.
+    \item[] First derivative being zero is only a necessary condition, but not a sufficient condition because points at may be local or global minimum / maximum, or inflection points.
+    \item So we have to check the second derivatives at $\hat{\theta}$ to ensure they are global maximum:
+    \[L''(\theta \mid \mathbf{x}) = \frac{d^2}{d \theta^2} \, L(\theta \mid \mathbf{x}) \hspace{20pt} \rightarrow \hspace{20pt} L''(\hat{\theta} \mid \mathbf{x})\hspace{10pt} 0 \hspace{100pt}\]
+    \item[] If this is true, then we know that we have found $\hat{\theta}_{MLE}$. Continuing example:\vspace{60pt}
+    \item Summary
+    \begin{itemize}
+        \item  Simply put, the likelihood function is hill shaped with the highest point at the MLE.
+	\item Note that the likelihood function not always differentiable, which adds in some extra complexity when finding the MLE.
+	\item[] When this is the case, we can try to numerical maximization.
+    \end{itemize}
+        \item The process that was just demonstrated was for univariate $\theta$. It is the same process for a vector of parameters $\boldsymbol{\theta} = (\vecn{\theta}{k})$, except we have to work with partial derivatives.
+\end{itemize}\bigskip
+
+Steps to find MLEs\bigskip
+\begin{enumerate}
+    \item Write the likelihood function (i.e. joint density function) and the log-likelihood,
+    \[L(\theta \mid \mathbf{x}) = \prod_{i = 1}^n f(\mathbf{x} \mid \theta) \hspace{20pt} \rightarrow \hspace{20pt} \ell(\theta) = \ln[L(\theta \mid \mathbf{x})]\]
+    \item Optimize the log-likelihood function by taking the derivatives with respect to the parameter of interest.
+    \item[] Set to zero and solve for the parameter of interest.
+    \[\ell'(\theta) = \frac{d}{d \theta} \ell(\theta) = 0 \hspace{20pt} \rightarrow \hspace{20pt} \hat{\theta} = \text{potential MLE}\]
+    \item Verify that the global maximum of the log-likelihood function occurs at $\theta = \hat{\theta}$.
+    \item[] Find the second derivative of the log-likelihood function, then plug in $\hat{\theta}$ and see if less than zero.
+    \[\ell''(\theta) = \frac{d^2}{d \theta^2} \, \ell(\theta) \hspace{20pt} \rightarrow \hspace{20pt} \ell''(\hat{\theta}) \overset{?}< 0\]
+    \item[] If so, then we have $\hat{\theta}_{MLE}$.
+\end{enumerate}\bigskip
+
+Examples\bigskip
+\begin{enumerate}
+    \item Let $\vecn{X}{n} \followsp{iid}{Geometric}(p)$. Find the maximum likelihood estimator for $p$.
+    \begin{enumerate}[(a)]
+        \item Find the likelihood function and log-likelihood function for $p$.\vspace{60pt}
+        \item Optimize the log-likelihood function and solve for $\hat{p}$.\vspace{100pt}
+        \item Perform second derivative test to confirm if $\hat{p}$ is the MLE for $p$.\vspace{80pt}
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.4]{{"test-2/mle-geometric"}.png}
+        \end{figure}
+    \end{enumerate}
+    \item Let $\vecn{X}{n} \followsp{iid}{Normal}(\mu, \sigma^2)$. Find the MLEs for $\mu$ and $\sigma^2$.
+    \item[] Note: Trying to find MLEs for two parameters, so will have to take partial derivatives.\vspace{350pt}
+    \item[] When working with partial derivatives, the second derivative test checks to see if the determinant of the matrix of the second partial derivatives (called the Hessian matrix) is less than zero.
+    \item[] For this scenario, the solutions do provide a maximum.
+\end{enumerate}
+
+\newpage
+
+Finding MLEs for functions of parameters\bigskip
+\begin{itemize}
+    \item We mentioned this before in the overview of point estimation that we be interested in some function of $\theta$, say $\tau(\theta)$, 
+    \item[] A useful property of MLE is know as the invariance property of MLE.
+    \item \textbf{(Invariance property of MLEs)}: If $\hat{\theta}$ is the MLE of $\theta$, then for any function $\tau(\theta)$, the MLE of $\tau(\theta)$ is $\tau(\hat\theta)$.
+    \item Notes about this property
+    \begin{itemize}
+        \item This type of theorem usually only holds with continuous functions, but this one works with ANY function. So we don't have to check any conditions.
+        \item This means if we want to find the MLE for $\tau(\theta)$:
+        \begin{enumerate}
+            \item Find the MLE of $\theta$.
+            \item Simply apply the invariance property to get the MLE of $\tau(\theta)$.
+        \end{enumerate}
+    \end{itemize}\bigskip
+    \item Example: Let $\vecn{X}{n} \followsp{iid}{Geometric}(p)$. \\Find the MLE for for $\displaystyle V(X) = \frac{1 - p}{p^2} = \tau(p) $.\vspace{40pt}
+\end{itemize}\bigskip
+
+Miscellaneous notes about MLEs\bigskip
+\begin{itemize}
+    \item Optimal properties
+    \begin{itemize}
+        \item 	Results shows that under general conditions, MLEs are consistent estimators of their parameters and asymptotically efficient (small variance in the limiting distribution (think: convergence in distribution).
+	\item This means it is a method of finding an estimator that guarantees optimal properties, asymptotically.
+    \end{itemize}
+    \item Maximation
+    \begin{itemize}
+         \item	 The possibility of maximizing $L(\theta \mid \mathbf{x})$ is one of the most important features of MLEs.
+         \item Example: Let $X \follow{Gamma}(\alpha, \beta)$. Find the MLEs for $\alpha$ and $\beta$.\vspace{70pt}
+        \item Turn to \textbf{numerical maximization}, which simply put essentially means plugging in a ton of numbers and seeing when the result is the largest.
+        \item[] If a model (likelihood) can be written down, then there is some hope of maximizing it numerically and hence finding the MLEs of the parameters.
+        \item[] When this is done, there is still always the question of whether a local or global maximum has been found.
+    \end{itemize}\bigskip
+    \item Numerical sensitivity
+    \begin{itemize}
+        \item When we use numerical methods, we have to pay careful attention to a potential problem of \textbf{numerical sensitivity}. That is, how sensitive is the estimate to small changes in the data?
+        \item This situation arises when the MLE cannot be solved for explicitly (i.e. there is no closed form solution, perhaps because the derivative doesn't exist). This occurrence happens when the likelihood function is very flat in the neighborhood of its maximum or when there is not a finite max.
+        \item Example: The MLEs of $n$ and $p$ (both unknown) in binomial sampling can be highly unstable. Five realizations of a Binomial$(n, p)$ experiment are observed.
+        \item[] The first data set is (16, 18, 22, 25, \textbf{27}) and the MLE of $n$ is $\hat{n} = \textbf{99}$.
+        \item[] The second data set is (16, 18, 22, 25, \textbf{28}) and the MLE of $n$ is $\hat{n} = \textbf{190}$.
+        \item So it is often wise to spend a little extra time investigating the stability of the solution.
+        \item If the MLE can be solved for explicitly, this is usually not a problem.
+    \end{itemize}
+\end{itemize}
+
+\end{document}

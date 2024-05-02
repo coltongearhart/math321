@@ -1,0 +1,394 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+\newcommand{\integral}[4]{\displaystyle \int_{#1}^{#2} #3 \,\mathrm{d} #4}		% shortcut for large integral with limits and appending formatted dx (variable x)
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+\newcommand{\gam}[1]{\Gamma(#1)}		% shortcut for gamma function (variable)
+\newcommand{\Beta}[2]{B(#1, #2)}		% shortcut for beta function B(variable1, variable 2)
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\cov}[1]{\mathrm{Cov}(#1)}		% shortcut for Cov(X,Y) with formatting for Cov
+\newcommand{\corr}[1]{\mathrm{Corr}(#1)}		% shortcut for Corr(X,Y) with formatting for Corr
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+
+
+\begin{document}
+
+\begin{center}
+{\Huge MATH 321: Test 1 Study Guide}
+
+\end{center}
+
+\bigskip\bigskip
+
+{\large \bu{Lecture 14 -- Bivariate Distributions}} (4.1 and 4.4)\bigskip
+
+Joint pmf and pdf
+\begin{itemize}
+    \item Discrete definition: The joint pmf is defined as $f(x,y) = P(X = x, Y = y)$ for all $(x, y) \in \mathbb{R}^2$ and has properties
+    \begin{enumerate}
+        \item $0 \le f_{X,Y}(x,y) \le 1$ \quad for all $x, y$
+        \item $\displaystyle \sum_x \sum_y f(x,y) = \sum_y \sum_x f(x,y) = 1$
+        \item Let $A$ be any subset of $\mathbb{R}^2$, then $\displaystyle P((X,Y) \in A) = {\sum \sum}_A f(x,y)$
+    \end{enumerate}
+    \item Continuous definition: The joint pdf is a function $f(x,y)$ from $\mathbb{R}^2$ into $\mathbb{R}$ such that
+    \begin{enumerate}
+        \item $f_{X,Y}(x,y) \ge 0$ \quad for all $x, y$
+        \item $\integral{-\infty}{\infty}{\integral{-\infty}{\infty}{f(x,y)}{x}}{y} = \integral{-\infty}{\infty}{\integral{-\infty}{\infty}{f(x,y)}{y}}{x} = 1$
+        \item For $A \subset \mathbb{R}^2$, $\displaystyle P((X,Y) \in A) = \integral{}{}{\integral{A}{}{f(x,y)}{x}}{y} = \integral{}{}{\integral{A}{}{f(x,y)}{y}}{x}$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Marginal distributions
+\begin{itemize}
+    \item Discrete definition: Let $(X,Y)$ have joint pmf $f(x,y)$. Then, the marginal pmfs are given by
+    \item[] $\displaystyle f_X(x) = \sum_y f_{X,Y}(x,y) \hspace{20pt} \text{and} \hspace{20pt} f_Y(y) = \sum_x f_{X,Y}(x,y)$
+    \item Continuous definition: Let $(X,Y)$ have joint pdf $f(x,y)$. Then the marginal pdfs are defined by:
+    \item[] $f_X(x) = \integral{-\infty}{\infty}{f(x,y)}{y} \hspace{20pt} \text{and} \hspace{20pt} f_Y(y) = \integral{-\infty}{\infty}{f(x,y)}{x}$
+\end{itemize}\bigskip
+
+Expected values of a function of a random variable
+\begin{itemize}
+    \item Definition: Let $g(X,Y)$ be a function of a bivariate random vector $(X,Y)$.
+    \begin{enumerate}[(a)]
+        \item If $X$ and $Y$ are discrete with joint pmf $f(x,y)$,
+        \item[] $\displaystyle E[g(X,Y)] = \sum_x \sum_y g(x,y) f(x,y)$
+        \item If $X$ and $Y$ are continuous with joint pdf $f(x,y)$,
+        \item[] $\displaystyle E[g(X,Y)] = \integral{-\infty}{\infty}{\integral{-\infty}{\infty}{g(x,y) f(x,y)}{x}}{y}$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\newpage
+
+Special expectations
+\begin{itemize}
+    \item Definitions: Let $(X_1,X_2)$ be a bivariate random vector with joint pmf / pdf $f(x_1,x_2)$.
+    \begin{enumerate}[i)]
+        \item If $g(X_1,X_2) = X_1$, then $E[g(X_1,X_2)] = E(X_1) = \mu_{X_1}$ 
+        \item If $g(X_1,X_2) = (X_1 - \mu_1)^2$, then $E[g(X_1,X_2)] = E[(X_1 - \mu_1)^2]  = \sigma_{X_1}^2$ 
+        \item If $g(X_1,X_2) = \e^{tX_1}$, then $E[g(X_1,X_2)] = E(\e^{tX_1}) = M_{X_1}(t)$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Expected value of $X + Y$ and $XY$
+\begin{itemize}
+    \item Theorem: Expected value of a sum of two random variables
+    \item[] If $g(X,Y) = X + Y$, then $E(X + Y) = E(X) + E(Y)$
+    \item Generalized theorem: If $g_1(X,Y)$ and $g_2(X,Y)$ are two functions and $a$, $b$ and $c$ are constants, then
+    \item[] $E[ag_1(X,Y) + bg_2(X,Y) + c] = aE[g_1(X,Y)] + bE[g_2(X,Y)] + c$
+    \item Theorem: Expected value of a product of two random variables
+    \item[] If $g(X,Y) = XY$ and $X \ind Y$, then $E(XY) = E(X) \cdot E(Y)$
+\end{itemize}\bigskip\bigskip
+
+{\large \bu{Lecture 15 -- Conditional Distributions}} (4.3)\bigskip
+
+Conditional pmf / pdf
+\begin{itemize}
+    \item Definition: Let $(X,Y)$ be a bivariate random vector with joint pmf / pdf $f(x,y)$ and marginal pmfs / pdfs $f_X(x)$ and $f_Y(y)$.
+    \begin{enumerate}[(a)]
+        \item Given $x$ such that $f_X(x) > 0$, \hspace{20pt} $\displaystyle f(y \mid x) = \frac{f(x,y)}{f_X(x)}$
+        \item Given $y$ such that $f_Y(y) > 0$, \hspace{20pt}  $\displaystyle f(x \mid y) = \frac{f(x,y)}{f_Y(y)}$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Probabilities
+\begin{itemize}
+    \item For $A \subset \mathbb{R}^2$,
+    \item[] Discrete: $\displaystyle P(X \in A \mid Y = y) = \sum_{x \in A} P(X = x \mid Y = y) = \sum_{x \in A} f(x \mid y)$
+    \item[] Continuous: $P(X \in A \mid Y = y) = \integral{A}{}{f(x \mid y)}{x}$
+\end{itemize}\bigskip
+
+Relationship between joint pmf and conditional pmfs
+\begin{itemize}
+    \item Theorem: For bivariate random vector $(X,Y)$ with joint pmf / pdf $f(x,y)$ and $x$ and $y$ such that $f_X(x) > 0$ and $f_Y(y) > 0$,
+    \item[] $f(x, y) = f_Y(y) \cdot f(x \mid y) =  f_X(x) \cdot f(y \mid x)$
+\end{itemize}\bigskip
+
+\newpage
+
+Conditional expected values
+\begin{itemize}
+    \item Definition: Let $g(Y)$ be a function of $Y$, then the conditional expected value of $g(Y)$ given that $X = x$ is given by 
+    \item[] $\displaystyle E[g(Y) \mid x ] = \sum_y g(y) f(y \mid x) \hspace{20pt} \text{and} \hspace{20pt} E[g(Y) \mid x] = \integral{-\infty}{\infty}{g(y) f(y \mid x)}{y}$
+    \item Conditional mean and variance definitions (assuming $X$ and $Y$ are discrete):
+    \begin{enumerate}[i)]
+        \item If $g(Y) = Y$, then the conditional mean of $Y$ given $X = x$ is
+        \item[] $\displaystyle E(Y \mid X = x) = \sum_y y \, f(y \mid x) = \mu_{Y \mid X}$
+        \item If $g(Y) = (Y - \mu_{Y\mid X})^2$, then the conditional variance of $Y$ given $X = x$ is
+        \item[] $\displaystyle E[(Y - \mu_{Y \mid X})^2 \mid X = x] = \sum_y (y - \mu_{Y \mid X})^2 \, f(y \mid x) = \sigma_{Y \mid X}^2$
+    \end{enumerate}
+\end{itemize}\bigskip
+
+\vspace{100pt}
+
+{\large \bu{Lecture 16 -- Independence and the Correlation Coefficient}} (4.1, 4.2, and 4.4)\bigskip
+
+Independence for random variables\bigskip
+\begin{itemize}
+    \item Definition: Let $(X,Y)$ be a bivariate random vector with joint pdf / pmf $f(x,y)$ and marginal pdfs / pmfs $f_X(x)$ and $f_Y(y)$. Then $X$ and $Y$ are called independent random variables if, for every $x \in \mathbb{R}$ and $y \in \mathbb{R}$,
+    \item[] $f(x,y) = f_X(x) \cdot f_Y(y)$
+    \item Checking independence theorem: $X$ and $Y$ are independent random variables if and only if 
+    \item[] $f(x,y) = g(x) \cdot h(y), \quad\quad a \le x \le b, \, c \le y \le d$,
+    \item[] where $g(x)$ is a nonnegative function of $x$ alone and $h(y)$ is a nonnegative function of $y$ alone
+\end{itemize}\bigskip
+
+Conditional distributions and independence
+\begin{itemize}
+    \item Theorem: If $X$ and $Y$ are independent, $f(x \mid y) = f_X(x) \hspace{25pt} \text{and} \hspace{25pt} f(y \mid x) = f_Y(y)$
+\end{itemize}\bigskip
+
+Using independence
+\begin{itemize}
+    \item Theorem: Let $X$ and $Y$ be independent random variables.
+    \begin{enumerate}[(a)]
+         \item For any $A \subset \mathbb{R}$ and $B\subset \mathbb{R}$, $P(X \in A,Y \in B) = P(X \in A) \cdot P(Y \in B)$
+        \item Let $g(x)$ be a function only of $x$ and $h(y)$ be a function only of $y$. Then
+        \item[] $E[g(X) \cdot h(Y)] = E[g(X)] \cdot E[h(Y)]$
+    \end{enumerate}
+\end{itemize}\bigskip\bigskip
+
+Definition, theorems and properties of covariance
+\begin{itemize}
+    \item Definition: The covariance of $X$ and $Y$ is the number defined by: $\cov{X,Y} = E[(X - \mu_X)(Y - \mu_Y)]$
+        \item If $(X,Y)$ is discrete, then $E[(X - \mu_X)(Y - \mu_Y)] = \sum_x \sum_y (x - \mu_x)(y - \mu_y \, f(x,y)$
+        \item Alternate calculation for covariance: $\cov{X,Y} = E(XY) - E(X) \cdot E(Y)$
+        \item Variance is a special case of covariance: $V(X) = \cov{X,X}$
+        \item Order in covariance does not matter (i.e. symmetric): $\cov{X,Y} = \cov{Y,X}$
+        \item Covariance of a random variable and a constant is zero: If $c$ is a constant, then $\cov{X,c} = 0$
+        \item Can factor out coefficients in covariance: $\cov{aX,bY} = ab \cdot \cov{X,Y}$
+        \item Can factor out coefficients, but added constants disappear: $\cov{aX + c,bY + d} = ab \cdot \cov{X,Y}$
+        \item Distributive property of covariance: $\cov{X, Y + Z} = \cov{X,Y} + \cov{X,Z}$
+        \item Independence and covariance theorem: If $X \ind Y$ then $\cov{X,Y} = 0$
+\end{itemize}\bigskip
+
+Correlation definition and properties
+\begin{itemize}
+    \item Definition: $\displaystyle \rho_{XY} = \corr{X,Y} = \frac{\cov{X,Y}}{\sqrt{V(X) V(Y)}} = \frac{\cov{X,Y}}{\sigma_X \sigma_Y}$
+    \item Theorem: For any random variable $X$ and $Y$,
+    \begin{enumerate}[i)]
+        \item $-1 \le \rho_{XY} \le 1$ 
+        \item $\rho_{XY} = 1$ if and only if there exist numbers $a > 0$ and $b$ such that $P(Y = aX + b) = 1$.
+        \item $\rho_{XY} = -1$ if and only if there exist numbers $a < 0$ and $b$ such that $P(Y = aX + b) = 1$. 
+        \item When $\rho_{XY} = 0$, $X$ and $Y$ are uncorrelated.
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Variance of $X + Y$
+\begin{itemize}
+    \item Theorem: Variance of a sum of two random variables
+    \item[] $V(X + Y) = V(X) + V(Y) + 2 \,\cov{X,Y}$
+    \item[] If $X \ind Y$, then $V(X + Y) = V(X) + V(Y)$
+\end{itemize}\bigskip
+
+\newpage
+
+{\large \bu{Lecture 17 -- Several Random Variables}} (5.3 and 5.4)\bigskip
+
+Definitions and theorems
+\begin{itemize}
+    \item Joint distributions
+    \begin{itemize}
+        \item Discrete definition: If $\mathbf{X} = (\vecn{X}{n})$ a discrete random vector (the range is countable), then the joint pmf of $\mathbf{X}$ is the function defined by
+        \item[] $f(\mathbf{x}) = f(\vecn{x}{n}) = P(X_1 = x_1, \ldots, X_n = x_n) \text{ for each } (\vecn{x}{n}) \in \mathbb{R}^n$
+        \item[] Then for any $A \subset \mathbb{R}^n$,
+        \item[] $\displaystyle P(\mathbf{X} \in A) = \sum_{\mathbf{x} \in A} f(\mathbf{x})$
+        \item Continuous definition: If $\mathbf{X} = (\vecn{X}{n})$ a continuous random vector, then the joint pdf of $\mathbf{X}$ is the function $f(\mathbf{x}) = f(\vecn{x}{n})$ that satisfies
+        \item[] $P(\mathbf{X} \in A) = \int \cdots \integral{A}{}{f(\mathbf{x})}{\mathbf{x}} = \int \cdots \int_A f(\vecn{x}{n}) \mathrm{d}x_1\cdots \mathrm{d}x_n$
+    \end{itemize}
+    \item Expected values: Let $g(\mathbf{x})$ be a real-valued function defined on the range of $\mathbf{X}$. The expected value of $g(\mathbf{X})$ is\\
+    \begin{tabular}{c c c c}
+        & \ul{Discrete} & \ul{Continuous}\\
+        $E[g(\mathbf{X})] = $ & $\displaystyle \sum_{\mathbf{x} \in \mathbb{R}^n} g(\mathbf{x}) f(\mathbf{x})$ & $\displaystyle \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} g(\mathbf{x}) f(\mathbf{x}) \mathrm{d}x_1\cdots \mathrm{d}x_n$\\
+    \end{tabular}\bigskip
+    \item Marginal distributions: The marginal pdf or pmf of any subset of the coordinates of $(\vecn{X}{n})$ can be computed by integrating or summing the joint pdf or pmf over all possible values of the other coordinates.
+    \item Conditional distributions: The conditional pmf or pdf of a subset of the coordinates of $(\vecn{X}{n})$ given the value of the remaining coordinates is obtained by dividing the joint pdf or pmf by the marginal pdf or pmf of the remaining coordinates.
+\end{itemize}\bigskip
+
+Independence
+\begin{itemize}
+    \item Definition: Let random variables $\vecn{X}{n}$ have joint pdf (or pmf) $f(\vecn{x}{n})$ and let $f_{X_i}(x_i)$ be the marginal pdf (or pmf) of $X_i$. Then $\vecn{X}{n}$ are mutually independent random variables if, for every $(\vecn{x}{n})$, the joint pdf (or pmf) can be written as
+    \item[] $\displaystyle f(\vecn{X}{n}) = f_{X_1}(x_1) \cdots f_{X_n}(x_n) = \prod_{i = 1}^n f_{X_i}(x_i)$
+    \item Conditional distributions: If $\vecn{X}{n}$ are mutually independent, the conditional distribution of any subset of the coordinates, given the values of the rest of the coordinates, is the same as the marginal distribution of the subset.
+    \item Expected value: Let $\vecn{X}{n}$  be mutually independent random variables. Let $\vecn{g}{n}$ be real-valued functions such that $g_i(x)$ is a function only of $x_i$, $i = 1, \dots, n$. Then
+    \item[] $\displaystyle E[g_1(X_1) \cdots g_n(X_n)] = \prod_{i = 1}^n E[g_i(x_i)]$
+\end{itemize}\bigskip
+
+\newpage
+
+Linear functions of random variables
+\begin{itemize}
+    \item Definition: A linear function of random variables consists of $n$ random variables $\vecn{X}{n}$ and $n$ coefficient $\vecn{a}{n}$
+    \item[] $\displaystyle a_1 X_1 + a_2 X_2 + \cdots + a_n X_n = \sum_{i = 1}^n a_i X_i$
+    \item Expected value of a linear function of random variables
+    \item[] $E[a_1 X_1 + a_2 X_2+ \cdots + a_n X_n] = a_1 E(X_1) + a_2 E(X_2) + \cdots + a_n E(X_n)$
+    \item Variance of a linear function of random variables
+    \item[] $\displaystyle V[a_1 X_1 + a_2 X_2+ \cdots + a_n X_n] = \sum_{i = 1}^n a_i^2 V(X_i) + 2 \sum_{i < j} a_i a_j \cov{X_i,X_j}$
+    \item[] If $\vecn{X}{n}$ are mutually independent,
+    \item[] $\displaystyle V[a_1 X_1 + a_2 X_2+ \cdots + a_n X_n] = \sum_{i = 1}^n a_i^2 V(X_i)$
+\end{itemize}\bigskip
+
+Mgf of sums of independent random variables
+\begin{itemize}
+    \item Theorem: Let $\vecn{X}{n}$ be mutually independent random variables with mgfs $M_{X_1}(t), \ldots, M_{X_n}(t)$. Let $Y = X_1 + \cdots + X_n$.
+    \item[] $\displaystyle M_Y(t) = M_{X_1 + \cdots + X_n}(t) = M_{X_1}(t) \cdots M_{X_n}(t) = \prod_{i = 1}^n M_{X_i}(t)$
+    \item[] If $\vecn{X}{n}$ all have the same distribution with mgf $M_X(t)$, then
+    \item[] $M_Y(t) = \big[M_X(t)\big]^n$
+\end{itemize}\bigskip
+
+Sums of linear combinations of random variables
+\begin{itemize}
+     \item Theorem: Let $\vecn{X}{n}$ be mutually independent random variables with mgfs $M_{X_1}(t), \ldots, M_{X_n}(t)$. Let $\vecn{a}{n}$ and $\vecn{b}{n}$ be fixed constants. Let $Y = (a_1 X_1 + b_1) + \cdots + (a_n X_n + b_n)$. Then the mgf of $Y$ is
+     \item[] $M_Y(t) = \big(\e^{t \sum b_i}\big) M_{X_1}(a_1 t) \cdots M_{X_n}(a_n t)$
+     \item Sum of linear function of normals theorem: Let $\vecn{X}{n}$ be mutually independent random variables with $X_i \follow{Normal}(\mu_i, \sigma_i^2)$. Let $\vecn{a}{n}$ and $\vecn{b}{n}$ be fixed constants. Then,
+     \item[] $\displaystyle Y =\sum_{i = 1}^n (a_i X_i + b_i) \follow{Normal}\bigg(\mu = \sum_{i = 1}^n (a_i \mu_i + b_i), \, \sigma^2 = \sum_{i = 1}^n a_i^2 \sigma_i^2\bigg)$
+\end{itemize}
+     
+\newpage
+
+{\large \bu{Distributions}}\bigskip
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline\hline
+    \multicolumn{2}{l}{\hspace{150pt}\textbf{Discrete Distributions}}\\
+    \hline\hline
+    
+    \multicolumn{2}{l}{\textbf{Discrete uniform}$\,(N_0, N_1)$} \\
+    Pmf & $P(X = x \mid N_0, N_1) = \frac{1}{N_1 - N_0 + 1}; \quad\quad x = N_0, \ldots, N_1; \quad\quad N_0 \le N_1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{N_0 + N_1}{2}$, \quad\quad $V(X) = \frac{(N_1 - N_0 + 1)^2 -1}{12}$\\
+    Mgf & $M_X(t) = \frac{1}{N_1 - N_0 + 1} \sum_{x = N_0}^{N_1} \e^{tx}$\\
+    Notes & \\
+        
+    \hline
+    \multicolumn{2}{l}{\textbf{Bernoulli}$\,(p)$} \\
+    Pmf & $P(X = x \mid p) = p^x (1 - p)^{1 - x}; \quad\quad\mbox{$x = 0, 1$; \quad\quad 0 < p < 1}$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = p$, \quad\quad $V(X) = p(1 - p) = pq$ \\
+    Mgf & $M_X(t) = (1 - p) + p\e^t = q + p\e^t$\\
+    Notes & Special case of binomial with $n = 1$.\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Binomial}$\,(n, p)$} \\
+    Pmf & $P(X = x \mid n, p) = {n \choose x}\, p^x\, (1 - p)^{n - x}; \quad\quad x = 0, 1, \ldots, n; \quad\quad  0 < p < 1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = np$, \quad\quad $V(X) =  np(1 - p) = npq$ \\
+    Mgf & $M_X(t) = (q + p\e^t)^n$\\
+    Notes & Sum of \textit{iid} bernoulli RVs. \\
+    \hline
+    
+    \multicolumn{2}{l}{\textbf{Geometric}$\,(p)$} \\
+    Pmf & $P(X = x \mid p) = q^{x - 1} \, p; \quad\quad x = 1, 2, \ldots; \quad\quad 0 < p < 1$ \\
+    Cdf & $F_X(x \mid p) = 1 - q^x$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{1}{p}$, \quad\quad $V(X) = \frac{1 - p}{p^2} = \frac{q}{p^2}$ \\
+    Mgf & $M_X(t) = \frac{p\e^t}{1 - q\e^t}; \quad\quad t < -\ln(q)$\\
+    Notes & \Centerstack[l]{Special case of negative binomial with $r = 1$. \\ * See other geometric probabilities. \\ Alternate form $Y = X - 1$. \\ This distribution is \textit{memoryless}: $P(X > s \mid X > t) = P(X > s - t); \quad\quad s > t$.} \\
+    \hline
+\end{tabular}
+}\bigskip
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline
+    \multicolumn{2}{l}{\textbf{Negative binomial}$\,(r, p)$} \\
+    Pmf & $P(X = x \mid r, p) = P(X = x \mid r, p) = {{x - 1} \choose {r - 1}} \, p^r \, q^{x - r}; \quad\quad x = r, r + 1, \ldots; \quad\quad 0 < p < 1$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{r}{p}$, \quad\quad $V(X) = \frac{r(1 - p)}{p^2} = \frac{rq}{p^2}$ \\
+    Mgf & $M_X(t) = \big[\frac{p\e^t}{1 - q\e^t}\big]^r; \quad\quad t < -\ln(q)$\\
+    Notes & Sum of \textit{iid} geometric RVs.\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Hypergeometric}$\,(N, M, K)$} \\
+    Pmf & $P(X = x \mid r, p) = P(X = x \mid N, M, K) = \frac{{M \choose x}{{N - M} \choose {K - x}}}{{N \choose K}}; \quad\quad x = 0, 1, \ldots, \text{min}(M, K)$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = K \big(\frac{M}{N}\big)$, \quad\quad $V(X) = K \big(\frac{M}{N}\big) \big(\frac{N - M}{N}\big) \big(\frac{N - K}{N - 1}\big)$ \\
+    Mgf & \\
+    Notes & \Centerstack[l]{If do not require $M \ge K$, ${\cal X} = \{\text{max}(0, K + M - N), \ldots, \text{min}(M, K)\}$, \\ mean and variance converge to that of binomial $(n = K, p = M / K)$ when $N \to \infty$.}\\
+
+    \hline
+    \multicolumn{2}{l}{\textbf{Poisson}$\,(\lambda)$} \\
+    Pmf & $P(X = x \mid \lambda) = \frac{\e^{-\lambda} \lambda^x }{x!}, \quad\quad x = 0, 1, 2, \ldots; \quad\quad \lambda > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \lambda$, \quad\quad $V(X) = \lambda$ \\
+    Mgf & $M_X(t) = \e^{\lambda (\e^t - 1)}$\\
+    Notes & If $X_i \followsp{\ind}{Poisson}(\lambda_i)$, then $\sum X_i  \sim \text{Poisson}(\lambda = \sum \lambda_i)$. \\
+    \hline
+\end{tabular}
+}\vspace{100pt}
+
+Other geometric probabilities
+\begin{itemize}
+    \item Let $X \sim \text{Geometric}(p)$.\bigskip\\
+    {\renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{l l l}
+    $P(X < \infty)$ & $=$ & $1$ \\
+    $P(X > x)$ & $=$ & $q^x$\\
+    $P(X \ge x)$ & $=$ & $q^{x - 1}$\\
+    $P(a < X \le b)$ & $=$ & $q^a - q^b$\\
+    $P(a \le X \le b)$ & $=$ & $q^{a - 1} - q^b$
+    \end{tabular}
+    }
+\end{itemize}\vspace{100pt}
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline\hline
+    \multicolumn{2}{l}{\hspace{150pt}\textbf{Continuous Distributions}}\\
+    \hline\hline
+
+    \multicolumn{2}{l}{\textbf{Continuous uniform}$\,(a, b)$} \\
+    Pdf & $f(x \mid a, b) = \frac{1}{b - a}, \quad\quad a \le x \le b; \quad\quad a, b \in \mathbb{R}, \quad\quad a \le b$ \\
+    Cdf & $F(x) = \frac{x - a}{b - a} \quad\quad a \le x \le b$ \\
+    Survival & $S(t) = \frac{b - t}{b - a} \quad\quad a \le t \le b$ \quad\quad if $T \follow{Uniform}(a, b)$\\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{a + b}{2}$; \quad\quad $V(X) = \frac{(b - a)^2}{12}$\\
+    Mgf & $M_X(t) = \frac{\e^{tb} - \e^{ta}}{t(b - a)} \quad\quad t \ne 0$\\
+    Notes & \\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Exponential}$\,(\lambda)$} \\
+    Pdf & $f(t \mid \lambda) = \lambda \e^{-\lambda t}, \quad\quad t \ge 0; \quad\quad \lambda > 0$ \\
+    Cdf & $F(t) = 1 - \e^{-\lambda t} \quad\quad t \ge 0$ \\
+    Survival & $S(t) = \e^{-\lambda t} \quad\quad t \ge 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{1}{\lambda}$; \quad\quad $V(X) = \frac{1}{\lambda^2}$\\
+    Mgf & $M_X(t) = \frac{\beta}{\beta - t} \quad\quad t < \beta$; \quad\quad if $T \follow{Exp}(\beta)$\\
+    Notes & \Centerstack[l]{Special case of gamma with $\alpha = 1, \beta$. \\ This distribution is \textit{memoryless}: $P(T > a + b \mid T > a) = P(T > b); \quad\quad a,b > 0$. \\ Rate parameterization is given; alternate parameterization is with scale $\theta = 1 / \lambda$.} \\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Gamma}$\,(\alpha, \beta)$} \\
+    Pdf & $f(x \mid \alpha, \beta) = \frac{\beta^\alpha}{\gam{\alpha}} \, x^{\alpha - 1} \, \e^{-\beta x}, \quad\quad x \ge 0; \quad\quad \alpha, \beta > 0$ \\
+    Cdf & N/A \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{\alpha}{\beta}$ \quad\quad $V(X) = \frac{\alpha}{\beta^2}$\\
+    Mgf & $M_X(t) = \big(\frac{\beta}{\beta - t}\big)^\alpha \quad\quad t < \beta$\\
+    Notes & \Centerstack[l]{$\gam{\alpha} = \integral{0}{\infty}{x^{\alpha - 1}\, \e^{-x}}{x}$\\Sum of \textit{iid} exponential RVs. \\ A special case is exponential $(\alpha = 1, \beta)$. \\ Rate parameterization is given; alternate parameterization is with scale $\theta = 1 / \beta$.}\\
+    
+   \hline
+    \multicolumn{2}{l}{\textbf{Normal}$\,(\mu, \sigma^2)$} \\
+    Pdf & $f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \, \exp\big[-\frac{(x - \mu)^2}{2\sigma^2}\big], \quad\quad -\infty < x < \infty; \quad\quad -\infty < \mu < \infty, \quad \sigma > 0$ \\
+    Cdf & N/A \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \mu$, \quad\quad $V(X) = \sigma^2$\\
+    Mgf & $M_X(t) = \exp\big[\mu t + \frac{\sigma^2 t^2}{2}\big]$\\
+    Notes & Special case: Standard normal $Z \follow{Normal}(\mu = 0, \sigma^2 = 1)$.\\
+    \hline
+\end{tabular}
+}\bigskip
+
+
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{l l}
+    \hline
+    \multicolumn{2}{l}{\textbf{Lognormal}$\,(\mu, \sigma^2)$} \\
+    Pdf & $f(y \mid \mu, \sigma^2) = \frac{1}{y \sqrt{2 \pi \sigma^2}} \, \exp\big[-\frac{(\ln(y) - \mu)^2}{2\sigma^2}\big]; \quad\quad  y \ge 0; \quad\quad -\infty < \mu < \infty; \quad\quad \sigma > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(Y) = \e^{\mu + \frac{\sigma^2}{2}}$, \quad\quad $V(Y) = \e^{2\mu + \sigma^2} (\e^{\sigma^2} - 1)$ \\
+    Mgf & \\
+    Notes &  \Centerstack[l]{If $Y \follow{Lognormal} \Longrightarrow \ln(Y) \follow{Normal}(\mu, \sigma^2)$;\\equivalently, if $X \follow{Normal}(\mu, \sigma^2)$ and $Y = \e^X \Longrightarrow Y \follow{Lognormal}$.\\$\mu$ and $\sigma^2$ represent the mean and variance of the normal random variable $X$ which appears in the exponent.}\\
+    
+    \hline
+    \multicolumn{2}{l}{\textbf{Beta}$\,(\alpha, \beta)$} \\
+    Pdf & $f(x \mid \alpha, \beta) = \frac{1}{\Beta{\alpha}{\beta}} \, x^{\alpha-1} (1 - x)^{\beta-1}; \quad\quad  0  \le x \le 1; \quad\quad \alpha, \beta > 0$ \\
+    \Centerstack[l]{Mean and \\ Variance} & $E(X) = \frac{\alpha}{\alpha + \beta}$, \quad\quad $V(X) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}$ \\
+    Mgf & \\
+    Notes & \Centerstack[l]{$\Beta{\alpha}{\beta} = \integral{0}{1}{x^{\alpha-1} (1 - x)^{\beta-1}}{x} = \frac{\gam{\alpha}\gam{\beta}}{\gam{\alpha + \beta}}$}\\
+
+    \hline
+\end{tabular}
+
+
+
+\end{document}

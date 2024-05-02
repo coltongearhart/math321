@@ -1,0 +1,248 @@
+---
+title: "Lecture / R Notes 3-1 -- Working with Data STARTER"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    df-print: kable
+execute: 
+  warning: false
+  message: false
+---
+
+## Overview
+
+The goal of these notes is to demonstrate common data manipulation tasks using packages from the **tidyverse**, with a focus on **dplyr**.
+
+```{r}
+
+# load packages
+library(tidyverse)
+
+```
+
+## Data analysis 1
+
+We will be working with hypothetical student grade data `data-grades.csv`, which contains information on two test scores from students of multiple sections for a single professor, and enrollment data `data-majors.csv`, which has the students major.
+
+To read in the data, first download it from Canvas and then change the path in the `read_csv()` statement above to where you have saved the data relative to the location of the your homework file. 
+
+```{r}
+
+# load data
+data_raw <- read_csv(file = "files/data/data-grades.csv")
+data_majors <- read_csv(file = "files/data/data-majors.csv")
+
+# preview data
+glimpse(data_raw)
+glimpse(data_majors)
+
+```
+
+Now we will go through steps to clean, organize and analyze these the test scores.
+
+### Data manipulations
+
+The goal is to have a single dataset with the following columns:
+
+- `ID`
+- `Student`: just two initials
+- `Major`
+- `Class`: 1 or 2
+- `Test_1`: % out of 100
+- `Test_2`: % out of 100
+
+1. For the grades data, we need to split the current student column into two variables, one of their initials and one for the class they are in. Use `tidyr::separate_wider_delim()` to do so.
+
+```{r}
+
+# separate Student into initials and class
+data_grades <- data_raw %>% 
+  separate_wider_delim(cols = Student, delim = "-", names = c("Student", "Class"))
+
+```
+
+2. Convert the test scores to percentages (Test 1 is out of 30 points and Test 2 is out of 70 points). Use `mutate()` to do transformations.
+
+```{r}
+
+# convert test grades to %
+# -> Test 1 = points out of 30
+# -> Test 2 = points out of 70
+
+
+```
+
+3. Combine grades data and majors data and then sort alphabetically by student initials within each class. Use `arrange()` to sort the data.
+
+```{r}
+
+# combine grades data and majors data
+# then sort by name within class
+
+
+```
+
+### Visualize data
+
+Now that the data is cleaned and organized, lets visualize the Test 1 scores to start with. 
+
+Create two polished plots to visualize Test 1 scores, at least one of which should include a class comparison or major comparison.
+
+```{r}
+
+
+```
+
+### Summarize data
+
+Now that we have an idea of the distributions for Test 1, let's summarize them, specifically we want to create an overall summary and a summary by class.
+
+1. Create a test 1 dataset that contains only the Class, Student initials and Test 1 score. Use `select()` to select specific columns.
+
+```{r}
+
+# create test 1 dataset
+
+
+```
+
+2. Create an object named `data_summary_overall` that summarizes Test 1 scores with the sample size, average and standard deviation. Then add an indicator column and rearrange the columns. Use `summarize()` to aggregate the data.
+
+```{r}
+
+#  aggregate and organize data
+
+
+```
+
+3. Create another object called `data_summary_section` that performs the same summary functions the previous step, except by Class. To do this, add `.by = ` argument to aggregate data within another variable.
+
+```{r}
+
+# summarize data by class
+
+
+```
+
+4. Combine the overall summary with the class summary rowwise using `bind_rows()`.
+
+```{r}
+
+# combine overall summary with class summary
+
+
+```
+
+## Data analysis 2
+
+Now we will work with the `shuffled-playlist-clean.csv` data, which contains information about songs in a Spotify playlist. Lets read in and preview the data.
+
+```{r}
+
+# load data
+data_music <- read_csv(file = "files/data/shuffled-playlist-clean.csv")
+
+# preview data
+head(data_music)
+
+```
+
+Now we will ask several questions about the music dataset that can be answered by working with the data.
+
+### Summarize data
+
+For each of the following questions, use pipes `%>%` (or a series of pipes) to display a mini-dataframe that answers the question (there is no need to save the results into an object).
+
+1. What song has the highest `valence` score? Display only the categorical information about the song (i.e. artist, album, genre, name) and its respective valence score. *HINT: use a `select()` statement in conjunction with `where()` to display only the character variables.*
+
+```{r}
+
+# determine song with highest valence score
+
+
+```
+    
+2. What is the average energy for hip hop songs?
+
+```{r}
+
+# determine average energy for hip hop songs
+
+
+```
+    
+3. What percentage of songs in the data are by the artist Dessa?
+
+```{r}
+
+# determine percentage of songs that are by the artist Dessa
+
+
+```
+
+### Grouped and specific summaries
+
+1. Calculate the average `energy`, `tempo` and `loudness` for each `genre`. First do this by having a separate `mean(< variable >)` statement for each.
+
+```{r}
+
+# summarize a few music measures by genre
+data_music %>% 
+  summarize(.by = genre,
+            avg_energy = mean(energy),
+            avg_tempo = mean(tempo),
+            avg_loudness = mean(loudness))
+
+```
+
+2. Now repeat the calculation using `across()`, which allows us to apply the same function to a set of variables. This is much less cumbersome than typing each mean statement out like before.
+
+```{r}
+
+# use summarize() to aggregate data with across() to specify the list of variables
+data_music %>% 
+  summarize(.by = genre,
+            across(c(energy, tempo, loudness), mean))
+
+```
+
+3. Use the same technique as above to calculate the mean of all numeric variable by `genre`. *HINT: Use `across()` in conjunction with `where()`.*
+
+```{r}
+
+
+
+
+```
+
+4. Determine which pop song is the most danceable (highest danceability). Display only the categorical information about the song and its respective danceability score. *HINT: Think about the series of pipes that we need to do.*
+
+```{r}
+
+# find the most danceable pop song and only display the needed info
+
+
+
+```
+
+5. Use the same strategy as 5 to determine which which Adele song has the lowest energy.
+
+```{r}
+
+# find minimum energy within Adele songs
+
+
+
+```
+
+6. CHALLENGE: Find the artists with the lowest average acousticness for each genre.
+
+```{r}
+
+# find the artists with the lowest average acousticness for each genre
+
+
+
+```

@@ -1,6 +1,5 @@
 .Rproj.user
 .Rhistory
-.RData
 .Ruserdata
 .DS_Store
 
@@ -13,6 +12,3 @@
 *.stc2
 *.stc3
 *.stc4
-
-test*.tex
-test*.pdf

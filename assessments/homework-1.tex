@@ -1,0 +1,91 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\chisq}{\raisebox{2pt}{$\chi^2$}}		% shortcut for chi-square distribution (better formatted chi letter in math mode with square added)
+\newcommand{\ind}{\perp \!\!\! \perp}			% define independence symbol (it basically makes two orthogonal symbols very close to each other. The number of \! controls the space between each of the orthogonal symbols)
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Homework 1}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due} \blankul{4cm}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) normal sample mean probability, population probability, using normal prob in a binomial dist prob, sample variance (chi-square) prob
+% 2) finding distributions of F and then probabilities
+% 3) finding F probabilities
+% 4) R simulation
+
+\begin{enumerate}
+
+    \item Entrance exam scores of students at a certain college, $X$, are normally distributed with \\ $X \follow{N}(\mu = 1300, \sigma^2 = 2500)$. Suppose an admissions officer selects a random sample of 30 students at this college and checks their entrance exam scores.%Lazar HW 2 AQ 6
+    \begin{enumerate}
+        \item If $\bar{X}$ is the sample mean of the 30 exam scores, find the distribution of $\bar{X}$.
+        \item Find $P(1290 \le \bar{X} \le 1310)$.%part b
+        \item Find $P(X \le 1230)$.%Original addition (to make next part easier)
+        \item Let $Y$ be the number of random variables (exam scores) in the sample that have values of at most 1230. Find the probability that less than 5 of the random variables in the sample have scores of at most 1230, that is, $P(Y < 5)$.%like part a, but broken up like AQ 8 III and IV
+        \item[] \textit{HINT: Think of $P(X \le 1230)$ as a success probability, and the result of checking this is for each random variable is either a success or failure.} 
+        \item Let $S^2$ be the sample variance of the 30 exam scores. Find $P(S^2 > 2000)$.%like part c, but simpler
+        \item[] \textit{HINT: Think about how to get the random variable of interest to follow a distribution we know.} 
+    \end{enumerate}\bigskip
+
+    \item Let $X_1 \follow{\chisq}(10)$ and $X_2 \follow{\chisq}(13)$ and $X_1 \ind X_2$.%Original question
+    \begin{enumerate}
+        \item Let $\displaystyle Y_1 = \frac{X_1 / 10}{X_2 / 13}$. Find the distribution of $Y_1$ and $P(Y_1 > 5)$.
+        \item Let $Y_2 = 1/Y_1$. Find the distribution of $Y_2$ and the $IQR$ of $Y_2$.
+    \end{enumerate}\bigskip
+        
+    \item Suppose we take independent random samples of sizes $n_1 = 6$ and $n_2 = 10$ from two normal populations with equal population variances ($\sigma_1^2 = \sigma_2^2)$. Let $S_1^2$ and $S_2^2$ be the sample variances from populations 1 and 2, respectively.%Math stats with apps 7.27
+    \item[] Find $P(S_1^2 / S_2^2 > 2)$.
+    
+    \newpage
+    
+    \item \textbf{R simulation}: We are going to simulate a sampling distribution for a statistic and estimate some probabilities using empirical methods.
+    \item[] \textbf{Guidelines}: Complete each of the following steps for the following pairs of distribution and statistic: 1) Gamma distribution and median and 2) Your choice (be creative!). For example, Binomial / sample variance or $\chisq$ / minimum.
+    \begin{enumerate}
+        \item Plot the population distribution of interest that you will be sampling from.
+        \item Generate $i = 10,000$ random samples of size $n = 30$ from the population distribution.
+        \item Calculate the sample statistic $Y = T(\vecn{X}{30})$ for each of the random samples.
+        \item Plot a histogram of the simulated sampling distribution of $Y$.
+        \item Calculate $\hat{\mu}_Y$ and $\hat{\sigma}_Y$, the estimated mean and standard deviation of the sampling distribution of the sample statistic based on the simulated results, respectively.
+        \item Calculate the estimated probability the sample statistic is within two standard deviations of its mean: \\$P(\hat{\mu}_Y - 2\hat{\sigma}_Y < Y < \hat{\mu}_Y + 2\hat{\sigma}_Y)$.
+    \end{enumerate}
+    \item[] \textbf{Restrictions}: Do not use the normal distribution or the sample mean $\bar{X}$.
+    \item[] \textbf{Submission}: This problem will be worth 15 of the 30 points. Please submit your completed version of the starter .qmd file on canvas and rendered .html file.
+\end{enumerate}\vspace{100pt}
+
+Select answers\bigskip
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item 
+        \item $P(1290 \le \bar{X} \le 1310) \approx 0.7267$
+        \item $P(X \le 1230) \approx 0.0808$
+        \item $P(Y < 5) \approx 0.9097$
+        \item $P(S^2 > 2000) \approx 0.7673$
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}
+        \item $P(Y_1 > 5) \approx 0.0042$
+        \item $IQR \text{ of } Y_2 \approx 0.8639$
+    \end{enumerate}
+    
+    \item $P(S_1^2 / S_2^2 > 2) \approx 0.1727$
+    
+    \item 
+            
+\end{enumerate}
+
+\end{document}

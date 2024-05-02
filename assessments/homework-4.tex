@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$ before parameters would go
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\e}{\mathrm{e}}		% shortcut for non-italic e in math mode
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Homework 4}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due} \blankul{4cm}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary (NOTE some problems solutions are worked out in the book, so maybe move to notes next time and have new ones from the various problem sets)
+% 1) two parameter MME for gamma
+% 2) MLE for poisson using invariance property
+% 3) MLE and MME for easy pdf
+% 4) MLE for uniform (by logic), expected value of order stat and make new unbiased estimator
+
+\begin{enumerate}
+    \item Let $X \follow{Gamma}(\alpha, \beta)$. Find the MMEs for $\alpha$ and $\beta$.\bigskip%Lazar problem 6.4-5 / Prob and stat inference (page 263) 
+    
+    \item Let $\vecn{X}{n} \followsp{iid}{Poisson}(\lambda)$. Find the MLE for $P(X = 0)$.\bigskip%Math and stat with apps problem 9.80 part d (not broken out to find mle of lambda first)
+    
+    \item Let $\vecn{X}{n}$ be a random sample from $f(x \mid \theta) = \theta x ^{\theta - 1} \quad 0 < x < 1, \, 0 < \theta < \infty$.
+    \begin{enumerate}
+        \item Find the MLE for $\theta$.%Prob and stat inference problem 6.4-8
+        \item Find the MME for $\theta$. %Prob and stat inference example 6.4-6
+    \end{enumerate}\bigskip
+    
+    \item Let $\vecn{X}{4} \followsp{iid}{(continuous) Uniform}(0, \theta), \quad 0 < \theta < \infty$.%Prob and stat inference example 6.4-4 (and Lazar problem 6.4-4 and theory lecture 6-2 page 2 --> although technically have indicator function, which is why we can't take derivative. notes in handbook as to why this is there (not needed for this class); technically a restricted range mle
+    \begin{enumerate}
+        \item Find the MLE for $\theta$. We are going to ``logic'' our way to this MLE (without taking any derivatives).
+        \item[] Find the likelihood function like usual. Then think about what the range of $\theta$ must be if we actually have collected data (say $\mathbf{x} = \{0.5, 0.1, 2, 3\}$). Then sketch a plot of the likelihood, and it should be clear what the MLE is :)
+        \item Show that $\hat{\theta}_{MLE}$ is a biased estimator of $\theta$.
+        \item Find an unbiased estimator of $\theta$ as a function of $\hat{\theta}_{MLE}$. 
+    \end{enumerate}
+    
+\end{enumerate}
+
+\vspace{100pt}
+
+Select answers\bigskip
+\begin{enumerate}
+    \item $\displaystyle \hat{\alpha} = \frac{\bar{X}^2}{v}$ and $\displaystyle \hat{\beta} = \frac{\bar{X}}{v}$
+    
+    \item $MLE = \e^{-\bar{X}}$
+    
+    \item 
+    \begin{enumerate}
+        \item $\displaystyle MLE = \frac{-n}{\sum \ln(X_i)}$
+        \item $\displaystyle MME  = \frac{\bar{X}}{1 - \bar{X}}$
+    \end{enumerate}
+    
+    \item
+    \begin{enumerate}
+        \item 
+        \item 
+        \item 
+    \end{enumerate}    
+                
+\end{enumerate}
+
+\end{document}

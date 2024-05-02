@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\order}[2]{#1_{(#2)}}		% shortcut for order stat notation X_{(j)} (random variable and subscript variable)
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: Homework 2}
+\end{center}
+
+\bigskip\bigskip
+
+{\large \textbf{Due} \blankul{4cm}: Turn in a hard copy, neat and stapled.}\bigskip
+
+% problem types summary
+% 1) cdf and pdf of middle order stats, expected value of "position" of order stats 
+% 2) order stat probabilities (finding cdf first)
+% 3) extreme order stat prob and expected value and middle expected value
+% 4) Excel qq plots
+
+
+\begin{enumerate}
+    \item Let $\vecn{X}{9}$ be a random sample from Exponential ($\lambda = 5)$.
+    \begin{enumerate}% extension of Lazar problem 6.3-3, with some original additions
+        \item Find the cdf of $\order{X}{7}$.
+        \item Find the pdf of $\order{X}{3}$.
+    \end{enumerate}\bigskip
+     
+    \item Let $\order{X}{1}, \ldots, \order{X}{10}$ be the order statistics from a continuous distribution with \\ 70th percentile $x_{0.7} = 24.3$.
+    \item[] Determine $P(\order{X}{8} \le 24.3)$ and $P(\order{X}{3} \le 24.3)$.
+    \item[] \textit{HINT: Think about the information $x_{0.7} = 24.3$ tells us.}\bigskip
+   % \item Find $P(\order{X}{4} < 24.3 < \order{X}{7})$. COULDN'T RATIONALIZE THE GREATER THAN PART.... MAYBE ADD NEXT TIME
+    
+    \item A pharmaceutical researcher is testing the effect of a medication measured on a continuous scale. Effects from the medication are independent and have continuous uniform distributions on (3,10). The researcher randomly selects five patients to examine.
+    \begin{enumerate}%Lazar HW 4 - AQ 3
+        \item Find the probability that the smallest effect is between 3 and 5.
+        \item Find is the expected value of the smallest effect and of the second largest effect.
+        \item[] \textit{CAN USE TECHNOLOGY to solve the expected values.}
+    \end{enumerate}\bigskip
+        
+    \item \textbf{Excel q--q plots}: We are going to investigate some real data and try to figure out what potential distribution a dataset came from. Data can be found in the the starter file, which is where your work should be done as well.
+    \item[] \textbf{Guidelines}: 
+    \begin{enumerate}
+        \item Create a histogram of the data. Be sure to add axis labels and a title.
+        \item Complete discussions for (1) and (2) located in the template based on the histogram.
+        \item Create two q--q plots, one for testing for the standard normal distribution and one testing another distribution we have learned. The goal for the latter is to find the best model (or at least a better model) for the data.
+        \item[] Feel free to try several distributions (NOTE: will need to lookup the appropriate <dist>.inv() functions in Excel).
+        \item Once you are satisfied with a model, complete discussion (3) located in the starter file based on the q--q plots.
+    \end{enumerate}
+    \item[] \textbf{Submission}: This problem will be worth 15 of the 30 points. Please submit a completed version of the starter excel file.
+\end{enumerate}
+
+\newpage
+
+Select answers\bigskip
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item 
+        \item 
+    \end{enumerate}
+    
+    \item $P(\order{X}{8} \le 24.3) \approx 0.3828$ and $P(\order{X}{3} \le 24.3) \approx 0.9984$
+    
+    \item 
+    \begin{enumerate}
+        \item $P(3 \le \order{X}{1} \le 5) \approx 0.81406$
+        \item $E(\order{X}{1}) = 25/6$ and $E(\order{X}{4}) = 23/3$
+    \end{enumerate}
+    
+    \item
+                
+\end{enumerate}
+
+\end{document}

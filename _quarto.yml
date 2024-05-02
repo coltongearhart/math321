@@ -13,33 +13,31 @@ book:
 
     - part: test-1.qmd
       chapters:
-        - lecture-0.qmd
-    #     - lecture-1.qmd
-    #     - lecture-2.qmd
-    #     - lecture-3.qmd
-    #     - lecture-4.qmd
-    #     - lecture-5.qmd
-    #     - lecture-6.qmd
-    #     - review-1.qmd
-    # 
-    # - part: test-2.qmd
-    #   chapters:
-    #     - lecture-7.qmd
-    #     - lecture-8.qmd
-    #     - lecture-9.qmd
-    #     - review-2.qmd
-    #   
-    # - part: test-3.qmd
-    #   chapters:
-    #     - lecture-10.qmd
-    #     - lecture-11.qmd
-    #     - lecture-12.qmd 
-    #     - review-3.qmd
-    #     
-    # - part: test-3-after.qmd
-    #   chapters: 
-    #     - lecture-13.qmd
-    #     - review-final.qmd
+        - lecture-14.qmd
+        - lecture-15.qmd
+        - lecture-16.qmd
+        - lecture-17.qmd
+        - review-1.qmd
+
+    - part: test-2.qmd
+      chapters:
+        - lecture-1.qmd
+        - lecture-2.qmd
+        - lecture-3.qmd
+        - lecture-4.qmd
+        - review-2.qmd
+
+    - part: test-3.qmd
+      chapters:
+        - lecture-5.qmd
+        - lecture-6.qmd
+        - lecture-7.qmd
+        - review-3.qmd
+
+    - part: test-3-after.qmd
+      chapters:
+        - lecture-8.qmd
+        - review-final.qmd
 
 format:
   html:

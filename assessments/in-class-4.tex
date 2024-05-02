@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{style-assessments}
+
+% define macros (/shortcuts)
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{k}$
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+
+
+
+\begin{document}
+
+\hspace{375pt}Name:
+
+\begin{center}
+{\Huge MATH 321: In-Class 4}
+\end{center}
+
+\bigskip\bigskip
+
+% 1) Binomial given n, find MME for p and show unbiased
+% 2) MME for parameter of random pdf (find E(X) first)
+% 3) MLE broken down for Bernoulli, compute realized value for collected data, invariance property MLE
+
+
+\begin{enumerate}
+
+    \item Let $\vecn{X}{m} \followsp{iid}{Binomial}(n = 5, p)$.
+    \begin{enumerate}%Original question
+        \item Find the method of moments estimator for $p$.\vspace{60pt}
+        \item Show that $\hat{p}_{MME}$ is an unbiased estimator.\vspace{50pt}
+    \end{enumerate}
+    
+    \item Let $\vecn{X}{n}$ be a random sample from $f(x \mid \theta) = (\theta + 1) x ^{\theta}, \quad 0 < x < 1, \, \theta > -1$.%Math stats with apps problem 9.69
+    \item[] Find the MME of $\theta$.\vspace{120pt}
+    
+    \item Let $\vecn{X}{n} \followsp{iid}{Bernoulli}(p)$. We are going to find the maximum likelihood estimator for $p$.%Original question; although follows example 7.2.7 in stat inference (with notes about parameter space and special extreme values of sum xi = 0 or n, in which case their is a different likelihood function? not sure why... maybe discontinuity at those points?
+    \begin{enumerate}
+        \item Find the likelihood function and log-likelihood function for $p$.\vspace{80pt}
+        \item Optimize the log-likelihood function and solve for $\hat{p}$.\vspace{140pt}
+        \item Perform second derivative test to confirm if $\hat{p}$ is the MLE for $p$.\vspace{150pt}
+        \item Suppose we collected a random sample of size $n = 8$ and $\mathbf{x} = \{0, 1, 1, 1, 0, 1, 0, 0\}$.%idea from Lazar problem 6.4-1 part ii)
+        \item[] Compute $\hat{p}_{MLE}$.\vspace{40pt}
+        \item Now find the MLE for $V(X) = p (1 - p)$.\vspace{50pt}%Original question (like example 9.17 in math stats with apps except for bernoulli
+    \end{enumerate}
+        
+\end{enumerate}
+
+\end{document}

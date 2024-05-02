@@ -1,0 +1,8 @@
+---
+title: "Hello World!"
+format:
+  html:
+    embed-resources: true
+---
+
+![](files/images/airplane-cat.jpeg){width="281"}

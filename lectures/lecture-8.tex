@@ -1,0 +1,460 @@
+\documentclass{article}
+\usepackage{style-lectures}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[3]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Applied Linear Statistical Models: Chapters #3}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\ho}{H_0}		% shortcut for null hypothesis formatted nicely
+\newcommand{\ha}{H_A}		% shortcut for alternative hypothesis formatted nicely
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{n}$
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+
+\begin{document}
+
+\lecture{8}{Regression}{1-3}
+
+\bu{Introduction}\bigskip
+ 
+Regression overview\bigskip
+\begin{itemize}
+    \item  Goal is to determine \blankul{3cm} one variable is related to a set of other variables.
+    \item Variables
+    \begin{itemize}
+        \item Response variable, denoted $Y$, represents an outcome whose variation is being studied.
+        \item Explanatory variable, denoted $X$, represents the causes (i.e. potential reasons for variation).
+    \end{itemize}
+    \item Two types of relationships
+    \begin{itemize}
+        \item Functional (deterministic): There is an exact relation between two variables (have the form \blankul{3cm}).
+        \item Statistical (probabilistic): There is not an exact relation because there are other variables that affect the relationship (have the form \blankul{3cm}).
+    \end{itemize}
+\end{itemize}\bigskip
+
+Regression models and their uses\bigskip
+\begin{itemize}
+    \item Statistical models quantify the relationship between a response variable (i.e. a random variable) and explanatory variables, which are usually assumed to be deterministic (i.e. known exactly).
+    \item Elements of a statistical regression model
+    \begin{itemize}
+        \item In general, observations do not fall directly on the curve of a relationship.
+        \begin{itemize}
+            \item $Y \mid X$ has a probability distribution.
+            \item $E(Y \mid X)$ varies deterministically with $X$.
+            \begin{figure}[H]
+                \center\includegraphics[scale=0.4]{{"test-3-post/regression-curve"}.png}
+            \end{figure}
+        \end{itemize}
+        \item So the statistical model is:            
+        \begin{align*}
+          Y &= E(Y \mid X) + \epsilon \\
+            &= f(X) + \epsilon, \hspace{20pt} \text{where $\epsilon$ has some distribution}
+        \end{align*}
+        \item Two components of a statistical model:
+        \begin{enumerate}
+            \item $f(X) = E(Y \mid X)$: Defines relationship between $Y$ and $X$; explains the \blankul{4cm} of the response.
+            \item $\epsilon$: An element of randomness (i.e. error). This contains the \blankul{2cm} that $f(X)$ cannot explain and/or that is of no interest.
+        \end{enumerate}
+        \item This means $f(X) = E(Y \mid X)$ will be the same for all samples with the same $X$ values. The only thing that changes is the random error $\epsilon$ and as a result $Y$. Example $Y = 3 + 1X + \epsilon$:
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.4]{{"test-3-post/deterministic-vs-statistical"}.png}
+        \end{figure}
+     \end{itemize}
+  \end{itemize}\bigskip
+
+Construction of statistical regression models\bigskip
+\begin{enumerate}
+    \item Selection of predictor variables (how to decide which ones?).
+    \begin{itemize}
+        \item Use of outside information, historical knowledge, and/or experience.
+        \item Exploratory data analysis.
+        \item Variable selection techniques: Find a subset of important variables (i.e. practical and easy to find).
+    \end{itemize}  
+    \item Functional form of the regression relation (what is form of $f(X)$?).
+    \begin{itemize}
+        \item < based on same info as (1) >
+        \item If there is an abundance of data, maybe start with more complex models and then simplify.
+    \end{itemize}
+    \item Scope of model (when is the model useful?).
+    \begin{itemize}
+        \item When the model best predicts or describes the relationship between response and predictor variables.
+    \end{itemize}
+\end{enumerate}\bigskip
+    
+Uses of statistical regression models\bigskip
+\begin{enumerate}
+    \item Determining whether an $X$ ``affects'' $Y$ or not.
+    \item Estimation of impact of a given $X$ on the $Y$.
+    \item Estimation of the mean of $Y$ for a given $X$ value.
+    \item Prediction of a single value of $Y$ for a given $X$ value.
+\end{enumerate}\bigskip
+
+\begin{figure}[H]
+    \center\includegraphics[scale=0.5]{{"test-3-post/regression-flow-chart"}.png}
+\end{figure}    
+    
+\bu{Simple linear regression (SLR)}\bigskip
+
+Goal of SLR\bigskip
+\begin{itemize}
+    \item Investigate the relationship between $Y$ and a single numeric independent variable $X$, assuming that, in the population, the mean of $Y$ is linearly related to the value of $X$.
+    \item Population relationship: $Y = \beta_0 + \beta_1 X + \epsilon$.
+    \item Sample relationship: $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$.
+\end{itemize}
+
+\newpage
+
+Data structure\bigskip
+\begin{itemize}
+    \item Both $X$ and $Y$ on a random sample of $n$ individuals are collected from the population of interest. The resulting data has the form $(X_1, Y_1), \ldots, (X_n, Y_n)$.
+\end{itemize}\bigskip
+
+Model statement: $Y_i = \beta_0 + \beta_1 X_i + \epsilon_i$\bigskip
+\begin{itemize}
+    \item $Y_i$: Dependent (or response) variable value. These are independent, but not identically distributed (\blankul{5cm}).
+    \item $X_i$: Independent (or predictor) variable value. These are \textbf{not random variables}, rather \blankul{4cm}.
+    \item $\epsilon_i$: Random error term, \textbf{assumed} to have mean zero and variance $\sigma^2$. \\$\mathrm{Cov}(\epsilon_i, \epsilon_j) = \mathrm{Corr}(\epsilon_i, \epsilon_j) = 0$ for all $i,j : i \ne j$. Often, the $\epsilon_i$ are assumed to be $iid$.
+    \item $\beta_0$ and $\beta_1$: \blankul{5cm} regression parameters that need to be estimated.
+    \item $\sigma^2$: Another parameter that needs estimated, but it is technically not a ``regression'' parameter since it does not determine the relationship between $Y$ and $X$ (i.e. it only deals with randomness).
+    \item Note that $Y_i$ and $\epsilon_i$ are random variables and therefore have distributions. Thus, discussing their mean and variances are appropriate.
+\end{itemize}\bigskip
+
+Some implications of above\bigskip
+\begin{itemize}
+    \item Mean of $Y_i$ for given $X_i$ \hfill Variance of $Y_i$ for given $X_i$\vspace{50pt}
+\end{itemize}\bigskip
+
+Interpretation of regression parameters $(\beta_0, \beta_1)$\bigskip
+\begin{itemize}
+    \item $\beta_0$: $Y$-intercept of the regression line and gives $Y$'s mean when $X = 0$\vspace{20pt}
+    \item $\beta_1$: Slope of the regression line and indicates the change in $Y$'s \textbf{mean} when $X$ increases by one unit \vspace{20pt}
+    \begin{itemize}
+        \item Determines whether a relationship exists between $Y$ and $X$.
+        \item Note that regression \textbf{does not} substantiate or prove a \textbf{cause-effect} relationship. Rather it gives evidence that $Y$ and $X$ are related (but not that $X$ ``causes'' the value of $Y$).
+    \end{itemize}
+\end{itemize}\bigskip
+
+Estimation of the regression function\bigskip
+\begin{itemize}
+    \item Setup
+    \begin{itemize}
+        \item For each point we have an observed value $Y_i$, a fitted value $\hat{Y}_i$ and a residual $\hat{\epsilon}_i$.
+        \item Fitted regression function: $\hat{Y_i} = \hat{\beta}_0 + \hat{\beta}_1 X_i$, where $\hat{\beta}_0$ and $\hat{\beta}_0$ are estimators of $\beta_0$ and $\beta_1$, respectively.
+    \end{itemize}
+    \item Goal
+    \begin{itemize}
+        \item Goal is to estimate the two ``regression'' parameters $\beta_0$ and $\beta_1$.
+        \item There are several methods to do this.
+     \end{itemize}
+\end{itemize}\bigskip
+
+Method of least squares\bigskip
+\begin{itemize}
+    \item Overview
+    \begin{itemize}
+        \item For each observation $(X_i, Y_i)$, this method considers the model error term, which is the deviation of $Y_i$ from its expected value:
+        \[
+        \epsilon_i = Y_i - E(Y_i) = Y_i - (\beta_0 + \beta_1 X_i)
+        \]
+        \item Then we minimize the sum of some function of these errors:
+        \begin{align*}
+          Q &= \sum_{i = 1}^n \text{function of } \epsilon_i \\
+            &= \sum_{i = 1}^n \text{function of } \big(Y_i - E(Y_i)\big) \\
+            &= \sum_{i = 1}^n \text{function of } \big(Y_i - (\beta_0 + \beta_1 X_i)\big) \quad\quad \text{< for SLR >}
+        \end{align*}
+        \item For least squares method specifically, we consider the sum of the $n$ squared errors (deviations). Thus we have:
+        \begin{align*}
+          Q &= \sum_{i = 1}^n \epsilon_i^2 \\
+            &= \sum_{i = 1}^n (Y_i - \beta_0 - \beta_1 X_i)^2
+        \end{align*}
+        \item And the point estimators $\hat{\beta}_0$ and $\hat{\beta}_1$ are the values that achieve the minimum $Q$. These can be found analytically.
+    \end{itemize}\bigskip
+    \item Results
+    \begin{align*}
+      \text{Intercept} \hspace{10pt} \hat{\beta}_0 \hspace{10pt} &= \hspace{10pt} \frac{1}{n}\sum Y_i + \hat{\beta}_1 \frac{1}{n} \sum X_i \hspace{10pt} = \hspace{10pt} \bar{Y}- \hat{\beta}_1 \bar{X} \\
+      \text{Slope} \hspace{10pt} \hat{\beta_1} \hspace{10pt} &= \hspace{10pt} \frac{\sum X_i Y_i -\frac{1}{n} \sum X_i Y_i}{\sum X_i^2 - \frac{1}{n}(\sum X_i)^2} \hspace{10pt} = \hspace{10pt} \frac{\sum(X_i - \bar{X})(Y_i - \bar{Y})}{\sum(X_i - \bar{X})^2} \hspace{10pt} = \hspace{10pt} \frac{S_{XY}}{S_{XX}}
+    \end{align*}
+    \item Derivation\vspace{220pt}
+    \begin{itemize}
+        \item Note: We did not have to assume any distribution of the error term. These are the LSE estimators for any SLR model.\bigskip
+    \end{itemize}
+    \item Least squares estimators contain some optimal properties (Best Linear Unbiased Estimator), similar to how MLEs did.
+\end{itemize}\bigskip
+
+Residuals and estimation of the error terms variance (useful for inference on model)\bigskip
+\begin{itemize}
+    \item Residuals
+    \begin{itemize}
+        \item $\hat{\epsilon}_i = e_i = Y_i - \hat{Y}_i$: This is a known, observable estimate of the unobservable model error. Measures the deviation of the observed value from the fitted regression function.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.4]{{"test-3-post/residual"}.png}
+        \end{figure}    
+        \item Residuals are very useful for studying whether the given regression model is appropriate for the data.
+    \end{itemize}  
+    \item Error terms variance
+    \begin{itemize}
+        \item Need to estimate the variance $\sigma^2$ of the error terms $\epsilon_i$ in a regression model to get an indication of the variability of the probability distributions of $Y$.
+        \item Motivation: Very similar to variance of a single population $S^2 = \frac{\sum_{i = 1}^n (Y_i - \bar{Y})^2}{n - 1}$, except we use the residuals as the deviations because each $Y_i$ comes from a different probability distribution with different $X$ (depends on the $X_i$ level).
+    \[
+    \text{Error (residual) sum of squares} \hspace{10pt} SSE = \sum_{i = 1}^n (Y_i - \hat{Y_i})^2 = \sum_{i = 1}^n e_i^2
+    \]
+        \item Then divide by the $df = n - 2$ to the mean square (two dfs are lost when because $\beta_0$ and $\beta_1$ need to be estimated when getting the estimated means $\hat{Y_i}$).
+    \[
+\text{Error (residual) mean square} \hspace{10pt} S^2 = MSE = \frac{SSE}{n - 2} = \frac{\sum_{i = 1}^n (Y_i - \hat{Y_i})^2}{n - 2} = \frac{\sum_{i = 1}^n e_i^2}{n - 2}
+    \]
+    \item It can be shown that $MSE$ is an unbiased estimator for $\sigma^2$: $E(MSE) = \sigma^2$.
+    \item[] An estimator of the standard deviation is simply $S = \sqrt{MSE}$.
+    \end{itemize}
+\end{itemize}\bigskip
+
+Normal error regression model\bigskip
+\begin{itemize}
+    \item These assumptions on $\epsilon_i$ are needed to set up interval estimates and make tests.
+    \item The standard assumption is that the error terms are normally distributed. This greatly simplifies the theory of regression analysis and is justifiable in many real-world situations where regression analysis is applied.
+    \[
+\text{New regression model:}\hspace{20pt} Y_i = \beta_0 + \beta_1 X_i + \epsilon_i, \hspace{20pt} \text{where} \hspace{10pt} \epsilon_i \overset{iid}\sim \text{Normal}\,(0,\sigma^2)
+    \]
+    \item This model means $Y_i \overset{\perp \!\!\! \perp}\sim \text{Normal}\,$ with $E(Y_i) = \beta_0 + \beta_1 X_i$ and $V(Y_i) = \sigma^2$.
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3-post/normal-error-model"}.png}
+    \end{figure}\newpage
+    \item Justification of the normality assumption
+    \begin{itemize}
+        \item Error terms frequently represent the effects of factors omitted from the model that affect the response to some extent and that vary at random without reference to the variable $X$.
+        \item These random effects have a degree of mutual independence, the composite error term representing all these factors tends to normal as the number of factors becomes large (by the CLT).
+        \item Also, the estimation and testing procedures shown later are based on the $t$ distribution and are usually only sensitive to large departures from normality. So, unless the departures from normality are serious, particularly with respect to skewness, the actual confidence coefficients and risks of errors will be close to the levels for exact normality.
+    \end{itemize}
+\end{itemize}\bigskip
+
+Estimation of parameters by method of maximum likelihood\bigskip
+\begin{itemize}
+    \item We can also estimate the parameters $\beta_0$, $\beta_1$, and $\sigma^2$ using maximum likelihood estimation.\bigskip\\
+    \begin{tabular}{l l}
+        Parameter  & MLE\\
+        \hline
+        $\beta_0$ & $\hat{\beta}_0 \hspace{10pt}$ Same as LSE\\
+        $\beta_1$  & $\hat{\beta}_1 \hspace{10pt}$ Same as LSE\\
+        $\sigma^2$ & $\displaystyle \hat{\sigma}^2 = \frac{\sum (Y_i - \hat{Y_i})^2}{n}$\\
+    \end{tabular}\bigskip
+    \item Because of these results, $\hat{\beta}_0$ and $\hat{\beta}_1$ also possess the optimal properties of MLEs like consistency and minimum variance in the class of unbiased estimators.
+\end{itemize}\bigskip
+
+\bu{Inference}\bigskip
+
+\begin{itemize}
+    \item For the rest of this section, assume the normal error regression model from above is applicable.
+\end{itemize}\bigskip
+
+Inferences concerning $\beta_1$\bigskip
+\begin{itemize}
+    \item Overview
+    \begin{itemize}
+        \item We often want to make inferences about $\beta_1$. A common test on $\beta_1$ has the form below.
+        \item If $\beta_1 = 0$ $\Longrightarrow$ Regression line in horizontal, which means there is no linear association between $Y$ and $X$, and even more no relation of any type because all probability distributions of $Y$ are identical at all levels of $X$: normal with $E(Y) = \beta_0 + (0) X = \beta_0$ and variance $\sigma^2$.\vspace{30pt}
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.5]{{"test-3-post/zero-slope"}.png}
+        \end{figure}   
+     \end{itemize}
+     \item Sampling distribution of $\hat{\beta}_1$
+     \begin{itemize}
+         \item Refers to distribution of $\hat{\beta}_1$ from repeated sampling when the levels of the predictor variable $X$ are held constant from sample to sample.
+         \item Recall $\displaystyle \hat{\beta}_1 = \frac{\sum(X_i - \bar{X})(Y_i - \bar{Y})}{\sum(X_i - \bar{X})^2}$; this is the point estimator.
+         \item Distribution of $\hat{\beta}_1$ is Normal with mean and variance:
+         \begin{align*}
+           E(\hat{\beta}_1) &= \beta_1 \\
+           V(\hat{\beta}_1) &= \frac{\sigma^2}{\sum(X_i - \bar{X})^2}
+         \end{align*}
+         \item Then we can estimate the variance by replacing the parameter $\sigma^2$ with $MSE$, the unbiased estimator of $\sigma^2$. This gives us $S^2_{\hat{\beta}_1}$, which is an unbiased estimator for the variance of the sampling distribution of $\hat{\beta}_1$. And we can take the positive square root to give us $S_{\hat{\beta}_1}$, which is the point estimator of $\sigma_{\hat{\beta}_1}$.
+         \[S^2_{\hat{\beta}_1} = \frac{MSE}{\sum(X_i - \bar{X})^2} = \frac{MSE}{S_{XX}} \hspace{20pt} \longrightarrow \hspace{20pt} s_{\hat{\beta}_1} = \sqrt{\frac{MSE}{S_{XX}}} = \frac{S}{\sqrt{S_{XX}}}\]
+         \item Thus, $S^2_{\hat{\beta}_1}$ is an unbiased estimator for the variance of the sampling distribution of $\hat{\beta}_1$.
+     \end{itemize}
+     \item Sampling distribution of standardized $\hat{\beta}_1$: $(\hat{\beta}_1 - \beta_1) / S_{\hat{\beta}_1}$
+     \[
+      \frac{\hat{\beta}_1 - E(\hat{\beta}_1)}{SE(\hat{\beta}_1)} = \frac{\hat{\beta}_1 - \beta_1}{S_{\hat{\beta}_1}} = \frac{\hat{\beta}_1 - \beta_1}{\sqrt{MSE / S_{XX}}} \sim \text{t}\,_{n - 2}
+     \]
+\end{itemize}
+
+\newpage
+
+Tests on $\beta_1$\bigskip
+\begin{itemize}
+    \item The test shown below is called a test of utility of the model for SLR.
+    \item If reject: We conclude that $X$ does contribute information for the prediction of $Y$ when using the straight-line model.
+    \item[] If fail to reject: Then we conclude there is no linear relationship between $Y$ and $X$ (horizontal model). But keep in mind:
+    \begin{itemize}
+        \item Additional data might indicate that $\beta_1$ differs from zero.
+        \item A more complex relationship between $Y$ and $X$ may exist, which would require fitting a model other than the straight-line model.
+        \item All assumptions about the error terms ($\epsilon_i \followsp{iid}{Normal}(0,\sigma^2)$) should be satisfied.
+    \end{itemize}
+    \item Two-tailed test (most common)
+    \begin{itemize}
+        \item Hypotheses
+        \begin{align*}
+          H_0 &: \beta_1 = 0 \\
+          H_A &: \beta_1 \ne 0
+        \end{align*}
+        \item Test statistic
+        \[
+        TS = t^* = \frac{\hat{\beta}_1 - 0}{S_{\hat{\beta}_1}} = \frac{\hat{\beta}_1}{\sqrt{MSE / S_{XX}}}
+        \]
+        \item Rejection region and p-value
+        \begin{align*}
+          RR &= \{\lvert t \rvert > t_{\alpha/2, n - 2}\} \\
+          p\text{-value} &= 2 \cdot P(t_{n-2} \ge \lvert t \rvert)
+        \end{align*}
+        \item Decision
+        \begin{itemize}
+            \item Reject $H_0$ and conclude $H_A$ if $\hspace{10pt}$ $TS \in RR \hspace{10pt} \Longleftrightarrow \hspace{10pt} p\text{-value} \le \alpha$
+            \item Fail to reject $H_0$ if $\hspace{10pt}$ $TS \notin RR \hspace{10pt} \Longleftrightarrow \hspace{10pt} p\text{-value} > \alpha$
+            \item Can also look at the $100(1 - \alpha)\%$ CI for $\beta_1$ to see if contains 0.
+        \end{itemize}
+        \item Conclusion / Interpretation
+        \item[] At the $\alpha$ significance level, we < have / do not have > sufficient evidence of a significant linear relationship between < $Y$ context > and < $X$ context >. < if yes... > This is a < positive / negative > linear relationship, indicating that as < $X$ context > increases, < $Y$ context > < increases / decreases >, on average.
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+Descriptive measures of linear association between $X$ and $Y$\bigskip
+\begin{itemize}
+    \item Overview
+    \begin{itemize}
+        \item There is no one single measure to completely describe the usefulness of a regression model for a particular application.
+        \item If the goal is estimation of parameters and means and predicting new observations, usefulness of estimates or predictions depends upon the width of the interval and the user's needs for precision. This can vary from one application to another.
+        \item Rather than making inferences, goals could be to describe the degree of linear association between $Y$ and $X$.
+    \end{itemize}
+    \item \textbf{Coefficient of determination} $\boldsymbol{R^2}$
+    \begin{itemize}
+        \item A very common measure because of its simplicity is the coefficient of determination $R^2$, which is a measure of the effect of $X$ in reducing the uncertainty in predicting $Y$. This reduction in sum of squares ($SSTO - SSE = SSR$) gets expressed as a proportion:
+        \[
+        R^2 = \frac{SSR}{SSTO} = 1-\frac{SSE}{SSTO}, \hspace{20pt} \text{range:} \hspace{10pt} 0 \le R^2 \le 1
+        \]\vspace{90pt}
+        \item Interpretation: < $R^2 *100$ >\% of the variation in < $Y$ context > can be explained by the linear relationship between < $Y$ context > and < $X$ context >.
+        \begin{itemize}
+            \item So, the larger $R^2$ is, the more the total variation of $Y$ is reduced by introducing the predictor variable $X$ $\Longleftrightarrow$ greater degree of linear association between $Y$ and $X$.
+            \item Practically, this indicates the quality of the fit by measuring the proportion of variability explained by the fitted model.
+        \end{itemize}
+        \item Facts about $R^2$:
+        \begin{itemize}
+            \item $0 \le R^2 \le 1$, which ranges from horizontal regression line to perfect fit.
+            \item Usefulness in prediction: A high coefficient of determination does not necessarily indicate that useful (precise) predictions can be made.
+            \item Overfitting: $R^2$ can be artificially inflated by including additional model terms (adding extra predictors). This is because $SSR$ always increases with more predictors, even if they are completely unrelated to the response variable.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}\bigskip
+
+\bu{Diagnostics}\bigskip
+
+Overview\bigskip
+\begin{itemize}
+    \item Diagnostics are methods to check whether our model is reasonable for our data and representative of the system that we are studying (i.e. assumption checking).
+    \item Why do we need to check the model?
+    \begin{itemize}
+        \item The goal of building a model is to \textbf{learn something} about the real world or \textbf{predict outcomes} in the real world.
+    \end{itemize}
+    \item To use a model successfully, we need to know its limitations:
+    \begin{itemize}
+        \item Does it adequately describe the functional relationship of interest?
+        \item Is there reason to worry that inferences about the parameters might be flawed?
+        \item Is the error distribution appropriate?
+    \end{itemize}
+    \item All of these are checked via \textbf{residual analysis}, whose goal is to assess the aptness of a statistical model.
+    \item Why residuals? 
+    \begin{itemize}
+        \item Direct diagnostic plots for the response variable $Y$ are ordinarily not too useful in regression analysis because the response variable observations are a function of the level of predictor variable.
+        \item So, instead we look at diagnostics for $Y$ indirectly by examining the residuals.
+    \end{itemize}
+    \item For our regression model, we assume $\epsilon_i \followsp{iid}{Normal}\,(0, \sigma^2$).
+    \item[] So if the model is appropriate for the data at hand, the residuals should reflect these properties.
+\end{itemize}\bigskip
+
+\newpage
+
+Residual analysis (LINE)\bigskip
+\begin{itemize}
+    \item Linearity
+    \begin{itemize}
+        \item Can look at the scatterplot of $Y$ vs $X$ from the initial EDA to see if a linear model is appropriate:
+       \begin{figure}[H]
+            \center\includegraphics[scale=0.5]{{"test-3-post/scatterplot-y-vs-x"}.png}
+        \end{figure} 
+        \item The preferred plot is the \textbf{residual plot against the fitted values} plot.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.5]{{"test-3-post/diagnostics-linearity"}.png}
+        \end{figure}
+        \begin{itemize}
+            \item When a linear regression model is appropriate, the residuals then fall within a horizontal band centered around 0, displaying no systematic tendencies to be positive and negative (randomly scattered around 0).
+            \item When the linearity assumption is violated, there are systematic deviations.
+        \end{itemize}
+    \end{itemize}
+    \item Independence
+    \begin{itemize}
+        \item Ideally, any potential source of dependence is handled at the experimental design stage (or the sampling scheme), so that it is either eliminated by randomization or explicitly included in the data and we have one observation per subject.
+        \item There is a plot to look at this, but we will not cover it.
+    \end{itemize}\newpage
+    \item Normality
+    \begin{itemize}
+        \item Small departures from normality do not create any serious problems, but major departures should be of concern.
+        \item We can check the normality of error terms in a variety of ways:
+        \begin{itemize}
+            \item Normal probability (QQ) plot of residuals.
+            \begin{figure}[H]
+                \center\includegraphics[scale=0.5]{{"test-3-post/diagnostics-qq-plots-histograms"}.png}
+            \end{figure}
+            \item Distribution plots of residuals: Boxplots should be symmetric and histograms should be roughly normal.
+        \end{itemize}
+        \item Difficulties in assessing normality: The analysis for model departures regarding normality is often more difficult than departures of other types because...
+        \begin{itemize}
+            \item Random variation can be particularly mischievous when studying the nature of a probability distribution unless the sample size is quite large.
+            \item Even worse, other types of departures can and do affect the distribution of the residuals.
+            \item[] e.g. Residuals may appear to be not normally distributed because an inappropriate regression function is used or because the error variance is not constant.
+        \end{itemize}
+        \item So, it is usually a good strategy to investigate these other types of departures first, before assessing the normality of the error terms.
+    \end{itemize}\newpage
+    \item Equal variance
+    \begin{itemize}
+        \item We can again look at the residual plot against the fitted values.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.5]{{"test-3-post/diagnostics-nonconstant-variance"}.png}
+        \end{figure}
+        \begin{itemize}
+            \item When there is a constant error variance, points again should fall within a horizontal band. So there is a constant spread of the residuals as move across the scope of fitted (or $X$) values.
+            \item ``Tipped over tornado'' effect of the points indicates a non-constant variance (e.g. as the fitted values increase, the residuals vary more, or vice versa).
+            \item[] A nonconstant variance in called *heteroscedasticity* (the assumption is a *homoscedastic* error variance).
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\end{document}

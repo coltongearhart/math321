@@ -1,0 +1,388 @@
+\documentclass{article}
+\usepackage{style-lectures}
+
+\newcounter{lecnum} 	% define counter for lecture number
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}	% define how page number is displayed (< lecture number > - < page number >)
+% define lecture header and page numbers
+% NOTE: to call use \lecture{< Lecture # >, < Lecture name >, < Chapter # >, < Chapter name >, < Section #s >}
+\newcommand{\lecture}[5]{
+
+    % define headers for first page
+    \thispagestyle{empty} % removes page number from page where call is made
+
+    \setcounter{lecnum}{#1}		% set lecture counter to argument specified
+
+    % define header box
+    \begin{center}
+    \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {\textbf{MATH 321: Mathematical Statistics} \hfill}
+       \vspace{4mm}
+       \hbox to 6.28in {{\hfill \Large{Lecture #1: #2} \hfill}}
+       \vspace{2mm}
+       \hbox to 6.28in {\hfill Chapter #3: #4 \small{(#5)}}
+      \vspace{2mm}}
+    }
+    \end{center}
+    \vspace{4mm}
+    
+    % define headers for subsequent pages
+    \fancyhead[LE]{\textit{#2} \hfill \thepage} 		% set left header for even pages
+    \fancyhead[RO]{\hfill \thepage}		% set right header for odd pages
+
+}
+
+
+
+% define macros (/shortcuts)
+\newcommand{\bu}[1]{\textbf{\ul{#1}}}				% shortcut bold and underline text in one command
+\newcommand{\blankul}[1]{\rule[-1.5mm]{#1}{0.15mm}}	% shortcut for blank underline, where the only option needed to specify is length (# and units (cm or mm, etc.)))
+\newcommand{\ho}{H_0}		% shortcut for null hypothesis formatted nicely
+\newcommand{\ha}{H_A}		% shortcut for alternative hypothesis formatted nicely
+\newcommand{\vecn}[2]{#1_1, \ldots, #1_{#2}}	% define vector (without parentheses, so when writing out in like a definition) of the form X_1, ..., X_n, where X and n are variable. NOTE: to call use $\vecn{X}{n}$
+\newcommand{\follow}[1]{\sim \text{#1}\,}		% shortcut for ~ 'Named dist ' in normal font with space before parameters would go
+\newcommand{\followsp}[2]{\overset{#1}\sim \text{#2}\,}		% (followsp is short for 'follow special') shortcut that can be used for iid or ind ~ 'Named dist ' in normal font with space before parameters would go
+
+
+
+
+% NOTES on what didn't cover
+
+% ***** currently below is just notes I made along the way
+% I did not go through the book / drew's notes AND THEORY notes to see what I didn't cover..... need a break
+
+
+% 10.7 math stats with apps
+% interpretations
+% -> not focusing on the interpretations, can probably add something more on this, in terms of the implications of accepting ho vs not rejecting ho.
+% -> can also steal stuff from first 3 pages of theory lecture 9
+% --> this also has good info on type two error probabilities
+% --> skipping additional section 10.4 for type two error probs for large sample z tests, would probably be good to cover this next time (at least one example?); probably don't need to go into sample size selection (, unless having a section on power
+% -> also good info on why simple alternatives end of being the same things as composite nulls, this would be good for my info (probs not needed for them)
+
+%theory lectures
+% lecture 9 introduces hyp tests good and has more info about interpretations, but defines the rejection region more formally (partitioning parameter space)
+% -> end of lecture 9 goes into LRT; should learn for me
+% -> lecture 9-2 and 9-3 have some good stuff (but fancier) about type 1 and type 2 error probs. Gets into power function (then UMP tests)
+% -> then the blank page one after 9-3 is unbiased tests and what not
+% then 10 and 10-2 do asymptotic tests, LRT and then the ones based on normal (wald and score), should learn these for me
+
+% stat inference 8.3 (proportions)
+% goes into type 1 and 2 error probs for proportions using binom dists, maybe good to cover?? this was also covered in math stats with apps 10.2 when they introduced elements of tests
+% also talks more about using the "pooled" proportion in two sample prop z test vs using the individual p-hats
+% confirmed the pooled is what TI-84 does (it gives a p-hat estimate along with p-hat1 and p-hat 2)
+% resource for pooled two proportions z test
+% https://sixsigmastudyguide.com/two-sample-test-of-proportions/#:~:text=Two%20sample%20Z%20test%20of%20proportions%20is%20the%20test%20to,that%20have%20some%20single%20characteristic.
+
+% since ended with relationship between CI and tests, could maybe go back and calculate CI for some of the examples (like did with p-values)?? do this for p-value more (only did for two of them)?
+
+% hypothesis tests assumptions
+% -> didn't even really mention these (did in CI, but not really here)
+% -> talked about it for choosing t vs Z, but not for np > 5 for props
+
+
+
+
+\begin{document}
+
+\lecture{7}{Hypothesis Tests}{8}{Tests of Statistical Hypotheses}{8.1 - 8.3}
+
+\bu{Introduction}\bigskip
+
+\begin{itemize}
+    \item Recall that the objective of statistics often is to make inferences about unknown population parameters based on information contained in sample data.
+    \item[] These inferences are phrased in one of two ways:
+    \begin{itemize}
+        \item As estimates of the respective parameters (point estimation / confidence intervals)
+        \item Or as tests of hypotheses about their values
+    \end{itemize}
+    \item Hypothesis tests are essentially the scientific method viewed through statistics.
+    \begin{itemize}
+        \item The scientist poses a hypothesis concerning one or more population parameters (e.g. that they equal specified values).
+        \item Then samples the population and compares observations with the hypothesis.
+        \item If the observations disagree with the hypothesis, the scientist rejects it.
+        \item[] If not, the scientist concludes either that the hypothesis is true or that the sample did not detect the difference between the real and hypothesized values of the population parameters.
+    \end{itemize}
+    \item Hypothesis tests are done in almost all fields where we are testing theory against observation. Examples:
+    \begin{itemize}
+        \item A medical researcher may hypothesize that a new drug is more effective than another in combating a disease.
+        \item[] To test her hypothesis, she randomly selects patients infected with the disease and randomly divides them into two groups: Group A gets the current drug and Group B gets the new drug.
+        \item[] Then, based on the number of patients in each group who recover from the disease, the researcher must decide whether the new drug is more effective than the old.
+        \item A quality control engineer may hypothesize that a new assembly method produces only 5\% defective items.
+        \item An educator may claim that two methods of teaching reading are equally effective.
+    \end{itemize}
+    \item Statistics and what we will learn is what measures to take on the sample, how do make the decision of accept vs reject, what are the probabilities we made the correct / incorrect decision, etc.
+\end{itemize}\bigskip
+
+\newpage
+
+\bu{Elements of a statistical test}\bigskip
+
+Hypothesis test overview\bigskip
+\begin{itemize}
+    \item Definition: A \textbf{hypothesis testing procedure or hypothesis test} is a rule that specifies
+    \begin{itemize}
+        \item For which sample value the decision is made to reject $\ho$ in favor of $\ha$.
+        \item For which sample value the decision is made to ``not reject'' $\ho$ in favor of $\ha$.
+    \end{itemize}\bigskip
+    \item Any statistical test of hypotheses works in exactly the same way and is composed of the same essential elements.
+    \begin{enumerate}
+        \item Null hypothesis $\ho$ and Alternative hypothesis $\ha$
+        \item Test Statistic TS and Rejection Region RR
+        \item Conclusion
+    \end{enumerate}\bigskip
+    \item Example setup: Let $X$ equal the breaking strength of a steel bar. A company uses process I to manufacture steel bars and it is known that under process I, \\$X \follow{Normal}(\mu = 50, \sigma^2 = 36)$.
+    \item[] The company wishes to test a new process, process II, and it is hoped that under process II
+$X \follow{Normal}(\mu = 55, \sigma^2 = 36)$.\bigskip
+    \item Hypotheses
+    \begin{itemize}
+        \item Definition: A \textbf{hypothesis} is a statement about a population parameter.
+        \item The goal of a hypothesis test is to decide, based on a sample from the population, which of two complementary hypotheses is true.
+        \begin{itemize}
+            \item The \textbf{Null hypothesis $\boldsymbol{\ho}$} is an assumption about $\theta$ that is assumed to be \blankul{1cm}.
+            \item The \textbf{Alternative hypothesis $\boldsymbol{\ha}$} (or $H_1$, also called research hypothesis) is the \blankul{3cm} of the null hypothesis. The goal is generally to obtain evidence in favor of this. 
+        \end{itemize}
+        \item Continuing steel bar example:\vspace{30pt}
+        \item These are called \textbf{simple hypotheses} because each completely specifies the distribution of $X$. Could test $\ho$ against a \textbf{composite hypotheses}, which contains many possible alternative distributions.
+        \item In general, we have the following hypotheses:\newpage
+        \item Examples: (1) Define the parameter of interest and (2) state the null and alternative hypotheses and the directionality of the test (two-tailed, left-tailed or right-tailed) for the following scenarios:
+        \begin{enumerate}[(a)]
+            \item A company reports that last year 40\% of their reports in accounting were on time. From a random sample this year, they want to know if that proportion has changed.\vspace{40pt}
+            \item Last year, 42\% of the employees enrolled in at least one wellness class at the company's site. Using a survey from randomly selected employees, they want to know if a greater percentage is planning to take a wellness class this year.\vspace{40pt}
+            \item There are two political candidates, and one wants to know from the recent polls if she is going to win a majority of votes in next week's election.\vspace{40pt}
+        \end{enumerate}
+    \end{itemize}\bigskip
+    \item Test statistic and rejection region
+    \begin{itemize}
+        \item These are all about distributions of estimators based on assumptions from the hypotheses.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.5]{{"test-3/sampling-dists-thetahat"}.png}
+        \end{figure}
+        \item For example, for a right-tailed test
+        \begin{itemize}
+            \item If $\hat{\theta}$ is close to $\theta_0$, it seems reasonable to accept $\ho$.
+            \item If in reality $\theta > \theta_0$, then $\hat{\theta}$ is more likely to be large.
+            \item[] Consequently, large values of $\hat{\theta}$ (relative to $\theta_0$) favor rejection of $\ho: \theta = \theta_0$ and acceptance of $\ha: \theta > \theta_0$.
+        \end{itemize}\newpage
+        \item Simply stated, we have to determine when there is or is not enough \blankul{2cm} against the \blankul{1cm} based on our \blankul{3cm}.
+        \item[] In other words, which tail do we make the conclusion of reject, which comes from the direction in the $\ha$, and how large is the area.
+        \begin{figure}[H]
+            \center\includegraphics[scale=0.6]{{"test-3/rr"}.png}
+        \end{figure}
+        \item The hypothesis test is specified in terms of the test statistic and the corresponding rejection region.
+        \begin{itemize}
+            \item \textbf{Test statistic (TS)} is a function of the sample $W(\vecn{X}{n})$, think of this as the point estimator $\hat{\theta}$.
+            \item \textbf{Rejection Region (RR)} (or critical region) is the subset of the sample space (range of sample) for which $\ho$ will be rejected. RR is defined with the TS (these two parts are always together).
+        \end{itemize}
+        \item Once these are defined, hypothesis tests are really easy; we then just observe data and see where it falls.
+        \item In general, we can state the rejection region as
+        \[RR = \{\text{set of } (\vecn{x}{n}) \text{ such that (some math statement about TS } W(\vecn{X}{n})\}\]\smallskip
+        \item Continuing steel bar example: Suppose $n = 16$ bars were tested, intuitively we could choose a RR where larger values lead to rejecting $\ho$, say \\$RR = \{\bar{x}: \bar{x} \ge 53\}$. \bigskip
+        \item But how did we choose the value of $k$? More generally, how can we find some objective criteria for deciding which value of $k$ specifies a good rejection region of the form $\{\bar{x} \ge k\}$?
+    \end{itemize}\bigskip
+    \item Significance level
+    \begin{itemize}
+        \item The \textbf{significance level} $\alpha$ of the test is what determines how large the RR is and represents the probability of rejecting the null hypothesis.
+        \item[] The actual value of $k$ is chosen by fixing this and finding $k$ accordingly.
+        \item Recall under the null hypothesis, the distribution of $\hat{\theta}$ is known. So we can find $k$ such that (for example with a right-tailed test):\bigskip\\
+         \begin{minipage}{0.3\textwidth}
+            \center\includegraphics[scale=0.5]{{"test-3/z-RR-right"}.png}
+        \end{minipage}
+        \item The significance level is chosen before running the test. Setups will say something similar to: ``Determine if there is enough evidence at the 5\% significance level.''
+    \end{itemize}
+\end{itemize}\bigskip
+
+\bu{Building hypothesis tests}\bigskip
+
+Hypothesis test setup\bigskip
+\begin{itemize}
+    \item Just like with confidence intervals, all of the hypothesis tests we will build start from this general setup and use properties of normal distributions or the central limit theorem to get the test statistic and rejection region of interest.\vspace{20pt}
+    \item For hypothesis tests, we will consider same variables that affect the formation of our confidence intervals:
+    \begin{itemize}
+        \item Independent or dependent samples
+        \item Sample sizes $n_1$ and $n_2$ (large or small)
+        \item Population distributions $X_1$ and $X_2$ (normal or not normal)
+        \item Population variances $\sigma^2_1$ and $\sigma^2_2$ (known or unknown and ratio of variances)
+    \end{itemize}
+\end{itemize}\bigskip
+
+Large sample tests\bigskip
+\begin{itemize}
+    \item Setup: Suppose we want to test a set of hypotheses concerning a parameter $\theta$ based on a random sample(s) $\vecn{X}{n}$. Additionally, let the estimator $\hat{\theta}$ have an (approximately) normal sampling distribution with mean $\theta$ and standard error $\sigma_{\hat{\theta}}$.\vspace{150pt}
+    \item Then we have the following:
+    \begin{align*}
+        \ho &: \theta = \theta_0\\
+        \ha &: \theta > \theta_0\\
+        TS &: \\
+        RR &: \\
+    \end{align*}
+    \begin{figure}[H]
+
+    \begin{minipage}{0.3\textwidth}
+        \center\includegraphics[scale=0.5]{{"test-3/z-RR-right"}.png}
+    \end{minipage}
+    \end{figure}
+    \item Defining the RR (i.e. finding $k$)
+    \item[] Assuming $\ho$ is true, if we desire an $\alpha$-level test, then  \vspace{150pt}
+    \item Thus, an equivalent form of the test, with level $\alpha$ is:
+    \begin{align*}
+        \ho &: \theta = \theta_0\\
+        \ha &: \theta > \theta_0\\
+        TS &: \\
+        RR &: \\
+    \end{align*}
+    \item We can use this generalization for all of the tests that large sample tests we will do, and we can state the test statistic as
+    \[Z = \frac{\hspace{40pt}}{\hspace{40pt}}\]
+    \item[] and thus they all have equivalent form of the rejection region (because the TS has been standardized).
+    \item Conclusions and interpretations
+    \begin{itemize}
+        \item Conclusions and interpretations (two steps) for hypothesis tests can follow a general format:
+        \item[] Because our test statistic \ul{(COMPARISON of TS and RR)} \ul{(IS or IS NOT)} in the rejection region we \ul{(REJECT or FAIL TO REJECT)} the null hypothesis. \\ At the \ul{(ALPHA)} significance level, there \ul{(IS or IS NOT)} sufficient evidence to conclude \ul{(THE ALTERNATIVE HYPOTHESIS)}.\bigskip
+    \end{itemize}
+    \item Examples
+    \begin{enumerate}
+        \item A honey farmer collects 55 ml of honey on average from each of his hives during summer months. Further, he knows that the amount collected from each hive is normally distributed with a variance of $\sigma^2 = 100$. This summer he is feeding his bees a new type of pollen and he suspects that it is causing them to produce more honey. A random sample of $n = 52$ hives yields $\bar{x} = 57.25$. Test the farmer's hypothesis at a significance level of $\alpha = 0.05$.\vspace{150pt}
+        \item A vice president in charge of sales for a large corporation claims that salespeople are averaging no more than 15 sales contacts per week. (He would like to increase this figure.) As a check on his claim, $n = 36$ salespeople are selected at random, and the number of contacts made by each is recorded for a single randomly selected week. The mean and variance of the 36 measurements were 17 and 9, respectively. Does the evidence contradict the vice president's claim? Use a test with level $\alpha = 0.025$.\vspace{150pt}
+        \item A machine in a factory must be repaired if it produces more than 10\% defectives among the large lot of items that it produces in a day. A random sample of 100 items from the day's production contains 15 defectives, and the supervisor says that the machine must be repaired. Does the sample evidence support his decision? Use a test with level $\alpha = 0.01$.\vspace{150pt}
+    \end{enumerate}
+    \item Here is a summary of the large-sample $\alpha$-level hypothesis tests:
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/large-sample-tests-summary"}.png}
+    \end{figure}
+    \item In any particular test, only one of the listed alternatives $\ha$ is appropriate. Whatever alternative hypothesis that we choose, we must be sure to use the corresponding rejection region.
+    \item[] The correct one depends on the research question / goal: what are we trying to show or find evidence for?\bigskip
+    \item More examples
+    \begin{enumerate}\setcounter{enumi}{3}
+        \item A psychological study was conducted to compare the reaction times of men and women to a stimulus. Independent random samples of 50 men and 50 women were employed in the experiment. The results are shown below. Do the data present sufficient evidence to suggest a difference between true mean reaction times for men and women? Use $\alpha = 0.10$.
+        \begin{figure}[H]
+            \includegraphics[scale=0.5]{{"test-3/example-data-psych"}.png}
+        \end{figure}\vspace{100pt}
+        \item A car manufacturer aims to improve the quality of the products by reducing the defects and also increase the customer satisfaction. Therefore, he monitors the efficiency of two assembly lines in the shop floor. In line A there are 18 defects reported out of 200 samples. While the line B shows 25 defects out of 600 cars. At $\alpha = 5\%$, are the differences between two assembly procedures significant?\vspace{120pt}
+    \end{enumerate}
+\end{itemize}\bigskip
+
+Small sample tests for $\mu$ and $\mu_1 - \mu_2$\bigskip
+\begin{itemize}
+    \item If we are testing one or two population means and the sample size is not large enough so that $Z = (\hat{\theta} - \theta) / \sigma_{\hat{\theta}} \followsp{approx}{Normal}(0,1)$, then we need a different procedure.
+    \item Just like with confidence intervals, we can switch to procedures based on the $t$-distribution when sampling from Normal distribution(s) (assuming unknown equal variances of both populations).
+    \item[] The process is the same as the large sample $Z$-tests shown previously. We are just standardizing the point estimator and rearranging to get the rejection region, except it is based on $t$ critical values now.
+    \item If $\ho: \mu = \mu_0$ is tested against $\ha: \mu < \mu_0$ then\vspace{80pt}
+    \item Here is a summary of the small-sample $\alpha$-level tests for $\mu$
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.35]{{"test-3/small-sample-tests-summary-one-mean"}.png}
+    \end{figure}
+    \item If we are testing two independent means $\mu_1 - \mu_2$ and assume both Normal distributions with common unknown variance $\sigma^2$, then we use the pooled variance $S^2_p$ as the estimator for $\sigma^2$ in the standard error $\sigma_{\bar{X}_1 - \bar{X}_2}$. Then
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.35]{{"test-3/small-sample-tests-summary-two-means"}.png}
+    \end{figure}
+    \item If we are testing dependent means $\mu_1 - \mu_2$, then \vspace{30pt}
+    \item[] This is called a \textbf{paired $\boldsymbol{t}$-test}.
+    \item Examples
+    \begin{enumerate}
+        \item $X$ is the growth in an induced tumor in type of lab mice. It is known that the mean growth of the tumor without treatment is 4.0 mm and that the distribution of $X \follow{N}(\mu, \sigma^2)$. Scientists believe a new type of enzyme will have an effect on the growth of the tumor. Scientists apply the enzyme to a random sample of $n = 9$ lab mice with the induced tumor and observe $\bar{x} = 4.2824$ and $s = 1.2$.
+    \item[] Test the scientists' hypothesis at a significance level of $\alpha = 0.10$.\vspace{150pt}
+    
+    \newpage
+    
+    \item Data on the length of time required to complete an assembly procedure using each of two different training methods is shown below. Is there sufficient evidence to indicate a difference in true mean assembly times for those trained using the two methods? Test at the $\alpha = .05$ level of significance.
+    \begin{figure}[H]
+        \includegraphics[scale=0.5]{{"test-3/example-data-assembly"}.png}
+    \end{figure}
+    \end{enumerate}\vspace{140pt}
+\end{itemize}\bigskip
+
+P-values\bigskip
+\begin{itemize}
+    \item So far, we have only made the decision to reject or fail to reject based on whether or not the test statistic falls in the rejection region ($TS \overset{?} \in RR$). This is called the \textbf{traditional method}.
+    \item Lets review some examples:
+    \begin{itemize}
+        \item Example 1 (average honey): $TS: z = 1.622$ and $RR: \{Z > 1.645\}$ for $\alpha = 0.05$.
+        \item Example 3 (proportion of defectives): $TS: z = 1.667$ and $RR: \{Z > 2.362\}$ for $\alpha = 0.01$.
+    \end{itemize}
+    \item In both of these, we made the conclusion to \blankul{3.5cm}, but were ``closer'' to rejecting $\ho$ example \blankul{0.5cm}. We can think of this as being a ``stronger'' result (i.e. more evidence against $\ho$ (just not enough), but we need a way to quantify the ``strength'' of the result independent of the significance level.\bigskip
+    \item Definition: A \textbf{p-value} is the probability that under the null hypothesis the test statistic will be at least as ``extreme'' as the observed value.\bigskip
+    \item Notes:
+    \begin{itemize}
+        \item At least as ``extreme'' just means in the direction of the alternative hypothesis.
+        \[\ha: \hspace{40pt} \theta < \theta_0 \hspace{60pt} \theta > \theta_0 \hspace{60pt} \theta \ne \theta_0\]
+        \item Interpretation of p-values: The smaller the p-value becomes, the more compelling is the evidence that the null hypothesis should be rejected.
+        \item[] For small p-values, think: If $\theta_0$ was true, the result we got had such a tiny probability to occur. So the original assumption of $\theta_0$ must not actually be true.
+        \item Making the decision to reject or fail to reject based on whether or not the p-value is less than the significance level is called the \textbf{p-value method}.\vspace{30pt}
+        \item More formally, a p-value represents the smallest level of significance $\alpha$ for which the observed data indicate that the null hypothesis should be rejected; p-value is the \textbf{attained (observed) significance level}.
+        \item[] Treating it like this leaves it up to the reader to evaluate the extent to which the observed data disagree with the null hypothesis and make their own choice in $\alpha$ in deciding whether or not to reject $\ho$. This is one advantage of p-values, and is why most scientific journals require p-values for all of their studies.
+        \item[] (often $\alpha = 0.1, 0.05, 0.01$ are chosen out of convenience rather than a well-thought out choice.) 
+    \end{itemize}
+\end{itemize}\bigskip
+
+Calculator session\bigskip
+\begin{figure}[H]
+    \center\includegraphics[scale=0.5]{{"test-3/tests-calc-one-sample"}.png}
+\end{figure}
+\begin{figure}[H]
+    \center\includegraphics[scale=0.5]{{"test-3/tests-calc-two-samples"}.png}
+\end{figure}
+
+Relationship between confidence intervals and hypothesis tests\bigskip
+\begin{itemize}
+    \item For every confidence interval, there is an equivalent hypothesis test (and vice versa); two different ways of looking at the same thing.
+    \item Demo for two-sided CIs and two-tailed tests:
+    \item[] \ul{$100 (1 - \alpha)$\% CI for $\theta$} \hspace{60pt} \ul{$\alpha$-level test $\ho: \theta = \theta_0$ vs $\ha: \theta \ne \theta_0$}\vspace{40pt}
+    \item The complement of the rejection region is the \textbf{acceptance region AR}\vspace{70pt}:
+    \item Thus, we ``accept'' $\ho: \theta = \theta_0$ if $\theta_0$ falls \blankul{2cm} the $100 (1 - \alpha)$\% CI and reject if \blankul{2cm}.
+    \item[] So the confidence interval can be thought of as the set of values  of $\theta_0$ for which $\ho: \theta = \theta_0$ is ``acceptable'' at level $\alpha$.
+    \item[] Based on this perspective, we can see that it is a range, not \textit{one specific acceptable value} for the parameter. This is why we prefer to say ``fail to reject'' rather than ``accept'' the null hypothesis.
+    \item One sided intervals and tests
+    \item[] For $\ho: \theta = \theta_0$ with level $\alpha$ and $100 (1 - \alpha)$\% CIs
+    \begin{itemize}
+        \item Upper tail test: $\ha: \theta > \theta_0$ \hspace{30pt} \ul{Reject if outside}  \vspace{50pt}
+        \item Lower tail test: $\ha: \theta < \theta_0$\vspace{30pt}
+    \end{itemize}
+\end{itemize}\bigskip
+
+Errors in hypothesis tests\bigskip
+\begin{itemize}
+    \item In deciding to reject or fail to reject $\ho$, an experimenter might be making a mistake (we can never really know what the truth is, just like with confidence intervals).
+    \item[] Usually, hypothesis tests are evaluated and compared through their probabilities of making mistakes.
+    \item For any fixed rejection region, two types of errors can be made in reaching a decision.
+    \begin{itemize}
+        \item \textbf{Type I error} is made if $\ho$ is rejected when $\ho$ is true.
+        \item[] The probability of a type I error is denoted by $\alpha$, the \textbf{significance level} of the test.\vspace{60pt}
+        \item \textbf{Type Il error} is made if $\ho$ is accepted when $\ha$ is true.
+        \item[] The probability of a type II error is denoted by $\beta$.
+        \vspace{60pt}
+    \end{itemize}
+    \item We can think of $\alpha$ and $\beta$ as measuring the risks associated with the two possible incorrect decisions that might result from a statistical test. Because of this, they provide a very practical way to measure the goodness of a test.
+    \item In calculating these error probabilities, we want tests that minimize both quantities while at the same time maximizing the \textbf{power} = $1 - \beta$.
+    \item[] The power of a test represents the probability of correctly rejecting a false null hypothesis (given a particular alternative hypothesis).\bigskip
+    \item Example: Find the probabilities of a type I error, type II error, and power for the breaking strength example (testing $\ho: \mu = 50$ vs $\ha: \mu = 55; n = 16, \sigma^2 = 36$).
+    \begin{figure}[H]
+        \includegraphics[scale=0.4]{{"test-3/type1-type2"}.png}
+    \end{figure}\vspace{40pt}
+    \item Note that the value of $\beta$ depends on the true value of the parameter $\theta$ in the alternative hypothesis (needed to assume $\mu = 55$ in the type II probability calculation).
+    \item[] The larger the difference is between $\theta$ and the (null) hypothesized value of $\theta = \theta_0$, the smaller is the likelihood that we will fail to reject the null hypothesis.
+    \item[] Example: Find the new type II error probability and power if $\ha: \mu = 57$ and if $\ha: \mu = 51$.\vspace{60pt}
+    \item This example shows that the test using $RR = \{\bar{x} \ge 53\}$ guarantees a low risk of making a type I error \blankul{2cm}, but it does not offer adequate protection against a type II error (high $\beta$s with some alternative hypotheses).
+    \item Typically, in practice the type I error probability (significance level) is controlled, and then we choose a test that minimizes the type II error probability (and thus maximizing the power).
+    \item[] However, there is often some give and take with these: as one error likelihood decreases, the other often increases (i.e. $\alpha$ and $\beta$ are inversely related).
+    \item So how can we improve our test? One way is to balance $\alpha$ and $\beta$ by changing the rejection region, specifically we can enlarge the RR.
+    \item[] This will lead us to reject $\ho$ more often, which means accept $\ho$ less often.\vspace{30pt}
+    \item Often we have to think about the consequences of committing each type of error and determine which error is more severe and therefore how to minimize its probability.
+    \item Example: Write the consequences of each type of error and determine which is more severe.
+    \item[] All commercial elevators must pass yearly inspections. An inspector has to choose between certifying an elevator as safe (no repairs needed) or saying that the elevator is not safe (repairs are needed). There are two hypotheses:
+    \begin{align*}
+        \ho &: \text{The elevator is not safe (repairs are needed)}\\
+        \ha &: \text{The elevator is safe (no repairs needed)} 
+    \end{align*}
+
+    \begin{itemize}
+        \item Consequences of Type I error:\vspace{20pt}
+        \item Consequences of Type II error:
+    \end{itemize}\vspace{50pt}
+    \item How can we reduce both? For almost all statistical tests, if $\alpha$ is fixed at some acceptably small value, $\beta$ decreases as the sample size increases.
+    \item[] Intuitively obvious, collect more data!
+    \begin{figure}[H]
+        \center\includegraphics[scale=0.5]{{"test-3/type1-type2-2"}.png}
+    \end{figure}
+\end{itemize}
+
+\end{document}

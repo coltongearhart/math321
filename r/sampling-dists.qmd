@@ -1,0 +1,342 @@
+---
+title: "R Notes 1-2 -- Sampling Distributions"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-location: left
+    df-print: kable
+execute: 
+  warning: false
+  message: false
+---
+
+### Overview 
+
+This document will demonstrate the relationship between the different kinds of distributions we have now (population, sample and sampling distribution). This will involve learning to take random samples and conduct mini simulations to build a sampling distribution. We will demonstrate this for several of distributions / statistics.
+
+### Sampling distribution concept: Normal 
+
+Sampling distributions are the basis of the statistical inference we will learn (confidence intervals and hypothesis tests). So it will be important to conceptually understand what a sampling distribution is. To help with this, we are going to build (simulate) one! We are going to demonstrate this using the Normal distribution first.
+
+With the addition of sampling distributions, we now have three different types of distributions that we need to understand.
+
+**1) Population distribution**
+
+  - This is all the distributions we studied in MATH 320 (all the plots made in the 'Probability.R' file we are thinking of as population distributions).
+
+  - These are theoretical distributions that we are assuming to be true.
+
+Let $X \sim \text{Normal}\,(\mu = 50, \sigma = 10)$.
+
+First we will initialize the parameters to reuse in the rest of the code.
+
+```{r}
+
+# initialize parameters
+mu <- 50
+sigma <- 10
+
+```
+
+Now we can plot the population distribution.
+
+```{r}
+
+# visualize population distribution
+x <- seq(from = mu - 3 * sigma, to = mu + 3 * sigma, by = 0.01)
+plot(x = x, y = dnorm(x, mean = mu, sd = sigma), type = "l", xlab = "x", ylab = "f(x)", main = "Normal population distribution")
+
+```
+
+**2) Sample (data) distribution**
+
+  - This is the result of randomly sampling from the population distribution (i.e. collecting data).
+  
+  - When simulating a random sample, we are essentially just generating $x$ values whose probabilities of being selected follow the population distribution.
+
+Lets take a random sample of size $n = 30$, which means $X \overset{iid}\sim \text{Normal}\,(\mu = 50, \sigma = 10)$. Use `rnorm()` to randomly generating observations from a normal distribution.
+
+```{r}
+
+# initialize sample size and generate random sample
+n <- 30
+data_sample <- rnorm(n = n, mean = mu, sd = sigma)
+data_sample
+
+```
+
+We can plot the sample (data) distribution with a histogram by using `hist()`.
+
+```{r}
+
+# visualize sample (data) distribution
+hist(x = data_sample, xlab = "x", main = "Random sample from Normal population")
+
+```
+
+Every random sample that we take will look slightly different of course because of the randomness. But all of the sample distributions should match the properties of the population distribution they were drawn from. This means $\bar{X} \approx \mu$, $S \approx \sigma$, and roughly matches the shape. To check the summary statistics, use `mean()` and `sd()`. With larger sample sizes, the sample values will on average be closer to the population values.
+
+```{r}
+
+# check summary statistics for our random sample
+mean(data_sample)
+mu
+sd(data_sample)
+sigma
+
+```
+
+To compare the shapes, we can add the population distribution curve to the sample distribution histogram.
+
+First we need to plot the histogram like before, except specify `freq = FALSE` to make the y-axis relative frequency (probability) rather than frequency (count). Then use `lines()` to overlay the density curve.
+
+```{r}
+
+# plot relative frequency histogram and add population density curve
+hist(x = data_sample, freq = FALSE, xlab = "x", main = "Random sample from Normal population")
+lines(x = x, y = dnorm(x, mean = mu, sd = sigma), col = "red")
+
+```
+
+**3) SamplING distribution**
+
+  - This is also a theoretical distribution of a statistic (like sample mean, $\bar{X}$) that occasionally ends up following a familiar distribution (depends on what population we start with).
+  
+  - But it can easily be simulated to get a really good approximation of the shape and summary statistics.
+
+Now lets build up to a sampling distribution.
+
+We already have a random sample of data, so lets record the sample mean.
+
+```{r}
+
+# record the sample mean
+x_bar <- c()
+x_bar[1] <- mean(data_sample)
+
+```
+
+We have now started a vector (distribution) of sample means, all we need to do is add a bunch more sample means to it. So we need to generate several random samples of data, calculate and record their respective sample means. To repeat calculations / operations many times, we can use a `for` loop.
+
+```{r}
+
+# initialize our holding vector again
+x_bar <- c()
+for (i in 1:20) {
+  
+  # i is the index, the for loop runs for each value of the index
+  
+  # generate data
+  data_sample <- rnorm(n = n, mean = mu, sd = sigma)
+  
+  # record sample mean
+  x_bar[i] <- mean(data_sample)
+  
+  # once both of these are done, the for loop goes to the next index value and performs the loop again
+}
+
+```
+
+Now we have $i = 20$ sample means calculated from 20 random samples of data. Lets plot them to see the beginnings of the sampling distribution.
+
+```{r}
+
+# show sample mean values
+x_bar
+
+# plot sample means
+hist(x = x_bar, freq = FALSE, xlab = "Sample mean", main = "(Start of) Sampling distribution from Normal population")
+
+```
+
+Lets continue building the sampling distribution. Theoretically the sampling distribution is the distribution of ALL POSSIBLE sample means. For a simulation, this just means calculate a very large number of them. So lets repeat the for loop, but for a very large $i$.
+
+```{r}
+
+# simulate 100,000 samples and calculate mean
+x_bar <- c()
+for (i in 1:100000) {
+  
+  # generate data
+  data_sample <- rnorm(n = n, mean = mu, sd = sigma)
+  
+  # record sample mean
+  x_bar[i] <- mean(data_sample)
+}
+
+```
+
+Now lets plot the sampling distribution of $\bar{X}$. We will see that it is perfectly centered at the population mean, and also much less variable than the sample distribution (much smaller spread). To verify that, we can add the population mean to the plot for reference. Use `abline(v = )` to add a vertical $x = $ line. 
+
+```{r}
+
+# plot sample means and add population mean reference line
+hist(x = x_bar, freq = FALSE, xlab = "Sample mean", main = "Sampling distribution from Normal population")
+abline(v = mu, col = "red")
+
+```
+
+Lets look at the summary statistics for this new distribution and compare them to the population values.
+
+Because we are studying the sample mean, the results should match the theorem we learned that $E(\bar{X}) = \mu$ and $V(\bar{X}) = \sigma^2 / n$. This is true regardless of population distribution.
+
+```{r}
+
+# compare summary statistics of sampling distribution to theoretical results in terms of the population parameters
+mean(x_bar)
+mu
+var(x_bar)
+sigma^2 / n
+
+```
+
+Then because we started with a normal distribution, we actually know exactly what distribution $\bar{X}$ follows from another theorem. If $X_i \overset{iid}\sim \text{Normal}\,(\mu = 50, \sigma = 10)$, then $\bar{X} \sim \text{Normal}\,(\mu, \sigma^2 / n)$. Lets verify this by adding the density curve to the histogram of sample means, it should line up perfectly.
+
+To generalize our specification of `x` which we need for `lines()`, we can generate a sequence of values that are three standard deviations `sd(x_bar)` from the center of the simulated sampling distribution `mean(x_bar)` in either direction. For most distributions, this will cover the range of values we need.
+
+```{r}
+
+# add theoretical density curve to histogram of sampling distribution
+hist(x = x_bar, freq = FALSE, xlab = "Sample mean", main = "Sampling distribution from Normal population")
+x <- seq(from = mean(x_bar) - 3 * sd(x_bar), to = mean(x_bar) + 3 * sd(x_bar), by = 0.01)
+lines(x = x, y = dnorm(x, mean = mu, sd = sigma/sqrt(n)), col = "red")
+
+```
+
+We can build sampling distributions for any statistic So lets repeat the process above for the sample variance $S^2$ when drawing from a normal population. All we have to do different is calculate a different sample statistic inside the for loop for each of the generated samples.
+
+```{r}
+
+# simulate sampling distribution for sample variance
+s2 <- c()
+for (i in 1:100000) {
+  
+  # generate data
+  data_sample <- rnorm(n = n, mean = mu, sd = sigma)
+  
+  # record sample mean
+  s2[i] <- var(data_sample)
+  
+}
+
+```
+
+To show the first few observations, we can use `head()`.
+
+```{r}
+
+# display first 10 values
+head(s2)
+
+```
+
+Now we can plot this new sampling distribution and add the population variance to the plot for reference as well.
+
+```{r}
+
+# plot the sampling distribution of S^2 and add population value for reference
+hist(x = s2, freq = FALSE, xlab = "Sample variance", main = "Sampling distribution from Normal population")
+abline(v = sigma^2, col = "red")
+
+```
+
+We know from a theorem that $E(S^2) = \sigma^2$. So lets check the estimated mean of the sampling distribution and compare it to $\sigma^2$.
+
+```{r}
+
+# compare sampling distribution center to the population value
+mean(s2)
+sigma^2
+
+```
+
+We don't know what distribution $S^2$ follows by itself, but we can modify it to match the theorem we have: $\frac{n - 1}{\sigma^2} S^2 \sim \chi^2 (n-1)$.
+```{r}
+
+# calculate and display modified sample variances
+s2_modified <- (n - 1) * s2 / sigma^2
+head(s2_modified)
+
+```
+
+Now we can plot this and compare it to the theoretical density it should follow. For the specification of $x$, we know $\chi^2$ is a special-case gamma density, which means it is right-skewed. So lets go to 4 standard deviations above to ensure our line has the correct range.
+
+```{r}
+
+# plot modified sample variances and add theoretical density curve
+hist(x = s2_modified, freq = FALSE, xlab = "Modified sample variance", main = "Sampling distribution from Normal population")
+x <- seq(from = mean(s2_modified) - 3 * sd(s2_modified), to = mean(s2_modified) + 4 * sd(s2_modified), by = 0.01)
+lines(x = x, y = dchisq(x, df = n - 1), col = "red")
+
+```
+
+### Exponential sample means 
+
+Goal is simulate the sampling distribution for the sample mean based on an exponential distribution.
+
+Let $X_i \overset{iid}\sim \text{Exp}\,(\lambda = 5)$ and use a sample size of $n = 20$.
+
+To generate a random sample from the exponential distribution, use `rexp()`, where `rate = lambda`.
+
+```{r}
+
+# initialize necessary items
+# -> parameter
+# -> sample size
+# -> holding vector for sample means
+lambda <- 50
+n <- 20
+x_bar <- c()
+
+# simulate sampling distribution for sample mean
+for (i in 1:100000) {
+  
+  # generate data
+  data_sample <- rexp(n = n, rate = lambda)
+  
+  # record sample mean
+  x_bar[i] <- mean(data_sample)
+}
+
+# display values
+head(x_bar)
+
+```
+
+Compare the summary statistics to the populations values (what they should be). For exponential, $\mu = E(X) = 1 / \lambda$ and $\sigma^2 = V(X) = 1 / \lambda^2$. Then apply the $\bar{X}$ theorem.
+
+```{r}
+
+# compare summary statistics to the correct population values
+mean(x_bar)
+1 / lambda
+var(x_bar)
+(1 / lambda)^2 / n
+
+```
+
+Because the scale is so small for the variance, by default R uses scientific notation. We can disable this with the following line.
+
+```{r}
+
+# disable scientific notation
+# recalculate values
+options(scipen = 999)
+var(x_bar)
+(1 / lambda)^2 / n
+
+```
+
+Then because we started with an exponential distribution, we have already derived exactly what distribution $\bar{X}$ follows: if $X_i \overset{iid}\sim \text{Exp}\,(\lambda)$ then $\bar{X} \sim \text{Gamma}\,(\alpha = n, \beta = n \lambda)$.
+
+Lets verify this by adding the density curve to the histogram of sample means. Note for `dgamma()`, `shape = alpha` and `rate = beta`.
+
+```{r}
+
+# plot sampling distribution of sample means and add theoretical density curve
+hist(x = x_bar, freq = FALSE, xlab = "Sample mean", main = "Sampling distribution from Exponential population")
+x <- seq(from = mean(x_bar) - 3 * sd(x_bar), to = mean(x_bar) + 4 * sd(x_bar), by = 0.001)
+lines(x = x, y = dgamma(x, shape = n, rate = n * lambda), col = "red")
+
+```
