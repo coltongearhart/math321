@@ -2,7 +2,7 @@
 
 ## Excel Notes
 
-FILES: [eda-STARTER.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/files/eda-STARTER.xlsx) and [eda-COMPLETED.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/files/eda-COMPLETED.xlsx)
+FILES: [eda-STARTER.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/eda-STARTER.xlsx) and [eda-COMPLETED.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/eda-COMPLETED.xlsx)
 
 ## R Notes
 
