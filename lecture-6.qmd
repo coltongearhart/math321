@@ -16,7 +16,7 @@ Instructors can contact me for keys :)
 
 ## Homework
 
-FILES: Excel [homework-6-data.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/files/homework-6-data.xlsx), R [homework-6-data.RData](https://github.com/coltongearhart/math321/blob/main/r/files/data/homework-6-data.RData),  [homework-6.tex](https://github.com/coltongearhart/math321/blob/main/assessments/homework-6.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
+FILES: Excel [homework-6-data.xlsx](https://github.com/coltongearhart/math321/blob/main/excel/homework-6-data.xlsx), R [homework-6-data.RData](https://github.com/coltongearhart/math321/blob/main/r/files/data/homework-6-data.RData),  [homework-6.tex](https://github.com/coltongearhart/math321/blob/main/assessments/homework-6.tex) and [style-assessments.sty](https://github.com/coltongearhart/math321/blob/main/assessments/style-assessments.sty)
 
 - If doing the assignment in R: After saving the .RData file in the same directory as your R script, run the following command to load the data.
 
